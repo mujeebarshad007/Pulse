@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Compiled Node test artifacts
+.test-build/
+.backend-build/
+.local/
+!.env.example

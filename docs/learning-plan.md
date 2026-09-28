@@ -6,7 +6,7 @@ Prepared: 2026-09-27. Status: practical learning plan and simplified stack recom
 
 Build a working PULSE application while learning enough to explain, debug and maintain its important parts. AI helps with implementation, review and explanation; progress is measured by working user journeys and the developer’s understanding, not the volume of generated code or documents.
 
-The user clarified that the earlier stack was tentative and that they are unfamiliar with its technologies. This changes the basis for recommending a separate backend. The [architecture decisions](architecture/decisions.md) now record the simplified one-app direction. The first Next.js design-preview slice exists in `web/`. The [MVP freeze](requirements/MVP-freeze.md) remains the product boundary.
+The user clarified that the earlier stack was tentative and that they are unfamiliar with its technologies. This changes the basis for recommending a separate backend. The [architecture decisions](architecture/decisions.md) now record the simplified one-app direction. The complete fictional-data Next.js frontend now exists in `web/`; start with the [frontend learning guide](frontend-learning-guide.md). The [MVP freeze](requirements/MVP-freeze.md) remains the product boundary.
 
 ## My stack recommendation
 
@@ -147,4 +147,4 @@ git status --short
 rg -n '^##|^\| [0-9]+\.' docs/learning-plan.md
 ```
 
-When implementation begins, each task includes the exact installed-project run/test commands, expected outcomes and a manual check. This file remains a learning/launch plan. The separately implemented first slice added a design preview and updated architecture; it did not implement the frozen user journeys or publish anything.
+Each implementation task includes actual run/test commands, results and a manual check. This remains the broader learning/launch plan. The frontend now demonstrates all three journeys with fictional shared state; it does not provide production authentication, persistence or a published release. See [delivery evidence](frontend-delivery.md).

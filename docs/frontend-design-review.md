@@ -1,5 +1,8 @@
 # PULSE — frontend design checkpoint
 
+> Historical design checkpoint. The Air direction now informs the full frontend; samples have moved to `/design-preview`. Read [current delivery](frontend-delivery.md) and [the file-by-file learning guide](frontend-learning-guide.md) for the latest state. Pending-selection and sample-only statements below describe the earlier checkpoint.
+
+
 Updated 2026-09-27. Current delivery: **interactive design samples**, not the complete frontend or a production healthcare application. The user asked to see samples before the full frontend is built. Visual selection remains pending; the first Air sample was revised after feedback that the glass effect was too subtle.
 
 ## Where we are in your pasted plan

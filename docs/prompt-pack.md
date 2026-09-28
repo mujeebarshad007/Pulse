@@ -16,9 +16,9 @@ Every prompt below incorporates this protocol:
 
 Copy the text block for the desired task. In this repository, the first sentence directs the assistant to this shared protocol, so you do not need to paste it repeatedly. In a different environment, supply the repository/docs or paste the protocol as well.
 
-## Current design checkpoint — UI-01 / UI-02
+## Frontend checkpoint — UI-02 implemented as a demo
 
-These prompts adapt the pasted frontend phases to the actual one-app repository. They do not execute the pasted NestJS/monorepo plan. UI-01 is the current sample review; UI-02 follows a visual choice. Production P-01 onward remains necessary after an explicitly bounded demo.
+UI-01 is historical; UI-02 has now produced the complete fictional-data frontend. See [delivery evidence](frontend-delivery.md) and [the learning guide](frontend-learning-guide.md). Remaining browser checks and production dependencies are explicit. Do not regenerate the frontend or scaffold a separate NestJS app. The two original prompts below remain reusable references for deliberately requested design changes.
 
 ### UI-01 — Review and refine the three samples
 
@@ -34,6 +34,18 @@ Use the shared task protocol. Read docs/frontend-design-review.md, the MVP freez
 Use only recorded business decisions. Ask concise questions for missing rules before implementing dependent behavior. If I explicitly authorize a fictional-data prototype, record its proposed fields/transitions separately from approved requirements, visibly label it, keep all data synthetic and never call it real authentication or persistence. No fake production API responses. Do not invent an administrator, billing, payments, telemedicine or subscriptions.
 
 Implement all agreed screens using small shared components and feature modules. Keep the sample comparison separate from the finished frontend. Test complete agreed frontend journeys, mobile sizes, keyboard navigation, validation, back navigation and failure states. Verify lint, types and production build. Update the existing walkthrough with every changed file’s role, data flow, actual evidence and remaining backend work. Mark only demonstrated checklist items complete. Do not deploy automatically. Stop when this bounded frontend task is complete.
+```
+
+### FE-LEARN — Understand the implementation
+
+```text
+Read docs/frontend-learning-guide.md and docs/frontend-delivery.md. Teach me one complete appointment journey using the actual code: route, screen, local state, shared provider, model validation, changed record and doctor view. Do not edit code. Ask me to predict one failure and explain where real server security will go. Stop after this lesson.
+```
+
+### FE-VERIFY — Finish browser acceptance
+
+```text
+Read the remaining manual matrix in docs/frontend-delivery.md. Test the current frontend in the browser at desktop, 390px and 320px widths, including keyboard, account forms, new doctor availability, report preparation/download/other-patient view, content draft/publish/unpublish and error recovery. Fix only demonstrated frontend defects. Preserve fictional-data labelling and unresolved production policies. Record actual evidence, rerun affected checks, and explain changes. Do not add a backend or deploy.
 ```
 
 ### After frontend review — next prompts in order

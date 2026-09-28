@@ -4,7 +4,7 @@ Status: Draft for stakeholder review — not an approved implementation baseline
 
 Source: `Pulse Documentation version 1.docx`, the existing project plan, and the user’s instructions for a deployable learning project. Source section references below refer to the Word document. Only its text was reviewed; embedded diagrams have not been visually verified. No application code or technology selection is authorized by these documents.
 
-AC IDs identify verification criteria; each links to a canonical requirement or rule. These are draft observable outcomes, not executed tests. Every criterion remains pending the referenced decisions. A criterion marked blocked cannot be used to claim acceptance. No application exists to test.
+AC IDs identify verification criteria; each links to a canonical requirement or rule. These are draft observable outcomes, not executed tests. Every criterion remains pending the referenced decisions. A criterion marked blocked cannot be used to claim acceptance. A fictional-data frontend now exists and has separate [demo validation evidence](../frontend-delivery.md); it does not satisfy production authentication, persistence, security or release acceptance.
 
 | ID | Requirement/rule | Draft acceptance outcome | Unresolved dependencies |
 |---|---|---|---|

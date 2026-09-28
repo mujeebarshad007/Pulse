@@ -1,26 +1,44 @@
 {
-  "name": "web",
+  "name": "pulse-web",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "tsc -p tsconfig.test.json && node --test .test-build/tests/*.test.js",
+    "typecheck": "next typegen && tsc --noEmit",
+    "check": "npm run lint && npm run test && npm run build",
+    "backend:compile": "tsc -p tsconfig.backend.json",
+    "test:backend": "npm run backend:compile && node scripts/test-backend.mjs",
+    "check:all": "npm run check && npm run test:backend",
+    "db:local:start": "node scripts/local-database.mjs start",
+    "db:local:stop": "node scripts/local-database.mjs stop",
+    "db:local:status": "node scripts/local-database.mjs status",
+    "db:migrate": "npm run backend:compile && node --env-file-if-exists=.env.local --conditions=react-server scripts/database.mjs migrate",
+    "db:check": "npm run backend:compile && node --env-file-if-exists=.env.local --conditions=react-server scripts/database.mjs check"
   },
   "dependencies": {
     "next": "16.3.6",
+    "pg": "8.23.0",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "server-only": "0.0.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "@types/pg": "8.23.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.6",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=22.6.0"
   }
 }

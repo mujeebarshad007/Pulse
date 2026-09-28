@@ -1,6 +1,6 @@
 # System architecture
 
-Status: Phase 1 foundation architecture, updated 2026-09-27. The [MVP freeze](../requirements/MVP-freeze.md) controls product scope. This design records the simplified stack for the current scaffold; unanswered business and security policies remain [NEEDS CLARIFICATION].
+Status: frontend demo implemented; planned server boundaries, updated 2026-09-28. The [MVP freeze](../requirements/MVP-freeze.md) controls product scope. This design records the simplified stack for the current scaffold; unanswered business and security policies remain [NEEDS CLARIFICATION].
 
 ## Current direction
 
@@ -13,9 +13,11 @@ flowchart LR
   N -->|Authorized upload and read, later| O[(Private report storage)]
 ```
 
-Only the Next.js design-preview interface and component catalog exist today. The arrows to PostgreSQL and report storage show planned boundaries, not deployed resources. Browser code cannot connect directly to either. A server function/route must authenticate, authorize and validate every sensitive operation. UI state never grants permission.
+The Next.js frontend now implements connected fictional-data journeys and a component catalog; see [frontend delivery](../frontend-delivery.md). Its in-memory demo provider is not a server or durable session. The arrows to PostgreSQL and report storage show planned boundaries, not deployed resources. Browser code cannot connect directly to either. A server function/route must authenticate, authorize and validate every sensitive operation. UI state never grants permission.
 
 ## Responsibility split
+
+Backend infrastructure now includes a server-only PostgreSQL pool, transaction helper, safe error mapping, migrations and isolated local/test database tooling. Availability/appointment tables and internal services enforce occupancy, overlap and lifecycle rules. Profile/account/content/report persistence, API integration and session-derived permissions remain unimplemented. See [the backend checkpoint](../backend-foundation.md) and [tester MVP plan](../tester-mvp.md).
 
 | Layer | Responsibility |
 |---|---|
@@ -32,7 +34,7 @@ Keep server-side business functions outside route/page files so a future separat
 2. Authorized lab report upload → correct patient's private result access (UC-010).
 3. Authorized disease information maintenance → eligible reader browsing (UC-008).
 
-The [freeze](../requirements/MVP-freeze.md) lists full IDs and acceptance criteria. Online consultations, electronic prescriptions, payments, diagnosis, lab-test booking and broad doctor history remain outside V1. The current interface contains fictional design samples and implements none of these production workflows.
+The [freeze](../requirements/MVP-freeze.md) lists full IDs and acceptance criteria. Online consultations, electronic prescriptions, payments, diagnosis, lab-test booking and broad doctor history remain outside V1. The current interface demonstrates all three journeys with shared fictional records. Production acceptance remains unfulfilled because identity, server authorization and persistence are not implemented.
 
 ## Architecture rules for later phases
 

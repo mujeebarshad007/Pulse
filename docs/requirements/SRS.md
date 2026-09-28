@@ -52,6 +52,8 @@ No administrator actor is confirmed. The person or organization responsible for 
 
 ## 6. User roles
 
+Implementation update: the user requested backend/database work before authentication and authorization, and delegated the booking-policy choice. The selected booking policy and unanswered account/report/content questions are recorded in [the backend checkpoint](../backend-foundation.md). The requested eventual production release and broad login support do not settle exact providers, jurisdiction, account linking or operational targets.
+
 AUTHZ-001 and BR-001–BR-007 govern access at a high level. The following is an incomplete source-derived permission outline, not a finalized role matrix.
 
 | Role | Supported permissions | Unresolved permissions |
@@ -174,7 +176,7 @@ Q-002 is resolved for V1 selection by [MVP-freeze.md](MVP-freeze.md). Other unan
 | Q-022 | Availability and recovery | [NEEDS CLARIFICATION] What service availability, backup, recovery-time, and acceptable-data-loss targets are required? |
 | Q-023 | Usability and compatibility | [NEEDS CLARIFICATION] Which browsers, devices, viewport sizes, accessibility criteria, and usability measures must be supported? |
 | Q-024 | Error handling | [NEEDS CLARIFICATION] How should validation, authentication, authorization, missing data, booking conflicts, provider failures, and connection failures be presented and recovered from? Which operations may be retried? |
-| Q-025 | Technology and hosting constraints | Phase 4 user intent specifies Next.js/TypeScript/Tailwind/shadcn/ui/Redux Toolkit/GSAP, NestJS/TypeScript and PostgreSQL; see [architecture decisions](../architecture/decisions.md). [NEEDS CLARIFICATION] Hosting environment, budget, compatible versions, additional implementation libraries and any remaining course constraints. No proposed stack simplification has been applied. |
+| Q-025 | Technology and hosting constraints | The later architecture alignment selected one Next.js/TypeScript application with PostgreSQL planned; NestJS, Redux Toolkit and GSAP are deferred, and shadcn/ui remains optional/uninstalled. See [architecture decisions](../architecture/decisions.md) for the rationale and recorded installed versions. [NEEDS CLARIFICATION] Hosting environment, budget, backend libraries and any remaining course constraints. |
 | Q-026 | Schedule | [NEEDS CLARIFICATION] Which dates and durations are authoritative? The four-week development phase conflicts with four two-week sprints, and change history includes a 2025 date among 2026 dates. |
 | Q-027 | Possible template leftovers | [NEEDS CLARIFICATION] Are project tracking, submission pages, and feedback forms actual PULSE capabilities or leftover text? The source also mentions patient feedback as an assumption. |
 | Q-028 | Acceptance authority | [NEEDS CLARIFICATION] Who approves requirements and release acceptance, and which acceptance evidence is mandatory? |

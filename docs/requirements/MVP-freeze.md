@@ -192,7 +192,7 @@ Exclusion means no V1 implementation task or dependency for that feature, includ
 
 V1 is complete only when the included MUST HAVE and SHOULD HAVE features work together as Journeys A, B and C, the applicable existing business-rule and quality criteria pass, and the remaining V1 behavior/acceptance decisions have been resolved. There must be no dependency on an excluded capability to finish an included journey.
 
-Acceptance evidence must cover the relevant successful flows, forbidden access, invalid data, appointment conflicts, report ownership and upload failures, with expected outcomes determined from resolved requirements. This restates the existing validation obligations; it does not select new controls or policies. All acceptance criteria are currently unexecuted because no application has been implemented.
+Acceptance evidence must cover the relevant successful flows, forbidden access, invalid data, appointment conflicts, report ownership and upload failures, with expected outcomes determined from resolved requirements. This restates the existing validation obligations; it does not select new controls or policies. Production acceptance remains unexecuted. The later fictional-data frontend has separate [demo validation evidence](../frontend-delivery.md), which does not resolve the policy questions or satisfy real-data release criteria.
 
 Any addition, removal, or priority change requires an explicit user-directed revision recording affected existing requirement IDs, journeys, dependencies and acceptance criteria. A SHOULD HAVE feature cannot disappear silently, and a COULD HAVE cannot enter because time happens to be available. Course constraints that contradict this boundary must be raised before implementation.
 

@@ -1,5 +1,4 @@
-import { DesignPreview } from "@/features/design-preview/design-preview";
-
-export default function Home() {
-  return <DesignPreview />;
+import { Landing } from "@/features/pulse/public-pages";
+export default function Page() {
+  return <Landing />;
 }

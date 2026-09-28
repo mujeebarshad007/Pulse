@@ -256,7 +256,7 @@ export function DesignPreview() {
           </span>
           <div>
             <strong>
-              PULSE <span>Design studio</span>
+              Big Pulse <span>Design studio</span>
             </strong>
             <small>Three directions. One care experience.</small>
           </div>
@@ -294,12 +294,12 @@ export function DesignPreview() {
             <a
               className="pulse-logo"
               href="#preview-content"
-              aria-label="PULSE preview"
+              aria-label="Big Pulse preview"
             >
               <span>
                 <Icon name="cross" size={21} />
               </span>
-              pulse<span className="logo-period">.</span>
+              Big Pulse<span className="logo-period">.</span>
             </a>
             <div className="workspace-switch">
               <span className="workspace-icon">
@@ -332,7 +332,7 @@ export function DesignPreview() {
             <div className="sidebar-bottom">
               <div className="sample-notice">
                 <Icon name="sparkle" size={18} />
-                <strong>A glimpse of PULSE</strong>
+                <strong>A glimpse of Big Pulse</strong>
                 <p>
                   Fictional data. Explore the design, then choose your
                   direction.
@@ -547,7 +547,7 @@ export function DesignPreview() {
                   <Icon name="shield" size={14} />
                   Fictional data for design review only
                 </span>
-                <span>PULSE · Interface exploration 01</span>
+                <span>Big Pulse · Interface exploration 01</span>
               </footer>
             </main>
           </div>

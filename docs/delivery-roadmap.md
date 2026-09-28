@@ -6,17 +6,13 @@ Read alongside [learning-plan.md](learning-plan.md), [MVP-freeze.md](requirement
 
 ## Current checkpoint — use this first
 
-We are at **frontend foundation / design-system review** (Phases 13–14 in the user’s pasted plan), with patient interface samples only. Earlier planning exists, but database, authentication and production business behavior have not been built. The chat’s earlier “Phase 0/1” names were local build steps, not the numbering in that plan.
+The complete **fictional-data frontend implementation** now exists: landing/account forms, patient, doctor, laboratory and content workspaces, connected demo journeys, shared controls, guided walkthrough, domain tests and repository CI configuration. The selected direction develops Air into a readable glassmorphism UI. Original design samples remain at `/design-preview`.
 
-The user requested a complete frontend and then specified **samples first**. Three directions are available at `/`; visual selection is pending. Air was revised following feedback that its glass effect was too subtle. See [frontend-design-review.md](frontend-design-review.md) for actual files, reference links, limitations and phase mapping. Use UI-01/UI-02 in [prompt-pack.md](prompt-pack.md) for this design checkpoint; the P-00–P-29 tasks below remain the production delivery plan. Preview screens do not mark product tasks complete.
+This corresponds to the frontend foundation, design and feature-screen phases in the pasted plan (Phases 13–15); it does not complete backend-dependent production acceptance. Read [frontend delivery](frontend-delivery.md) for the exact boundary and remaining browser checks, and [the frontend learning guide](frontend-learning-guide.md) to understand each file. UI-02 has been implemented as a bounded demo; no further visual-selection approval is needed to explain the current result.
 
-## Direction and current state
+The one-app Next.js architecture remains selected; P-00 is complete. P-05 now includes runnable frontend code, local tests and CI configuration, while hosting/production-policy prerequisites remain unresolved. Product P-09–P-20 are still future real-data implementation tasks, even though their interfaces are present. No deployment or marketing publication has occurred.
 
-The planned route is Next.js + TypeScript + PostgreSQL + Tailwind CSS + shadcn/ui. Defer NestJS, Redux and GSAP initially. The architecture now describes the one-app route; **P-00 is complete**. The first scaffold/design preview is also present under `web/`. The data-access library, authentication integration, hosting provider and concrete versions are selected through current official documentation in P-04, not guessed here.
-
-Requirements, an MVP boundary, an aligned architecture and a learning plan exist. The initial static preview has been replaced by interactive, fictional-data design samples and a component catalog. No product journey or deployment exists. P-00 is COMPLETE; P-05 has an initial scaffold/design slice but its full prerequisites and remaining setup are not complete. Other tasks remain NOT STARTED. Prior planning is input, not proof that later implementation tasks are complete.
-
-No calendar is invented while weekly availability is unknown. Follow exit evidence rather than dates. Complete one prompt at a time; using a prompt authorizes only its stated task. Missing business decisions block dependent work, not unrelated preparation.
+Next: review/learn one demo journey, then run P-01 to settle release context and immediate production rules. The [prompt pack](prompt-pack.md) continues through persistence, real journeys, staging, deployment and marketing. Use one prompt at a time.
 
 ## Four delivery stages
 
@@ -32,22 +28,22 @@ Marketing preparation can overlap release hardening when its dependencies are me
 | Prompt | Task | Prerequisites | Completion evidence | Status |
 |---|---|---|---|---|
 | P-00 | Align architecture with the simpler stack | Existing requirements and learning plan | Consistent Next.js-only architecture | COMPLETE (2026-09-27) |
-| P-01 | Resolve first-release context and immediate blockers | P-00 | Recorded answers or clearly blocked decisions | NOT STARTED |
+| P-01 | Resolve first-release context and immediate blockers | P-00 | Recorded answers or clearly blocked decisions | IN PROGRESS: release context, account provisioning and sign-in questions sent; answers pending |
 | P-02 | Learn the foundations needed for the first slice | P-01; may accompany later work | Small exercises understood; no full app generated | NOT STARTED |
 | P-03 | Map complete screens and journeys | P-00, P-01 | Small screen/flow plan matching frozen journeys | NOT STARTED |
 | P-04 | Choose compatible implementation libraries and hosting approach | P-00, P-01 | Recorded minimal dependency choices and deployment fit | NOT STARTED |
-| P-05 | Create the minimal application scaffold | P-00 through P-04 resolved for full task | Runnable minimal app with verified setup | PARTIAL: Next.js design preview builds; policy/library choices remain |
+| P-05 | Create the minimal application scaffold | P-00 through P-04 resolved for full task | Runnable minimal app with verified setup | PARTIAL: frontend demo, 15 tests and CI config exist; production policy/hosting choices remain |
 | P-06 | Deploy an early non-sensitive preview | P-05; selected host/account/budget | Verified preview or concrete ready-to-deploy package | NOT STARTED |
 | P-07 | Design the initial relational model | P-01, P-04; identity/profile policies settled | Reviewed initial entity relationships and migration plan | NOT STARTED |
-| P-08 | Implement initial persistence and migrations | P-07 settled; selected development database available | Repeatable migrations and isolated synthetic fixtures | NOT STARTED |
+| P-08 | Implement initial persistence and migrations | P-07 settled; selected development database available | Repeatable migrations and isolated synthetic fixtures | PARTIAL: infrastructure and appointment schema/services tested; account/profile/content/report schema pending |
 | P-09 | Implement authentication | P-08; Q-005 and integration choices resolved | Working approved account/session flow | NOT STARTED |
 | P-10 | Implement resource permissions and patient information | P-09; Q-004/Q-019 rights and onboarding settled | Server-enforced policies and usable patient records | NOT STARTED |
 | P-11 | Build doctor profile maintenance and details | P-10; Q-006 public fields/ownership settled | Authorized maintained profiles and safe details | NOT STARTED |
 | P-12 | Implement all required doctor search criteria | P-11; Q-008 matching/access rules settled | Verified specialization, symptom and location discovery | NOT STARTED |
-| P-13 | Resolve schedule and booking policy; design its data model | P-10, P-11; current Q-009/Q-010 reviewed | Approved policy and transaction design | NOT STARTED |
-| P-14 | Build authorized availability management | P-13 resolved | Persistent availability used by discovery | NOT STARTED |
-| P-15 | Build physical appointment booking | P-12, P-14; transaction/state rules settled | Persisted authorized booking that respects capacity | NOT STARTED |
-| P-16 | Complete doctor appointment management | P-15; approved management actions | Complete patient-to-doctor appointment journey | NOT STARTED |
+| P-13 | Resolve schedule and booking policy; design its data model | P-10, P-11; current Q-009/Q-010 reviewed | Approved policy and transaction design | PARTIAL: delegated lifecycle/concurrency policy implemented internally; identity/profile integration pending |
+| P-14 | Build authorized availability management | P-13 resolved | Persistent availability used by discovery | PARTIAL: internal database service tested; authenticated UI pending |
+| P-15 | Build physical appointment booking | P-12, P-14; transaction/state rules settled | Persisted authorized booking that respects capacity | PARTIAL: transactional service/concurrency constraints tested; authenticated UI pending |
+| P-16 | Complete doctor appointment management | P-15; approved management actions | Complete patient-to-doctor appointment journey | PARTIAL: internal ownership/lifecycle service tested; authenticated UI pending |
 | P-17 | Resolve lab-report policy and storage design | P-10; Q-016/Q-019/Q-020 reviewed | Approved upload/access rules and failure plan | NOT STARTED |
 | P-18 | Implement safe authorized report upload | P-17 settled; private development storage available | Durable validated uploads with correct association | NOT STARTED |
 | P-19 | Complete private patient report access | P-18 | Complete laboratory-to-patient report journey | NOT STARTED |
@@ -96,4 +92,4 @@ rg '^\| P-' docs/delivery-roadmap.md
 git status --short
 ```
 
-There is no application test suite yet. Future prompts require the real commands available after scaffolding rather than invented npm scripts.
+The frontend has 15 domain tests. From the root, `npm run check` runs lint, tests and build. `npm run test:backend` runs 14 real PostgreSQL integration tests. Authentication and automated browser journey suites remain later tasks.

@@ -1,6 +1,6 @@
 # Security architecture
 
-Status: Phase 1 foundation architecture, updated 2026-09-27. The [MVP freeze](../requirements/MVP-freeze.md) controls product scope. This design records the simplified stack for the current scaffold; unanswered business and security policies remain [NEEDS CLARIFICATION].
+Status: production security design; frontend demo boundary, updated 2026-09-28. The [MVP freeze](../requirements/MVP-freeze.md) controls product scope. This design records the simplified stack for the current scaffold; unanswered business and security policies remain [NEEDS CLARIFICATION].
 
 ## Authentication and authorization
 
@@ -17,3 +17,9 @@ The browser never receives database credentials, storage keys, password hashes o
 Deploy through HTTPS; set secure cookie and response-cache policies according to the selected auth integration. Sensitive responses must not be publicly cached or preserved across account changes. Protect state-changing cookie-based operations against CSRF. Log no passwords, cookies, report content, patient names or symptom values. All tests use synthetic data. Real-patient deployment requires the agreed legal/privacy and operational decisions under Q-003/Q-020.
 
 Security test scenarios: invalid/expired session, patient A reading patient B's report, forged role/owner fields, unauthorized lab upload, malformed file, over-capacity concurrent booking and sensitive data in logs or client artifacts. These are tests of existing AUTHZ-001/SEC-001/SEC-002/DATA-001 requirements, not new clinical features. No authentication or private data functionality has been built yet.
+
+## Implemented demo boundary
+
+The current frontend uses public fictional fixtures and an explicit persona switcher. Login/registration forms demonstrate input handling; they never store or verify passwords. Client command checks and own-report selectors are tested for consistent UI behavior, not resistance to an attacker. Every fixture is available in the browser bundle. Never use real patient data here.
+
+Fictional text files are read locally (at most 65,536 bytes), rendered as text, and never uploaded to a server. Browser memory is cleared by refresh; persona switching intentionally retains the shared demo records. There is no localStorage, remote tracking or product request logging. These are prototype boundaries, not a selected production file policy. Remove demo controls/store before connecting real records. See [delivery and pending validation](../frontend-delivery.md) and [SECURITY.md](../../SECURITY.md).

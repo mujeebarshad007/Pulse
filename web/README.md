@@ -1,26 +1,16 @@
-# PULSE frontend
+# PULSE web
 
-Next.js App Router + TypeScript + Tailwind. The current application is a **design comparison**, not the full product frontend.
-
-## Commands
+The complete fictional-data frontend lives here. Read [the main README](../README.md), [delivery checklist](../docs/frontend-delivery.md), and [file-by-file learning guide](../docs/frontend-learning-guide.md).
 
 ```bash
 npm ci
 npm run dev
-npm run lint
-npm run build
-npm run start -- --port 3001
+npm run check
+npm run typecheck
 ```
 
-Development runs on port 3000; the last command serves the production build on port 3001. Run one server command at a time in a terminal. No secrets or database are required.
+Run checks in a second terminal while development runs. `npm run check` runs lint, compiles and executes 15 domain tests with Node's built-in test runner, and builds Next.js with type checking. Generated test output stays in ignored `.test-build/`.
 
-## Code map
+To preview a production build: `npm run build`, then `npm run start -- --port 3001`. Open localhost:3001. No .env file, remote account, real password, database or connector is required.
 
-- `src/app/page.tsx`: root design studio route.
-- `src/app/layout.tsx`: common document and metadata.
-- `src/app/globals.css`: shared control styling and design catalog layout.
-- `src/app/design-system/page.tsx`: reusable controls reference.
-- `src/components/ui/`: button, badge, field and local SVG icons.
-- `src/features/design-preview/`: interactive visual samples, fictional fixtures and theme/layout CSS.
-
-Read [the file-by-file walkthrough](../docs/frontend-design-review.md) and [future prompts](../docs/prompt-pack.md). No authentication, API, database, private file storage or automated application tests have been implemented. Preview state is kept in memory only.
+The `/` route is the landing page. Feature screens live under `src/features/pulse/`; thin route files in `src/app/` compose them. `DemoProvider` preserves fictional records across client navigation. A reload ends the demo session and restores fixtures. There are no product APIs or real authentication in this delivery.

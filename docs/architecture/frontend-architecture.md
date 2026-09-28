@@ -1,34 +1,38 @@
 # Frontend architecture
 
-Status: Phase 1 foundation architecture, updated 2026-09-27. The [MVP freeze](../requirements/MVP-freeze.md) controls product scope. This design records the simplified stack for the current scaffold; unanswered business and security policies remain [NEEDS CLARIFICATION].
+Status: frontend demo implemented, updated 2026-09-28. The [MVP freeze](../requirements/MVP-freeze.md) controls product scope. Prototype rules are recorded separately in [frontend delivery](../frontend-delivery.md); production policy questions remain open.
 
-## Current frontend checkpoint
+## Current implementation
 
-The root route now serves `features/design-preview/design-preview.tsx`, a Client Component for comparing three design directions with clearly fictional records. Its local state drives the chosen theme, sample section, local filter and native detail dialog. No API, session, browser persistence or role authorization exists. The `/design-system` Server Component presents basic reusable button, badge and labelled-field controls. `layout.tsx` provides shared HTML and metadata; global CSS holds common control styling. Sample-specific layout/material rules live with the feature.
+One Next.js App Router application lives in `web/`. The root route renders the landing page. Thin route files compose feature modules for patient, doctor, laboratory and content workspaces. The `(product)` route-group layout shares navigation, notices and demo controls. Dynamic route params are awaited; record-specific forms are keyed so state cannot accidentally follow a different record.
 
-The user asked for samples before completing the frontend. Air is a glassmorphism proposal, revised after feedback that the first version was too opaque; Nocturne and Studio are alternatives. Final selection is pending. See [the design checkpoint](../frontend-design-review.md) for file explanations and evidence. Current fixture interactions do not satisfy production requirement acceptance criteria.
+`features/pulse/model.ts` holds fictional fixtures, typed records, selectors and pure demo command validation. `provider.tsx` shares these records and the selected persona through React context. Local form/filter/dialog state stays in feature components. All records reset on a reload; they persist across client navigation and persona changes solely to demonstrate connected journeys. No product API, durable session or browser persistence is implemented.
 
-The production direction remains one Next.js application. A chosen sample will inform real feature routes; the sample comparison component is not the production feature architecture.
+Shared workspace components live in `components/pulse/`; generic buttons, fields, badges and local SVG icons live in `components/ui/`. Product styling is in `features/pulse/pulse.css`, supported by existing `app/globals.css`. The Air direction provides readable glass surfaces and responsive layouts. Native controls and dialogs are used without another dependency. shadcn/ui remains optional/uninstalled; Redux and GSAP remain deferred.
 
-## Future UI boundaries
+`/design-preview` preserves the original three visual samples. `/design-system` retains the control reference. `/journey` is a guided demo presentation aid requested with this frontend delivery, not a new healthcare capability. [The learning guide](../frontend-learning-guide.md) maps every file and traces data flow.
 
-Use Next.js App Router pages for journeys and small Client Components only where interaction is needed. Server-rendered pages should request data through server-side services rather than making an extra HTTP call to the application's own route handlers. Forms can use server actions or route handlers as appropriate to the approved flow; whichever is used must call the same authorization/business service and validate input.
+## State and rendering boundaries
 
-| UI area | Source requirements |
+Route wrappers are Server Components; interactive feature screens are Client Components. The root provider enables continuity in this prototype, which intentionally bundles fictional records. Production must use server-selected, authorized projections rather than shipping a complete multi-user data store. Keep local interactivity small when moving actual records to server data loading.
+
+| UI area | Requirement references |
 |---|---|
-| Account entry and session presentation | AUTH-001–AUTH-003 |
-| Patient information | USER-001 |
-| Doctor profiles, search and availability | DOC-001–DOC-002; SEARCH-001; SCHED-001 |
-| Physical booking and doctor management | APPT-001 physical branch; APPT-002 |
-| Lab upload and own-result access | LAB-003–LAB-004 |
-| Disease maintenance and browsing | DISEASE-001–DISEASE-002 |
+| Account entry / session presentation | AUTH-001–AUTH-003 |
+| Patient profile and records | USER-001 |
+| Doctor profiles, search, availability | DOC-001–DOC-002; SEARCH-001; SCHED-001 |
+| Physical booking / doctor management | APPT-001 physical; APPT-002 |
+| Lab preparation / intended-patient report access | LAB-003–LAB-004 |
+| Disease maintenance / browsing | DISEASE-001–DISEASE-002 |
 
-Use URL/local state for ordinary non-sensitive UI state. Avoid placing patient/search/report data in URLs, persistent browser storage or a shared Redux cache. Redux Toolkit and GSAP are deferred until a demonstrated need. Add individual shadcn/ui components for actual forms/dialogs later; do not install a whole library of unused components.
+## Future real-data integration
 
-The pending visual direction prioritizes readable content with optional glass surfaces: high contrast, responsive layout, clear status/error messages, accessible labels and restrained motion. A later design pass should test keyboard navigation and supported devices under Q-023. Public browsing, role-specific navigation, form fields and search matching remain open questions and are not decided by the preview.
+Server-rendered pages should call server-side services directly. Server actions or route handlers must use the same authoritative authentication, resource permission and runtime validation layer. UI checks provide feedback only. Replace the demo provider/persona switcher rather than treating it as a security implementation.
 
-After logout or account change, clear private in-memory data and recheck server identity before showing protected content. Frontend checks help users, while server authorization remains authoritative. The first page can be statically built; protected future pages need a deliberately private caching strategy.
+Do not place sensitive patient/search/report data in URLs, persistent browser storage or global cross-account caches. After real logout or identity change, clear private state and recheck server identity. Protected responses need a deliberate private caching strategy. Booking conflicts require database integrity under concurrency, not merely frontend slot filtering.
 
-## Frontend validation
+## Validation and accessibility
 
-For this phase, run `npm run lint` and `npm run build` inside `web/`, then view the page at narrow and wide sizes. Later tests should cover forms, loading/empty/error states and cross-account cache safety. Do not claim these later tests exist yet.
+`npm run check` from the root runs ESLint, 15 pure domain tests and the optimized build with type checking. `npm run typecheck` runs the type check separately. Browser tests are currently manual; [delivery evidence](../frontend-delivery.md) distinguishes completed checks and pending checks.
+
+UI foundations include semantic controls, labels, native modal focus behavior, status text, form errors, a skip link, responsive layout and reduced-glass/contrast fallbacks. These are not a WCAG certification or a measured performance guarantee. Complete the recorded mobile, browser and keyboard matrix before accepting the public demo; production quality targets remain Q-021/Q-023.
