@@ -24,7 +24,7 @@ export function Landing() {
   return (
     <div className="pulse-app p-landing">
       <div className="p-public-notice">
-        Big Pulse testing environment · Fictional Pakistani providers · No real
+        Pulse testing environment · Fictional Pakistani providers · No real
         appointments
       </div>
       <header className="p-public-nav">
@@ -32,7 +32,7 @@ export function Landing() {
         <nav aria-label="Public navigation">
           <Link href="/doctors">Find care</Link>
           <Link href="/library">Health library</Link>
-          <Link href="/journey">How it connects</Link>
+          <Link href="/journey">Features & workspaces</Link>
         </nav>
         <Link className="p-link-button" href="/login">
           {connected ? "Sign in" : "Enter demo"} <Icon name="arrow" size={16} />
@@ -124,7 +124,7 @@ export function Landing() {
               <h2 id="care-title">Less searching. More clarity.</h2>
             </div>
             <p>
-              Three connected experiences.
+              Explore every workspace.
               <br />
               One place to begin.
             </p>
@@ -142,15 +142,36 @@ export function Landing() {
                 icon: "calendar" as const,
                 title: "A visit you can follow",
                 body: "Request a physical appointment and see its status as the doctor manages it.",
-                href: "/journey",
-                link: "See the appointment journey",
+                href: "/patient/appointments",
+                link: "My appointments · Patient sign-in",
               },
               {
                 icon: "file" as const,
                 title: "Reports within reach",
                 body: "See how a laboratory prepares a report and the intended patient accesses it.",
-                href: "/journey",
-                link: "Explore the report journey",
+                href: "/patient/reports",
+                link: "My reports · Patient sign-in",
+              },
+              {
+                icon: "clock" as const,
+                title: "Your doctor workspace",
+                body: "Manage your profile, add available times and respond to appointment requests. Requires an owner-assigned doctor account.",
+                href: "/doctor",
+                link: "Open doctor workspace",
+              },
+              {
+                icon: "upload" as const,
+                title: "A private path for lab results",
+                body: "Match a patient reference, review the recipient and upload a fictional PDF. Requires an owner-assigned laboratory account.",
+                href: "/laboratory",
+                link: "Open laboratory workspace",
+              },
+              {
+                icon: "book" as const,
+                title: "Information with a source",
+                body: "Browse published health information freely. Authorized editors maintain drafts and publish sourced entries.",
+                href: "/library",
+                link: "Read the health library",
               },
             ].map((f) => (
               <article className="p-panel" key={f.title}>
@@ -169,22 +190,22 @@ export function Landing() {
         </section>
         <section className="p-landing-end">
           <div>
-            <span className="p-eyebrow">EXPLORE BIG PULSE</span>
+            <span className="p-eyebrow">EXPLORE Pulse</span>
             <h2>
               See the whole story.
               <br />
               One journey at a time.
             </h2>
           </div>
-          <Button onClick={explore}>
+          <Link className="p-link-button" href="/account">
             Open the workspace <Icon name="arrow" size={18} />
-          </Button>
+          </Link>
         </section>
       </main>
       <footer className="p-public-footer">
         <Logo />
         <span>
-          Frontend MVP · Built with care, demonstrated with fictional data.
+          {connected ? "Connected tester app" : "Frontend demo"} · Fictional data.
         </span>
         <Link href="/design-preview">Design explorations</Link>
       </footer>
@@ -276,7 +297,7 @@ function DemoAuthPage({ mode }: { mode: "login" | "register" }) {
           <span className="p-demo-chip">DEMO FORM</span>
           <h2>
             {mode === "login"
-              ? "Welcome to Big Pulse."
+              ? "Welcome to Pulse."
               : "Your next chapter in care."}
           </h2>
           <p>

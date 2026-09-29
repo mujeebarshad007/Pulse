@@ -1,4 +1,4 @@
-# Learn the connected Big Pulse app
+# Learn the connected Pulse app
 
 Follow one booking: the page asks the provider to save a command; the provider sends it to the server; the server checks the session, derives the role, validates the input and calls the booking service; PostgreSQL enforces capacity; the browser reloads its authorized data.
 
@@ -10,6 +10,7 @@ Follow one booking: the page asks the provider to save a command; the provider s
 | `web/src/features/pulse/provider.tsx` | Fetches authorized data, sends commands, refreshes every 15 seconds while visible and handles sign-out/errors. |
 | `web/src/features/pulse/auth-client.ts` | Maintained browser authentication client. |
 | `web/src/features/pulse/google-entry.tsx` | Google entry UI and missing-configuration state. |
+| `web/src/features/pulse/public-pages.tsx` | Public landing page and direct links to existing account features, with clear role requirements. |
 | `web/src/app/account/page.tsx` | Redirects to the workspace for the server-provided role. |
 | `web/src/components/pulse/shell.tsx` | Navigation, loading, notices, sign-out and presentation gates; server authorization still applies. |
 | `web/src/features/pulse/patient-pages.tsx` | Directory/profile/booking forms, actual dates and patient reference for report matching. |
@@ -18,7 +19,7 @@ Follow one booking: the page asks the provider to save a command; the provider s
 | `web/src/features/pulse/content-pages.tsx` | Library, drafts and publication forms. |
 | `web/src/features/pulse/report-pages.tsx` | Metadata lists and authenticated downloads; legacy text reports remain demo-only. |
 | `web/src/features/pulse/private-upload.tsx` | Exact patient-reference match, recipient review and PDF upload. |
-| `web/src/features/pulse/journey.tsx` | Multi-account testing guide; connected mode cannot switch personas. |
+| `web/src/features/pulse/journey.tsx` | Features & workspaces directory, missing-Google explanation and multi-account testing guide; connected mode cannot switch personas. |
 | `web/src/server/auth.ts` | Google/Better Auth configuration and session-to-member mapping. Secrets stay server-side. |
 | `web/src/server/input.ts` | Runtime Zod schemas; TypeScript alone cannot validate hostile HTTP input. |
 | `web/src/server/workspace.ts` | Validated commands and minimal authorized snapshots. |
@@ -34,6 +35,7 @@ Follow one booking: the page asks the provider to save a command; the provider s
 | `web/src/app/api/reports/[id]/route.ts` | Checks ownership again before returning a PDF attachment. |
 | `web/src/app/api/health/route.ts` | Minimal database/schema availability without connection details. |
 | `web/database/migrations/0003_accounts_profiles_content.sql` | Auth/member/profile/content/report tables and profile foreign keys. |
+| `web/database/migrations/0004_pulse_fixture_brand.sql` | Corrects original fictional clinic branding while preserving tester edits. |
 | `web/scripts/manage-app.mjs` | Operator seed/staff commands. Role changes revoke sessions and send no messages. |
 | `web/scripts/start.mjs` | Copies public assets into the standalone build and starts its server with runtime configuration. |
 | `web/tests/backend/fixtures.ts` | Synthetic accounts/profiles in isolated integration tests. |

@@ -1,4 +1,4 @@
-# Big Pulse security boundary
+# Pulse security boundary
 
 Connected mode uses server-validated Better Auth sessions and database-derived roles. New Google accounts receive patient access. The owner assigns staff roles using an operator command that revokes old sessions. Browser personas exist only in the explicit memory-only demo.
 

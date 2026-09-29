@@ -1,10 +1,10 @@
-# Big Pulse — connected tester delivery
+# Pulse — connected tester delivery
 
 Updated: 2026-09-29. Scope: a deployable responsive web app with fictional Pakistani providers and documents. Real-patient production acceptance remains separate.
 
 ## Recorded direction
 
-The owner requested Big Pulse branding, Google signup and explicitly fictional Pakistani profiles for first testing. The previously delegated booking lifecycle remains Requested → Confirmed/Declined; Confirmed → Completed, with one patient per slot and no overlapping non-declined visits.
+The owner requested Pulse branding, Google signup and explicitly fictional Pakistani profiles for first testing. The previously delegated booking lifecycle remains Requested → Confirmed/Declined; Confirmed → Completed, with one patient per slot and no overlapping non-declined visits.
 
 Implementation defaults explained before work: Google users start as patients; the owner grants one staff role per account; doctors manage their own profiles/slots; PDFs are at most 10 MB and available only to the patient and uploading lab. These are tester implementation defaults, not clinical production policies.
 
@@ -21,6 +21,8 @@ The owner has neither Google OAuth nor hosting configured and requested setup gu
 | Editor → reader | Saved drafts/publication and source links; unpublished entries excluded publicly | DISEASE-001–002 |
 
 ## Limits
+
+The owner has now requested a broader production marketplace, messaging and AI. [Production expansion and decisions](requirements/production-expansion.md) records that request without treating unanswered policies as accepted. The implementation below is still the tester baseline; production completion is not implied.
 
 - Live Google consent/callback and a hosted multi-account journey still require external configuration and validation.
 - Responsive web app only; no native Android/iOS app.
@@ -39,8 +41,16 @@ The owner can associate a Google tester with a seeded doctor using the staff com
 
 ## Validation
 
-Final results are recorded after delivery checks finish. Tests own an isolated PostgreSQL cluster with fictional records. They do not contact Google or modify the application database. No remote CI run is claimed.
+Validation passed: `npm run check:all` (ESLint, 15 frontend domain tests, optimized build/type checking and 25 PostgreSQL/backend tests). A subsequent build passed without tracing warnings after excluding dynamic private-directory paths from packaging. The local database migration, fictional seed and connection check passed. Tests own an isolated PostgreSQL cluster with fictional records; they do not contact Google or modify the application database. No remote CI run is claimed.
+
+The standalone production server started on port 3000. HTTP checks returned 200 for the home page, login, directory, library, health and a JavaScript asset. The anonymous workspace has no patient, appointment or report records and uses `private, no-store`; an unauthenticated PDF request returns 401. The original clinic branding migration is applied locally, preserving edited profile fields. No Docker engine is available here, so the image recipe is not build-verified.
 
 The browser tool rejected the localhost tab under its URL policy. No workaround was attempted. Visual, keyboard, mobile and live Google-to-UI journeys remain unverified; HTTP checks do not replace them.
 
 Run `npm run check:all`, `npm run db:check` and `git diff --check`. Read [deployment steps](deploy-tester.md) and [file responsibilities](connected-app-guide.md).
+
+## Feature discoverability update
+
+The home page now links directly to appointments, reports, doctor and laboratory workspaces as well as discovery and the library. Guest navigation includes Features & workspaces (`/journey`), showing all six existing experiences and their account requirements. This page explains missing Google configuration. No authorization bypass, messaging or AI integration is included in this navigation update.
+
+Validation for this update: `npm run check` passed (lint, 15 domain tests and optimized build/type checking); `git diff --check` passed. The local server/database were restarted after the directory showed a fetch failure. Browser access succeeded in the existing doctor tab: five fictional providers loaded, Features & workspaces opened with Enter, a doctor-workspace link presented the sign-in gate, and all home-page feature links were inspected. At 390px width the six workspace cards formed one column and the document did not overflow horizontally; Tab advanced from the patient link to the doctor link. Screenshot rendering during viewport changes was inconsistent, so full mobile visual acceptance is still pending. The temporary viewport override was reset. These checks supersede the earlier blanket browser-blocked status for these particular guest pages only; authenticated, cross-browser and full mobile journeys remain pending.

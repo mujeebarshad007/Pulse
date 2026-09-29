@@ -173,7 +173,7 @@ export function ArticleReader({ id }: { id: string }) {
           </p>
         </div>
         <FormNote>
-          Big Pulse does not diagnose conditions or recommend treatment. Contact
+          Pulse does not diagnose conditions or recommend treatment. Contact
           a qualified clinician for personal medical concerns.
         </FormNote>
       </Panel>

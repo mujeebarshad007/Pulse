@@ -218,7 +218,7 @@ export function initialState(): DemoState {
         date: "2026-09-24",
         fileName: "sample-blood-count.txt",
         content:
-          "Big Pulse — FICTIONAL REPORT\nPatient: Jamie Lee (demo)\nReport: Complete blood count\n\nThis file is a design fixture. It contains no clinical measurements, interpretations, or medical advice.",
+          "Pulse — FICTIONAL REPORT\nPatient: Jamie Lee (demo)\nReport: Complete blood count\n\nThis file is a design fixture. It contains no clinical measurements, interpretations, or medical advice.",
       },
       {
         id: "REP-1002",
@@ -228,7 +228,7 @@ export function initialState(): DemoState {
         date: "2026-09-25",
         fileName: "sample-lipid-profile.txt",
         content:
-          "Big Pulse — FICTIONAL REPORT\nPatient: Avery Morgan (demo)\n\nThis example contains no clinical measurements or medical interpretation.",
+          "Pulse — FICTIONAL REPORT\nPatient: Avery Morgan (demo)\n\nThis example contains no clinical measurements or medical interpretation.",
       },
     ],
     articles: [

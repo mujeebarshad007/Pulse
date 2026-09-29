@@ -1,4 +1,4 @@
-# Big Pulse web
+# Pulse web
 
 This is the Next.js app. Read the [main README](../README.md), [connected file guide](../docs/connected-app-guide.md) and [setup guide](../docs/deploy-tester.md).
 

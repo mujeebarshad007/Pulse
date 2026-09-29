@@ -1,6 +1,6 @@
 # PULSE — Software Requirements Specification
 
-Implementation clarification, 2026-09-29: the owner renamed the product **Big Pulse**, selected Google signup, and chose clearly labelled fictional Pakistani profiles for first testing. [Tester delivery](../tester-mvp.md) records the implemented defaults and limits; real-patient production policy questions below remain separate. This addition supersedes earlier claims that all backend implementation is unapproved.
+Implementation clarification, 2026-09-29: the owner renamed the product **Pulse**, selected Google signup, and chose clearly labelled fictional Pakistani profiles for first testing. [Tester delivery](../tester-mvp.md) records the implemented defaults and limits; real-patient production policy questions below remain separate. This addition supersedes earlier claims that all backend implementation is unapproved.
 
 Version: 0.3 draft · Updated: 2026-09-26 · Phase: Requirements engineering with V1 scope and intended stack recorded
 

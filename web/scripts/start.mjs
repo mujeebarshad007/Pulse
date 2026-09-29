@@ -16,6 +16,9 @@ try {
   // Next's standalone output needs only these public assets copied alongside it.
   await cp(path.join(root, "public"), path.join(output, "public"), {
     recursive: true,
+  }).catch((error) => {
+    // A checkout without public assets has no public directory.
+    if (error.code !== "ENOENT") throw error;
   });
   await cp(path.join(root, ".next/static"), path.join(output, ".next/static"), {
     recursive: true,

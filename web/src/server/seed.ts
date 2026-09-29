@@ -17,9 +17,9 @@ export async function seedFictional(pool: Database) {
       const doctor = {
         ...source,
         name: names[index],
-        clinic: `Big Pulse Test Clinic ${index + 1}`,
+        clinic: `Pulse Test Clinic ${index + 1}`,
         about:
-          "Fictional Pakistani provider for testing Big Pulse. This is not a real clinician, verified registration, or healthcare service.",
+          "Fictional Pakistani provider for testing Pulse. This is not a real clinician, verified registration, or healthcare service.",
       };
       await client.query(
         "INSERT INTO pulse.doctors(id,profile) VALUES($1,$2) ON CONFLICT(id) DO NOTHING",

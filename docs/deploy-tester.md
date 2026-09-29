@@ -1,4 +1,4 @@
-# Big Pulse: Google sign-in and a shareable tester link
+# Pulse: Google sign-in and a shareable tester link
 
 This guide is for the fictional-data tester release. Code is prepared; no Google project, host account or live deployment has been created. Never paste secrets into chat or commit them to Git.
 
@@ -17,8 +17,8 @@ Open `http://localhost:3000`. New machines first run `npm run setup` and put the
 
 ## 2. Configure Google once
 
-1. Open [Google Cloud Console](https://console.cloud.google.com/) in your own account and create/select a project for Big Pulse.
-2. Configure Google Auth Platform branding/audience. Use the app name Big Pulse, your real owner/support contact, and testing mode with your intended tester Google accounts where required.
+1. Open [Google Cloud Console](https://console.cloud.google.com/) in your own account and create/select a project for Pulse.
+2. Configure Google Auth Platform branding/audience. Use the app name Pulse, your real owner/support contact, and testing mode with your intended tester Google accounts where required.
 3. Create an OAuth client of type **Web application**. Add the exact local callback: `http://localhost:3000/api/auth/callback/google`.
 4. Save the client ID and client secret privately in ignored `web/.env.local`, using the names below. Generate an independent random `BETTER_AUTH_SECRET` using your password manager or a local secret generator, at least 32 characters. Do not use the placeholder text.
 
@@ -76,7 +76,7 @@ For a Node web service:
 | Start | `npm run start -- --hostname 0.0.0.0 --port $PORT` |
 | Health path | `/api/health` |
 | Persistent disk mount | `/var/data` |
-| `PRIVATE_STORAGE_DIR` | `/var/data/big-pulse/reports` |
+| `PRIVATE_STORAGE_DIR` | `/var/data/pulse/reports` |
 | Instances | One while using private disk storage |
 
 Create a separate managed PostgreSQL database. The migration account needs permission for the standard `btree_gist` extension. Set `DATABASE_URL` privately using a provider connection that supports verified TLS, with `sslmode=verify-full`. If a provider's internal endpoint does not support verified TLS, use its documented TLS endpoint and certificate configuration; do not disable verification. `DATABASE_POOL_MAX=10` is the default, not a capacity guarantee.
@@ -98,10 +98,10 @@ The host/repository connection, billing and actual deployment must be completed 
 `web/Dockerfile` builds a non-root standalone Node image. From the repository root:
 
 ```bash
-docker build -t big-pulse-tester ./web
+docker build -t pulse-tester ./web
 ```
 
-Configure the same environment variables privately and mount a writable persistent volume at `/var/lib/big-pulse/reports` owned by the container's `node` user. Run the migration command as a controlled release step before starting `node server.js`. The image includes compiled CLI scripts and SQL migrations. Do not build environment files or private storage into the image; `.dockerignore` and tracing exclusions protect these inputs.
+Configure the same environment variables privately and mount a writable persistent volume at `/var/lib/pulse/reports` owned by the container's `node` user. Run the migration command as a controlled release step before starting `node server.js`. The image includes compiled CLI scripts and SQL migrations. Do not build environment files or private storage into the image; `.dockerignore` and tracing exclusions protect these inputs.
 
 Docker was not available locally, so the image build itself is unverified. The application build and database tests are verified separately.
 
@@ -109,4 +109,4 @@ Docker was not available locally, so the image build itself is unverified. The a
 
 Run `npm run check:all`. Verify the hosted HTTPS page, `/api/health`, Google round trip, all four roles, refresh persistence, PDF access from another account, and persistence after a restart. Check that database and private files are backed up together and that a restore is possible before retaining anything important. Automated operational backup/restore and malware inspection are not implemented.
 
-Send the resulting HTTPS service URL with: “Big Pulse tester build — fictional providers and trusted fictional documents only.” No live link exists until hosting is configured. If a deployment fails, keep the prior image/revision and data, restore the prior application version only when compatible with the forward-only schema, and inspect sanitized logs. Never delete the database or report volume as a routine rollback.
+Send the resulting HTTPS service URL with: “Pulse tester build — fictional providers and trusted fictional documents only.” No live link exists until hosting is configured. If a deployment fails, keep the prior image/revision and data, restore the prior application version only when compatible with the forward-only schema, and inspect sanitized logs. Never delete the database or report volume as a routine rollback.

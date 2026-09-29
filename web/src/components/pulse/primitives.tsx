@@ -6,11 +6,11 @@ import { initials } from "@/features/pulse/model";
 
 export function Logo() {
   return (
-    <Link className="p-logo" href="/" aria-label="Big Pulse home">
+    <Link className="p-logo" href="/" aria-label="Pulse home">
       <span>
         <Icon name="cross" size={21} />
       </span>
-      Big Pulse<b>.</b>
+      Pulse<b>.</b>
     </Link>
   );
 }

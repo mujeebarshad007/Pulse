@@ -17,7 +17,7 @@ export default function ErrorPage({
         Try again
       </button>
       <Link className="p-text-link" href="/">
-        Return to Big Pulse
+        Return to Pulse
       </Link>
     </div>
   );

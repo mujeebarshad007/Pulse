@@ -3,22 +3,22 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
 
-export const metadata = { title: "Big Pulse — Design system" };
+export const metadata = { title: "Pulse — Design system" };
 
 export default function DesignSystemPage() {
   return (
     <main className="design-catalog">
       <Link className="catalog-back" href="/">
-        ← Back to Big Pulse
+        ← Back to Pulse
       </Link>
       <header className="catalog-heading">
-        <Badge tone="blue">Big Pulse / Interface foundations</Badge>
+        <Badge tone="blue">Pulse / Interface foundations</Badge>
         <h1>
           A clear system.
           <br />A calmer experience.
         </h1>
         <p>
-          The visual language for Big Pulse: considered typography, useful space,
+          The visual language for Pulse: considered typography, useful space,
           and a consistent set of controls. This page is a component reference,
           not a healthcare workflow.
         </p>
@@ -111,7 +111,7 @@ export default function DesignSystemPage() {
         </div>
       </section>
       <footer className="catalog-footer">
-        Big Pulse design reference · Responsive by design · Keyboard focus included
+        Pulse design reference · Responsive by design · Keyboard focus included
       </footer>
     </main>
   );

@@ -1,4 +1,4 @@
-# Big Pulse frontend architecture
+# Pulse frontend architecture
 
 Updated 2026-09-29. Next.js App Router, React, TypeScript and existing CSS/Tailwind retain the glass design. No Redux, GSAP, shadcn/ui or separate frontend framework was added.
 

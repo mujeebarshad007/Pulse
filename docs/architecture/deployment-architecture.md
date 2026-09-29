@@ -1,4 +1,4 @@
-# Big Pulse deployment architecture
+# Pulse deployment architecture
 
 Updated 2026-09-29. Deploy this tester release as one Node web service plus PostgreSQL and an encrypted persistent disk. The existing private-file adapter does not support ephemeral serverless filesystems or multiple independent app instances.
 

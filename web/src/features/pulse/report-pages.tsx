@@ -378,7 +378,7 @@ function DemoReportUpload() {
     setFile({
       name: "big-pulse-fictional-report.txt",
       content:
-        "Big Pulse — FICTIONAL REPORT\n\nThis generated sample exists to test the lab-to-patient interface.\nIt contains no clinical measurements, patient information, diagnosis or treatment advice.",
+        "Pulse — FICTIONAL REPORT\n\nThis generated sample exists to test the lab-to-patient interface.\nIt contains no clinical measurements, patient information, diagnosis or treatment advice.",
     });
     if (!title) setTitle("Sample laboratory report");
   }

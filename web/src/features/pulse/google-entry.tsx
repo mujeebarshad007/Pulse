@@ -35,7 +35,7 @@ export function GoogleEntry() {
       </header>
       <main className="p-auth-layout">
         <aside className="p-auth-story">
-          <span className="p-eyebrow">BIG PULSE · PAKISTAN</span>
+          <span className="p-eyebrow">Pulse · PAKISTAN</span>
           <h1>
             Your care.
             <br />
@@ -51,7 +51,7 @@ export function GoogleEntry() {
         </aside>
         <section className="p-auth-card">
           <span className="p-demo-chip">CONNECTED TESTER APP</span>
-          <h2>Welcome to Big Pulse.</h2>
+          <h2>Welcome to Pulse.</h2>
           <p>
             Sign in or create your patient account with Google. Staff access is
             assigned by the owner.
@@ -76,7 +76,7 @@ export function GoogleEntry() {
           )}
           <InputError>{error}</InputError>
           <p className="p-auth-disclaimer">
-            Google handles your password. Big Pulse requests your basic account
+            Google handles your password. Pulse requests your basic account
             name and email to identify your account.
           </p>
           <Link className="p-text-link" href="/doctors">

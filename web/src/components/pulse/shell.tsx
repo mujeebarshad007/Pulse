@@ -37,6 +37,7 @@ const links: Record<
   guest: [
     { href: "/doctors", label: "Explore doctors", icon: "search" },
     { href: "/library", label: "Health library", icon: "book" },
+    { href: "/journey", label: "Features & workspaces", icon: "grid" },
     { href: "/login", label: "Sign in", icon: "user" },
   ],
 };
@@ -139,7 +140,7 @@ export function Workspace({ children }: { children: ReactNode }) {
         <span>
           <i />
           {connected
-            ? "Big Pulse · Testing environment"
+            ? "Pulse · Testing environment"
             : "Interactive frontend demo"}{" "}
           <span className="ribbon-detail">
             {connected
@@ -255,7 +256,7 @@ export function Workspace({ children }: { children: ReactNode }) {
               <Icon name="sparkle" />
               <span>
                 <strong>Follow the journey</strong>
-                <small>See how Big Pulse connects.</small>
+                <small>See how Pulse connects.</small>
               </span>
               <Icon name="chevron" size={16} />
             </Link>
@@ -285,7 +286,7 @@ export function Workspace({ children }: { children: ReactNode }) {
         <div className="p-main-column">
           <header className="p-topbar">
             <div className="p-breadcrumb">
-              Big Pulse <Icon name="chevron" size={13} />
+              Pulse <Icon name="chevron" size={13} />
               <span>{current?.label ?? "Care workspace"}</span>
             </div>
             <div className="p-topbar-right">
@@ -383,8 +384,8 @@ export function Workspace({ children }: { children: ReactNode }) {
               </span>
               <span>
                 {connected
-                  ? "Big Pulse / Connected tester app"
-                  : "Big Pulse / Frontend MVP"}
+                  ? "Pulse / Connected tester app"
+                  : "Pulse / Frontend MVP"}
               </span>
             </footer>
           </main>

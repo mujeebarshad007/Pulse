@@ -1,4 +1,4 @@
-# Big Pulse security architecture
+# Pulse security architecture
 
 Updated 2026-09-29. The connected tester app implements Better Auth Google OAuth/server sessions, database-derived roles and ownership checks. Google handles passwords/recovery. Password signup is disabled outside isolated tests. No credentials were generated or stored in the repository.
 

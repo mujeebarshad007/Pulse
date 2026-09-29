@@ -6,11 +6,11 @@ export default function NotFound() {
         <span className="p-demo-chip">404 / A DIFFERENT PATH</span>
         <h1>This page isn’t here.</h1>
         <p>
-          The address may have changed. Return to Big Pulse and choose the next step
+          The address may have changed. Return to Pulse and choose the next step
           in your demo journey.
         </p>
         <Link className="p-link-button" href="/">
-          Back to Big Pulse
+          Back to Pulse
         </Link>
       </div>
     </main>

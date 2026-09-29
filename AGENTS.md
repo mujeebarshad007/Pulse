@@ -1,4 +1,4 @@
-# Working on Big Pulse
+# Working on Pulse
 
 Read README.md and docs/tester-mvp.md first. The current deliverable is a connected fictional-data tester app, not the accepted real-patient production MVP. docs/frontend-delivery.md records the historical frontend prototype. Follow the frozen product scope and architecture. The owner prefers building a bounded slice, then learning its data flow and file responsibilities.
 

@@ -30,7 +30,7 @@ export function createAuth(
   )
     throw new Error("Authentication requires HTTPS outside localhost.");
   return betterAuth({
-    appName: "Big Pulse",
+    appName: "Pulse",
     baseURL,
     secret: env.BETTER_AUTH_SECRET,
     database: pool,

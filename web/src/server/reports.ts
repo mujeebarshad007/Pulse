@@ -46,7 +46,7 @@ export async function storageRoot(directory = process.env.PRIVATE_STORAGE_DIR) {
         );
     }
   };
-  validateDirectory(path.resolve(candidate));
+  validateDirectory(path.resolve(/* turbopackIgnore: true */ candidate));
   await mkdir(candidate, { recursive: true, mode: 0o700 });
   // Runtime volume, never a build asset. Do not trace its contents into deployments.
   const resolved = await realpath(/* turbopackIgnore: true */ candidate);

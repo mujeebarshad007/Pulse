@@ -1,4 +1,4 @@
-# Big Pulse backend architecture
+# Pulse backend architecture
 
 Updated 2026-09-29. Server-only TypeScript modules run inside the single Next.js Node application. Route handlers authenticate, bound/parse the request, validate it and call capability services. PostgreSQL access uses `pg`; Zod validates untrusted command input.
 

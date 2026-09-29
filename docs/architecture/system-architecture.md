@@ -1,4 +1,4 @@
-# Big Pulse system architecture
+# Pulse system architecture
 
 Updated 2026-09-29. One Next.js application serves the responsive UI and Node route handlers. PostgreSQL is the shared source of truth. Better Auth supplies Google authentication and server sessions. A private durable filesystem volume stores fictional PDFs outside web assets.
 

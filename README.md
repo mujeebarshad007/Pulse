@@ -1,4 +1,4 @@
-# Big Pulse
+# Pulse
 
 **Care, with clarity.** A responsive healthcare web app for testing doctor discovery, appointments, private fictional PDF reports and sourced health information.
 
@@ -22,7 +22,7 @@ Open [localhost:3000](http://localhost:3000). The fictional directory and librar
 
 ## Implemented
 
-- Big Pulse branding and responsive glass UI.
+- Pulse branding and responsive glass UI.
 - Google authentication integration, server sessions, sign-out and owner-assigned staff roles.
 - Saved patient/doctor profiles, fictional Pakistani directory and combined search filters.
 - Saved slots and bookings, overlap protection, doctor confirmation/decline/completion.
