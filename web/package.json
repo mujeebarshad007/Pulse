@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "node --env-file-if-exists=.env.local scripts/start.mjs",
     "lint": "eslint",
     "test": "tsc -p tsconfig.test.json && node --test .test-build/tests/*.test.js",
     "typecheck": "next typegen && tsc --noEmit",
@@ -17,14 +17,18 @@
     "db:local:stop": "node scripts/local-database.mjs stop",
     "db:local:status": "node scripts/local-database.mjs status",
     "db:migrate": "npm run backend:compile && node --env-file-if-exists=.env.local --conditions=react-server scripts/database.mjs migrate",
-    "db:check": "npm run backend:compile && node --env-file-if-exists=.env.local --conditions=react-server scripts/database.mjs check"
+    "db:check": "npm run backend:compile && node --env-file-if-exists=.env.local --conditions=react-server scripts/database.mjs check",
+    "db:seed": "npm run backend:compile && node --env-file-if-exists=.env.local --conditions=react-server scripts/manage-app.mjs seed",
+    "staff": "npm run backend:compile && node --env-file-if-exists=.env.local --conditions=react-server scripts/manage-app.mjs staff"
   },
   "dependencies": {
+    "better-auth": "1.7.6",
     "next": "16.3.6",
     "pg": "8.23.0",
     "react": "19.2.8",
     "react-dom": "19.2.8",
-    "server-only": "0.0.1"
+    "server-only": "0.0.1",
+    "zod": "4.6.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

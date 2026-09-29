@@ -1,9 +1,11 @@
-# Security boundary
+# Big Pulse security boundary
 
-PULSE currently runs a synthetic-data frontend demo. All persona identities and records are available to the browser. The role switcher, login form, and client checks provide no security guarantee. Do not enter real credentials or medical information.
+Connected mode uses server-validated Better Auth sessions and database-derived roles. New Google accounts receive patient access. The owner assigns staff roles using an operator command that revokes old sessions. Browser personas exist only in the explicit memory-only demo.
 
-Production authentication, server-side resource authorization, private storage, concurrency controls, privacy policies, and operational monitoring remain unimplemented. See [security architecture](docs/architecture/security-architecture.md).
+Every mutation and private report download derives identity on the server. Report access is restricted to its patient and uploading lab. Doctors receive their own appointments and minimal related patient identity, not broader patient history. Public snapshots exclude private patients, appointments, reports and unpublished articles.
 
-## Reporting
+PDF bytes stay outside public assets, with random filenames, OS permissions, integrity hashes and authenticated attachment downloads. These controls do not provide malware scanning or storage encryption. Only fictional trusted documents are supported. The deployment host must supply TLS and an encrypted durable volume. Remote production database connections require certificate verification; OS-private Unix sockets are allowed locally.
 
-Do not post credentials, real patient data, or exploitable sensitive details in public issues. A verified private disclosure contact has not yet been configured; the repository owner must establish one before a public production release. If GitHub private vulnerability reporting is enabled on the eventual repository, use that channel. No response-time or support commitment is implied.
+No real-patient launch, clinical review, compliance certification, penetration test, operational backup restore test or unlimited scalability is claimed. Retention/correction/deletion, provider verification, malware inspection, monitoring and incident response remain real-release requirements. See [current limits](docs/tester-mvp.md).
+
+Do not post secrets or private records in issues. The owner must establish a private disclosure contact before public production use.

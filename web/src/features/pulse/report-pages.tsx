@@ -17,11 +17,23 @@ import { Gate } from "@/components/pulse/shell";
 import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
 import { Icon } from "@/components/ui/icon";
+import { PrivateUpload } from "./private-upload";
 
-function downloadReport(report: Report) {
-  const url = URL.createObjectURL(
-    new Blob([report.content], { type: "text/plain;charset=utf-8" }),
-  );
+async function downloadReport(report: Report, connected: boolean) {
+  let blob: Blob;
+  if (connected) {
+    const response = await fetch(
+      `/api/reports/${encodeURIComponent(report.id)}`,
+      { cache: "no-store" },
+    );
+    if (!response.ok)
+      throw new Error(
+        (await response.json()).error ?? "The report could not be downloaded.",
+      );
+    blob = await response.blob();
+  } else
+    blob = new Blob([report.content], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
   a.download = report.fileName.replace(/[^a-zA-Z0-9._-]/g, "-");
@@ -35,6 +47,7 @@ function ReportReader({
   report: Report | undefined;
   onClose: () => void;
 }) {
+  const { connected, notify } = useDemo();
   return (
     <Modal open={!!report} title={report?.title ?? "Report"} onClose={onClose}>
       {report && (
@@ -54,14 +67,22 @@ function ReportReader({
               <dd>{report.fileName}</dd>
             </div>
           </dl>
-          <pre className="p-report-content">{report.content}</pre>
+          {!connected && (
+            <pre className="p-report-content">{report.content}</pre>
+          )}
           <FormNote>
             Sample content only. This viewer provides no medical interpretation.
           </FormNote>
           <div className="p-form-actions">
-            <Button onClick={() => downloadReport(report)}>
+            <Button
+              onClick={() => {
+                void downloadReport(report, connected).catch((error) =>
+                  notify(error.message, "error"),
+                );
+              }}
+            >
               <Icon name="download" size={17} />
-              Download sample .txt
+              {connected ? "Download private PDF" : "Download sample .txt"}
             </Button>
           </div>
         </>
@@ -70,7 +91,7 @@ function ReportReader({
   );
 }
 export function PatientReports() {
-  const { state, actor } = useDemo();
+  const { state, actor, connected } = useDemo();
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<string | null>(null);
   const reports = ownReports(state, actor);
@@ -118,7 +139,9 @@ export function PatientReports() {
                   {dateLabel(r.date)} · {r.laboratory}
                 </small>
               </div>
-              <span className="p-report-type">TXT · Demo</span>
+              <span className="p-report-type">
+                {connected ? "PDF · Private" : "TXT · Demo"}
+              </span>
               <Icon name="chevron" size={18} />
             </button>
           ))
@@ -149,8 +172,9 @@ export function PatientReports() {
         )}
       </Panel>
       <FormNote>
-        Only this persona’s reports are displayed. In production, server-side
-        ownership checks and private storage must enforce access.
+        {connected
+          ? "Only reports assigned to your account are returned by the server. Downloads require a fresh access check."
+          : "Only this persona’s reports are displayed. Production access requires server checks."}
       </FormNote>
       <ReportReader
         report={reports.find((r) => r.id === selected)}
@@ -160,12 +184,12 @@ export function PatientReports() {
   );
 }
 export function Laboratory() {
-  const { state } = useDemo();
+  const { state, connected } = useDemo();
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<string | null>(null);
-  const reports = state.reports.filter(
-    (r) => r.laboratory === "Northside Laboratory",
-  );
+  const reports = connected
+    ? state.reports
+    : state.reports.filter((r) => r.laboratory === "Northside Laboratory");
   const shown = reports.filter((r) =>
     `${r.title} ${state.patients.find((p) => p.id === r.patientId)?.name}`
       .toLowerCase()
@@ -174,7 +198,7 @@ export function Laboratory() {
   return (
     <Gate role="lab">
       <PageTitle
-        eyebrow="NORTHSIDE LABORATORY · DEMO"
+        eyebrow="LABORATORY · FICTIONAL TEST REPORTS"
         title="Clarity, from lab to patient."
         description="Prepare fictional reports and follow their availability in the patient workspace."
         action={
@@ -191,7 +215,11 @@ export function Laboratory() {
             Demo reports
           </span>
           <strong>{reports.length}</strong>
-          <small>Available in this session</small>
+          <small>
+            {connected
+              ? "Saved by your laboratory account"
+              : "Available in this session"}
+          </small>
         </Panel>
         <Panel className="p-stat">
           <span>
@@ -206,8 +234,14 @@ export function Laboratory() {
             <Icon name="shield" />
             File handling
           </span>
-          <strong className="p-stat-word">In memory</strong>
-          <small>No network upload or medical storage</small>
+          <strong className="p-stat-word">
+            {connected ? "Private" : "In memory"}
+          </strong>
+          <small>
+            {connected
+              ? "PDF access checked by the server"
+              : "No network upload or medical storage"}
+          </small>
         </Panel>
       </div>
       <Panel>
@@ -228,7 +262,7 @@ export function Laboratory() {
           <div className="p-table-wrap">
             <table className="p-table">
               <caption className="sr-only">
-                Fictional reports prepared by Northside Laboratory
+                Fictional reports prepared by this laboratory
               </caption>
               <thead>
                 <tr>
@@ -287,6 +321,10 @@ export function Laboratory() {
   );
 }
 export function ReportUpload() {
+  const { connected } = useDemo();
+  return connected ? <PrivateUpload /> : <DemoReportUpload />;
+}
+function DemoReportUpload() {
   const { state, run } = useDemo();
   const router = useRouter();
   const [patientId, setPatientId] = useState("");
@@ -503,16 +541,16 @@ export function ReportUpload() {
             Check details
           </Button>
           <Button
-            onClick={() => {
+            onClick={async () => {
               if (
                 file &&
-                run({
+                (await run({
                   type: "report",
                   patientId,
                   title,
                   content: file.content,
                   fileName: file.name,
-                })
+                }))
               ) {
                 setReview(false);
                 router.push("/laboratory");

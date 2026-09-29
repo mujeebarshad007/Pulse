@@ -37,12 +37,36 @@ const links: Record<
   guest: [
     { href: "/doctors", label: "Explore doctors", icon: "search" },
     { href: "/library", label: "Health library", icon: "book" },
-    { href: "/login", label: "Enter demo", icon: "user" },
+    { href: "/login", label: "Sign in", icon: "user" },
   ],
 };
 export function Gate({ role, children }: { role: Role; children: ReactNode }) {
-  const { actor, enter } = useDemo();
+  const { actor, enter, connected, loading } = useDemo();
+  if (loading) return <p role="status">Loading your workspace…</p>;
   if (actor?.role === role) return children;
+  if (connected)
+    return (
+      <EmptyState
+        icon="shield"
+        title={
+          actor
+            ? "This workspace requires a different role"
+            : "Sign in to continue"
+        }
+        action={
+          <Link
+            className="p-link-button"
+            href={actor ? homeFor(actor.role) : "/login"}
+          >
+            {actor ? "My workspace" : "Continue with Google"}
+          </Link>
+        }
+      >
+        {actor
+          ? "Staff access is assigned by the app owner."
+          : "Your account keeps your test appointments and reports together."}
+      </EmptyState>
+    );
   const persona = personas.find((p) => p.role === role)!;
   return (
     <EmptyState
@@ -73,12 +97,20 @@ export function Workspace({ children }: { children: ReactNode }) {
     setScenario,
     solid,
     setSolid,
+    connected,
+    loading,
+    busy,
+    refresh,
   } = useDemo();
   const pathname = usePathname();
   const router = useRouter();
   const [resetOpen, setResetOpen] = useState(false);
   const availablePersonas = [
-    ...state.patients.map((p) => ({ id: p.id, name: p.name, role: "patient" as const })),
+    ...state.patients.map((p) => ({
+      id: p.id,
+      name: p.name,
+      role: "patient" as const,
+    })),
     ...personas.filter((p) => p.role !== "patient"),
   ];
   const nav = links[actor?.role ?? "guest"];
@@ -106,64 +138,81 @@ export function Workspace({ children }: { children: ReactNode }) {
       <div className="p-demo-ribbon">
         <span>
           <i />
-          Interactive frontend demo{" "}
+          {connected
+            ? "Big Pulse · Testing environment"
+            : "Interactive frontend demo"}{" "}
           <span className="ribbon-detail">
-            · Fictional data · Changes reset on refresh
+            {connected
+              ? "· Fictional providers · Saved test records"
+              : "· Fictional data · Changes reset on refresh"}
           </span>
         </span>
-        <details className="p-demo-tools">
-          <summary>
-            Demo controls <Icon name="sliders" size={14} />
-          </summary>
-          <div className="p-tools-menu">
-            <label>
-              Preview as
-              <select
-                aria-label="Preview as"
-                className="ui-input"
-                value={
-                  availablePersonas.some((p) => p.id === actor?.id) ? actor?.id : ""
-                }
-                onChange={(e) => changePersona(e.target.value)}
-              >
-                <option value="" disabled>
-                  Choose a persona
-                </option>
-                {availablePersonas.map((p) => (
-                  <option key={p.id} value={p.id}>
-                    {p.name} · {p.role}
+        {!connected && (
+          <details className="p-demo-tools">
+            <summary>
+              Demo controls <Icon name="sliders" size={14} />
+            </summary>
+            <div className="p-tools-menu">
+              <label>
+                Preview as
+                <select
+                  aria-label="Preview as"
+                  className="ui-input"
+                  value={
+                    availablePersonas.some((p) => p.id === actor?.id)
+                      ? actor?.id
+                      : ""
+                  }
+                  onChange={(e) => changePersona(e.target.value)}
+                >
+                  <option value="" disabled>
+                    Choose a persona
                   </option>
-                ))}
-              </select>
-            </label>
-            <label>
-              Review a UI state
-              <select
-                className="ui-input"
-                aria-label="Review a UI state"
-                value={scenario}
-                onChange={(e) => setScenario(e.target.value as Scenario)}
-              >
-                <option value="ready">Normal interface</option>
-                <option value="loading">Loading example</option>
-                <option value="empty">Empty example</option>
-                <option value="error">Error example</option>
-              </select>
-            </label>
-            <label className="p-check">
-              <input
-                type="checkbox"
-                checked={solid}
-                onChange={(e) => setSolid(e.target.checked)}
-              />
-              Reduce glass effects
-            </label>
-            <Button variant="secondary" onClick={() => setResetOpen(true)}>
-              Reset fictional data
-            </Button>
-            <Link href="/design-preview">Original design samples</Link>
-          </div>
-        </details>
+                  {availablePersonas.map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.name} · {p.role}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                Review a UI state
+                <select
+                  className="ui-input"
+                  aria-label="Review a UI state"
+                  value={scenario}
+                  onChange={(e) => setScenario(e.target.value as Scenario)}
+                >
+                  <option value="ready">Normal interface</option>
+                  <option value="loading">Loading example</option>
+                  <option value="empty">Empty example</option>
+                  <option value="error">Error example</option>
+                </select>
+              </label>
+              <label className="p-check">
+                <input
+                  type="checkbox"
+                  checked={solid}
+                  onChange={(e) => setSolid(e.target.checked)}
+                />
+                Reduce glass effects
+              </label>
+              <Button variant="secondary" onClick={() => setResetOpen(true)}>
+                Reset fictional data
+              </Button>
+              <Link href="/design-preview">Original design samples</Link>
+            </div>
+          </details>
+        )}
+        {connected && (
+          <button
+            className="p-text-link"
+            onClick={() => void refresh()}
+            disabled={busy}
+          >
+            Refresh
+          </button>
+        )}
       </div>
       <div className="p-workspace">
         <aside className="p-sidebar">
@@ -214,15 +263,17 @@ export function Workspace({ children }: { children: ReactNode }) {
               <span className="p-user-avatar">{name.slice(0, 1)}</span>
               <div>
                 <strong>{name}</strong>
-                <small>Fictional {actor?.role ?? "visitor"}</small>
+                <small>
+                  {connected ? "Test account · " : "Fictional "}
+                  {actor?.role ?? "visitor"}
+                </small>
               </div>
               {actor && (
                 <button
                   className="p-icon-button"
-                  aria-label="Leave demo workspace"
-                  onClick={() => {
-                    leave();
-                    router.push("/");
+                  aria-label="Sign out"
+                  onClick={async () => {
+                    if (await leave()) router.push("/");
                   }}
                 >
                   <Icon name="logout" size={18} />
@@ -238,7 +289,9 @@ export function Workspace({ children }: { children: ReactNode }) {
               <span>{current?.label ?? "Care workspace"}</span>
             </div>
             <div className="p-topbar-right">
-              <span className="p-demo-chip">Demo environment</span>
+              <span className="p-demo-chip">
+                {connected ? "Saved test environment" : "Demo environment"}
+              </span>
               <Link
                 href="/journey"
                 className="p-icon-button"
@@ -268,8 +321,16 @@ export function Workspace({ children }: { children: ReactNode }) {
                 </button>
               </div>
             )}
-            {scenario === "ready" ? (
-              children
+            {loading ? (
+              <p role="status">Loading your workspace…</p>
+            ) : scenario === "ready" ? (
+              <fieldset
+                disabled={busy}
+                className="p-operation-boundary"
+                aria-busy={busy}
+              >
+                {children}
+              </fieldset>
             ) : (
               <div className="p-state-preview">
                 <span className="p-eyebrow">DESIGN QA · SIMULATED STATE</span>
@@ -320,7 +381,11 @@ export function Workspace({ children }: { children: ReactNode }) {
                 <Icon name="shield" size={14} />
                 Fictional data. No real healthcare services.
               </span>
-              <span>Big Pulse / Frontend MVP</span>
+              <span>
+                {connected
+                  ? "Big Pulse / Connected tester app"
+                  : "Big Pulse / Frontend MVP"}
+              </span>
             </footer>
           </main>
         </div>

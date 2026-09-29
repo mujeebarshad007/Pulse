@@ -1,5 +1,7 @@
 # PULSE — Version 1 MVP freeze
 
+2026-09-29 delivery note: the brand is **Big Pulse**. Google signup and fictional Pakistani profiles were selected for the connected tester release. [Current implementation and limits](../tester-mvp.md) include saved appointments/content and private fictional PDFs. This does not enlarge the frozen product feature set or accept real-patient production use.
+
 Version: 1.0 scope boundary · Date: 2026-09-26 · Phase: MVP definition
 
 ## Decision and authority

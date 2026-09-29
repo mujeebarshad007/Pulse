@@ -1,6 +1,6 @@
-# Working on PULSE
+# Working on Big Pulse
 
-Read README.md and docs/frontend-delivery.md first. The current deliverable is a fictional-data frontend demo, not the accepted production MVP. Follow the frozen product scope and architecture. The owner prefers building a bounded slice, then learning its data flow and file responsibilities.
+Read README.md and docs/tester-mvp.md first. The current deliverable is a connected fictional-data tester app, not the accepted real-patient production MVP. docs/frontend-delivery.md records the historical frontend prototype. Follow the frozen product scope and architecture. The owner prefers building a bounded slice, then learning its data flow and file responsibilities.
 
 - Explain significant changes before implementation. Only implement the requested task; preserve unrelated work.
 - Do not convert prototype proposals into approved business rules. Ask for unresolved production policies before dependent backend work.

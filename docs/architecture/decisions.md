@@ -1,5 +1,15 @@
 # Architecture decisions and stack evaluation
 
+## Current connected delivery — 2026-09-29
+
+- Better Auth 1.7.6 provides Google OAuth and database sessions; no custom password/auth protocol was built. Zod 4.6.5 validates API inputs. Both are pinned in the lockfile.
+- The owner selected fictional Pakistani profiles for initial testing. Google users start as patients; owner CLI provisions staff, and doctors own their linked profiles.
+- A private filesystem volume is the bounded tester storage adapter. This permits a single persistent-disk host and requires an object-storage change before multi-instance/serverless deployment. PDF inspection currently checks signature/size only; no malware scanning claim.
+- API snapshots are authorized server-side and refreshed after changes/on focus/every 15 seconds. No WebSocket infrastructure is needed for this tester scope.
+- A Docker/standalone package and setup guide exist. Google Cloud and hosting still need owner setup; no live deployment is claimed.
+
+These decisions supersede the historical pending-backend statements below. See [current architecture](system-architecture.md).
+
 Current backend addition (2026-09-28): appointment integrity uses PostgreSQL range exclusion constraints with the standard `btree_gist` extension, rather than an in-process lock. This coordinates concurrent writes across application instances. Migration 0002 and the server-only appointment service implement the previously delegated booking policy. They have no public HTTP endpoints or authenticated identity integration yet. See [tester MVP boundary](../tester-mvp.md).
 
 Status: frontend implementation checkpoint, updated 2026-09-28. The [MVP freeze](../requirements/MVP-freeze.md) controls product scope. This design records the simplified stack for the current scaffold; unanswered business and security policies remain [NEEDS CLARIFICATION].

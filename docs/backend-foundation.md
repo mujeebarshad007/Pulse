@@ -1,5 +1,7 @@
 # Backend foundation and learning checkpoint
 
+Historical infrastructure/scheduling checkpoint. The 2026-09-29 connected delivery supersedes the pending identity/profile/content/report work described below. See [current tester status](tester-mvp.md) and [connected file guide](connected-app-guide.md). This file preserves the earlier learning/evidence record.
+
 Date: 2026-09-28. Status: database infrastructure and internal appointment services implemented and tested; connected backend incomplete.
 
 ## Scope and actual result

@@ -1,4 +1,10 @@
-/* PULSE's product UI. Variables are visual decisions, not business rules. */
+/* Big Pulse product UI. Variables are visual decisions, not business rules. */
+.p-operation-boundary {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
 .pulse-app {
   --p-ink: #172d49;
   --p-muted: #536781;
@@ -109,6 +115,7 @@
   font-size: 12px;
 }
 .p-logo {
+  white-space: nowrap;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -119,6 +126,7 @@
   line-height: 1;
 }
 .p-logo > span {
+  flex-shrink: 0;
   width: 34px;
   height: 34px;
   display: grid;

@@ -1,5 +1,7 @@
 # PULSE — Delivery roadmap
 
+**Current checkpoint, 2026-09-29:** Big Pulse now has the connected tester implementation for P-09–P-20: Google auth integration, server permissions, saved profiles/appointments/content and private PDFs. Live OAuth and hosting are not configured. Next: follow [Google/hosting setup](deploy-tester.md), verify the full multi-account browser journeys, then share the tester link. No production healthcare launch or marketing publication is complete. The detailed phase table below preserves earlier planning statuses; [tester-mvp.md](tester-mvp.md) is the authoritative current delivery record.
+
 Prepared: 2026-09-27. This is a plan for future user-invoked work, not authorization to execute every task now.
 
 Read alongside [learning-plan.md](learning-plan.md), [MVP-freeze.md](requirements/MVP-freeze.md), and [prompt-pack.md](prompt-pack.md).

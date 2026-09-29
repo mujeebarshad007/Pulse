@@ -1,0 +1,9 @@
+node_modules
+.next
+.backend-build
+.test-build
+.local
+.env*
+!.env.example
+*.tsbuildinfo
+*.log

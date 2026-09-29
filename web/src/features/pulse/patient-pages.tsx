@@ -373,13 +373,17 @@ export function Directory() {
   );
 }
 export function DoctorDetail({ id }: { id: string }) {
-  const { state, actor, run } = useDemo();
-  const [day, setDay] = useState(DEMO_DATES[0]);
+  const { state, actor, run, connected } = useDemo();
+  const [pickedDay, setDay] = useState("");
   const [selected, setSelected] = useState("");
   const [review, setReview] = useState(false);
   const [booked, setBooked] = useState(false);
   const doctor = state.doctors.find((d) => d.id === id);
   const slots = availableSlots(state, id);
+  const dates = connected
+    ? [...new Set(slots.map((s) => s.date))].sort()
+    : DEMO_DATES;
+  const day = dates.includes(pickedDay) ? pickedDay : dates[0];
   const chosen = slots.find((s) => s.id === selected);
   if (!doctor)
     return (
@@ -391,12 +395,12 @@ export function DoctorDetail({ id }: { id: string }) {
           </Link>
         }
       >
-        The profile may not exist in this demo session. New profiles reset when
-        the page reloads.
+        The profile is not available. Return to the directory to choose another
+        provider.
       </EmptyState>
     );
-  function book() {
-    if (run({ type: "book", doctorId: id, slotId: selected })) {
+  async function book() {
+    if (await run({ type: "book", doctorId: id, slotId: selected })) {
       setReview(false);
       setSelected("");
       setBooked(true);
@@ -476,8 +480,9 @@ export function DoctorDetail({ id }: { id: string }) {
               <Icon name="check" size={32} />
               <h3>Your demo request is in.</h3>
               <p>
-                You can track its status in appointments, then switch to the
-                doctor demo to confirm it.
+                {connected
+                  ? "Your request is saved. The assigned doctor tester can confirm it from their account."
+                  : "Track its status in appointments, then switch to the doctor demo to confirm it."}
               </p>
               <Link className="p-link-button" href="/patient/appointments">
                 View my appointments <Icon name="arrow" size={15} />
@@ -490,7 +495,7 @@ export function DoctorDetail({ id }: { id: string }) {
             <>
               <fieldset className="p-date-picker">
                 <legend>Choose a date</legend>
-                {DEMO_DATES.map((date, i) => (
+                {dates.map((date) => (
                   <label key={date} className={day === date ? "selected" : ""}>
                     <input
                       type="radio"
@@ -502,8 +507,13 @@ export function DoctorDetail({ id }: { id: string }) {
                         setSelected("");
                       }}
                     />
-                    <span>{["Mon", "Tue", "Wed", "Thu", "Fri"][i]}</span>
-                    <strong>{5 + i}</strong>
+                    <span>
+                      {new Intl.DateTimeFormat("en-GB", {
+                        weekday: "short",
+                        timeZone: "UTC",
+                      }).format(new Date(`${date}T12:00:00Z`))}
+                    </span>
+                    <strong>{Number(date.slice(-2))}</strong>
                   </label>
                 ))}
               </fieldset>
@@ -539,11 +549,15 @@ export function DoctorDetail({ id }: { id: string }) {
                 </Button>
               ) : (
                 <Link className="p-link-button" href="/login">
-                  Enter patient demo to request
+                  {connected
+                    ? "Sign in to request a test visit"
+                    : "Enter patient demo to request"}
                 </Link>
               )}
               <p className="p-caption">
-                Requesting a slot here changes only this browser session.
+                {connected
+                  ? "Requests are saved and wait for the assigned doctor tester’s confirmation."
+                  : "Requesting a slot here changes only this browser session."}
               </p>
             </>
           )}
@@ -583,8 +597,8 @@ export function DoctorDetail({ id }: { id: string }) {
           </div>
         </dl>
         <FormNote>
-          This is a fictional request. Confirmation rules are prototype
-          proposals.
+          This is a fictional test request. The doctor can confirm or decline
+          it.
         </FormNote>
         <div className="p-form-actions">
           <Button variant="secondary" onClick={() => setReview(false)}>
@@ -599,7 +613,7 @@ export function DoctorDetail({ id }: { id: string }) {
   );
 }
 export function PatientProfile() {
-  const { actor, state, run } = useDemo();
+  const { actor, state, run, connected } = useDemo();
   const patient = state.patients.find((p) => p.id === actor?.id);
   function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -627,13 +641,24 @@ export function PatientProfile() {
         <Panel>
           <h2>Personal information</h2>
           <p className="p-muted">
-            This demo uses only a small set of proposed fields. Nothing is
-            stored after a page refresh.
+            {connected
+              ? "Your test profile is saved to your account. Your sign-in email comes from Google."
+              : "This demo profile resets on refresh."}
           </p>
           <FormNote>
             Use fictional details only. Real patient-data requirements are still
             being defined.
           </FormNote>
+          {connected && (
+            <p className="p-form-note">
+              Patient reference:{" "}
+              <strong style={{ overflowWrap: "anywhere" }}>
+                {patient?.id}
+              </strong>
+              . Share this with your laboratory tester to receive a fictional
+              PDF.
+            </p>
+          )}
         </Panel>
         <Panel>
           <form className="p-form" onSubmit={submit} key={patient?.id}>
@@ -648,13 +673,17 @@ export function PatientProfile() {
                 maxLength={80}
               />
             </Field>
-            <Field id="profile-email" label="Fictional email">
+            <Field
+              id="profile-email"
+              label={connected ? "Google account email" : "Fictional email"}
+            >
               <input
                 className="ui-input"
                 id="profile-email"
                 name="email"
                 type="email"
                 defaultValue={patient?.email}
+                readOnly={connected}
                 required
                 maxLength={120}
               />

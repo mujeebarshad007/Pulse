@@ -1,58 +1,46 @@
-# Connected tester MVP
+# Big Pulse — connected tester delivery
 
-Date: 2026-09-28. Requested goal: complete the existing journeys through private report storage so invited people can test them. This is a tester release, not a real-patient production launch.
+Updated: 2026-09-29. Scope: a deployable responsive web app with fictional Pakistani providers and documents. Real-patient production acceptance remains separate.
 
-## Current state
+## Recorded direction
 
-The glass frontend works with fictional in-memory records. PostgreSQL foundation and internal appointment services exist. The frontend is not connected to them. Authentication, account provisioning, persistent profiles/content and private reports are not implemented. No preview has been deployed.
+The owner requested Big Pulse branding, Google signup and explicitly fictional Pakistani profiles for first testing. The previously delegated booking lifecycle remains Requested → Confirmed/Declined; Confirmed → Completed, with one patient per slot and no overlapping non-declined visits.
 
-Scheduling was implemented under the owner's prior delegated booking decision. No new account/report rules have been silently approved.
+Implementation defaults explained before work: Google users start as patients; the owner grants one staff role per account; doctors manage their own profiles/slots; PDFs are at most 10 MB and available only to the patient and uploading lab. These are tester implementation defaults, not clinical production policies.
 
-## One pending tester policy decision
+The owner has neither Google OAuth nor hosting configured and requested setup guidance. The login screen displays this missing setup honestly.
 
-The owner has been asked to approve the following package, or specify a different policy:
+## Implemented journeys
 
-- Invite-only testing with fictional patient/report data.
-- Email/password entry; owner-provisioned doctor, laboratory and content-editor accounts.
-- Doctors maintain their own profiles.
-- Labs associate a private PDF, at most 10 MB, with an existing patient.
-- Access is limited to that patient and the uploading lab.
+| Journey | Implementation | Existing requirements |
+|---|---|---|
+| Account → workspace | Better Auth Google integration, PostgreSQL sessions, server role, sign-out, owner CLI | AUTH-001–003, AUTHZ-001 |
+| Profile → discovery | Saved profile, public fictional directory, combined filters and current slots | USER-001, DOC-001–002, SEARCH-001 |
+| Request → response | Saved availability/bookings, overlap constraints, owner-scoped lifecycle, periodic refresh | SCHED-001, APPT-001 physical, APPT-002 |
+| Lab → patient report | Exact reference match, recipient review, private PDF storage, authorized attachment download | LAB-003–004 |
+| Editor → reader | Saved drafts/publication and source links; unpublished entries excluded publicly | DISEASE-001–002 |
 
-Status: **[NEEDS CLARIFICATION]**. Google/phone login needs provider configuration; no credentials or provider accounts have been created. Report inspection/publication behavior and the deployment host must be resolved before those integrations. A maintained authentication library is being evaluated; Better Auth has compatible PostgreSQL and Next.js integrations, but is not installed or selected yet.
+## Limits
 
-## Completion sequence after the policy decision
+- Live Google consent/callback and a hosted multi-account journey still require external configuration and validation.
+- Responsive web app only; no native Android/iOS app.
+- Refresh after writes, on focus and every 15 seconds while visible. No WebSocket push, SMS or email notifications.
+- Private disk storage requires one app instance and a durable volume. No object-storage adapter, malware scanner or operational backup/restore automation is implemented.
+- PDF size, extension and signature checks do not prove safety. Use fictional, trusted documents.
+- Snapshots are bounded to 500 doctors/articles, 5,000 visible slots and 1,000 related private records. Larger scale needs pagination.
+- No real verification badge, medical review, diagnosis, payments, prescriptions, video or lab-test booking.
+- Google manages account recovery. Password/phone/Apple login are not shipped. Email/password is enabled only in isolated automated tests.
 
-1. Add account/session persistence, controlled tester provisioning, server identity and resource permissions.
-2. Persist patient and doctor profiles; connect profile forms and the existing directory with appropriate public data projections.
-3. Connect existing availability, booking and appointment screens to the tested services. Replace client personas with authenticated identity.
-4. Persist sourced health-information drafts and publication through the existing editor.
-5. Store report metadata in PostgreSQL and bytes outside public assets, with authorized upload/download, size/type checks, agreed inspection and failure cleanup.
-6. Verify independent accounts, refresh persistence, unauthorized direct requests, concurrent bookings, private downloads and complete UI journeys.
-7. Choose a host/account, configure its secrets privately and prepare a concrete preview release. A local URL is not a shareable hosted application.
+## Pakistani data
 
-These steps implement the existing MVP journeys. Payments, video consultations, prescriptions, diagnoses, pharmacy, lab-test booking and invented AI clinical features remain outside this delivery.
+`db:seed` adds five clearly labelled fictional providers in Karachi, Lahore and Islamabad, PKR sample fees, seven days of Asia/Karachi slots, three existing sourced entries and an NIH Pakistan source link. It does not overwrite edited profiles or bookings.
 
-## Doctor details and Pakistan-focused content
+The owner can associate a Google tester with a seeded doctor using the staff command. Real providers must supply accurate details and publication permission later. The [PM&DC register](https://www.pmdc.pk/) supports registration checks, but no verification workflow is implemented. [NIH Pakistan advisories](https://www.nih.org.pk/advisories) supply relevant source material. Symptom tags are browsing aids, not diagnosis.
 
-The existing doctor profile form already has name, specialty, qualifications, experience, clinic, city, fee, biography and manually assigned symptom tags. Its current records are fictional and edits last only for the browser session. Once connected, the doctor account will maintain its own saved profile under the approved provisioning policy.
+## Validation
 
-For real providers later, collect accurate information directly from the doctor/clinic with permission to publish. Check registration/licence and registered qualifications through the [PM&DC practitioner register](https://www.pmdc.pk/). A profile entry alone is not proof of verification. A formal verification state/process is not implemented and must be specified before displaying a verification badge. Do not scrape or copy Oladoc's profiles, reviews or photographs.
+Final results are recorded after delivery checks finish. Tests own an isolated PostgreSQL cluster with fictional records. They do not contact Google or modify the application database. No remote CI run is claimed.
 
-The information editor supports a category, symptoms, summary and source link. Pakistan-focused information should be maintained from authoritative sources such as [NIH Pakistan advisories](https://www.nih.org.pk/advisories), with clinical review before use as real patient-facing content. Categories and symptoms are browsing aids, not diagnosis. No disease prevalence ranking, automatic symptom-to-diagnosis mapping or claim that an entry is medically reviewed has been introduced.
+The browser tool rejected the localhost tab under its URL policy. No workaround was attempted. Visual, keyboard, mobile and live Google-to-UI journeys remain unverified; HTTP checks do not replace them.
 
-Use [Oladoc](https://oladoc.com/) as a workflow reference. “Better” needs tester evidence: successful discovery, clear booking status, understandable error recovery and correct report access. No claim of market superiority or unprecedented features is made.
-
-## Validation and learning
-
-Run from the repository root:
-
-```bash
-npm run check:all
-npm run db:migrate
-npm run db:check
-git diff --check
-```
-
-Validation: `npm run check:all` passed ESLint, all 15 frontend domain tests, the Next.js build/type check and all 14 PostgreSQL integration tests. Migration 0002 was applied to the isolated local development database. No UI files changed in this scheduling slice; earlier frontend browser limitations remain in `frontend-delivery.md`. No end-to-end account/storage verification is claimed.
-
-Read `web/src/server/appointments.ts` alongside `web/database/migrations/0002_appointments.sql`. The service handles user intent and transactions; database constraints arbitrate competing writes. `web/tests/backend/appointments.test.ts` demonstrates both. Explain why a server-derived identity is still required even when database constraints prevent double booking.
+Run `npm run check:all`, `npm run db:check` and `git diff --check`. Read [deployment steps](deploy-tester.md) and [file responsibilities](connected-app-guide.md).

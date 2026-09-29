@@ -1,5 +1,7 @@
 # PULSE — Frontend delivery
 
+Historical frontend-only checkpoint. As of 2026-09-29 the brand is Big Pulse and connected mode adds authenticated APIs, persistence and private fictional PDFs. The implementation and validation below describe the original `APP_MODE=demo` prototype. Use [current tester delivery](tester-mvp.md) for current status.
+
 Date: 2026-09-28. Status: implemented fictional-data frontend MVP; production acceptance remains pending.
 
 ## What this delivery means

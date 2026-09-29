@@ -1,6 +1,11 @@
 /** Pure, in-memory DEMO rules. These proposals are not production authorization. */
 export type Role = "patient" | "doctor" | "lab" | "editor";
-export type Actor = { id: string; name: string; role: Role };
+export type Actor = {
+  id: string;
+  name: string;
+  role: Role;
+  accountId?: string;
+};
 export type Patient = {
   id: string;
   name: string;

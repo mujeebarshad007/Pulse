@@ -1,5 +1,7 @@
 # Learn frontend by understanding PULSE
 
+Current addition (2026-09-29): the product is now Big Pulse. Start with [the connected app guide](connected-app-guide.md) for server data flow. The memory-only explanations below apply to explicit `APP_MODE=demo`; connected mode persists changes and uses server authentication.
+
 Start here. You do not need to read every requirement file before exploring the app. First use it, then trace one interaction, then make one small change and prove that it works. This guide explains the frontend delivered in September 2026; [the delivery report](frontend-delivery.md) separates demo behavior from the future production application.
 
 ## What you have built

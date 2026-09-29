@@ -1,5 +1,7 @@
 # PULSE — Software Requirements Specification
 
+Implementation clarification, 2026-09-29: the owner renamed the product **Big Pulse**, selected Google signup, and chose clearly labelled fictional Pakistani profiles for first testing. [Tester delivery](../tester-mvp.md) records the implemented defaults and limits; real-patient production policy questions below remain separate. This addition supersedes earlier claims that all backend implementation is unapproved.
+
 Version: 0.3 draft · Updated: 2026-09-26 · Phase: Requirements engineering with V1 scope and intended stack recorded
 
 Status: Draft for stakeholder review — not an approved implementation baseline.
@@ -154,9 +156,9 @@ Q-002 is resolved for V1 selection by [MVP-freeze.md](MVP-freeze.md). Other unan
 |---|---|---|
 | Q-001 | Source authority | [NEEDS CLARIFICATION] Is the existing Word document the authoritative input, and is there additional rough information or diagram content that must be incorporated? |
 | Q-002 | MVP and priorities | V1 selection defined in [MVP-freeze.md](MVP-freeze.md) under the Phase 3 request. MUST HAVE and SHOULD HAVE are included; COULD HAVE and OUT OF SCOPE are excluded. Behavioral questions remain open. |
-| Q-003 | Release context | [NEEDS CLARIFICATION] Will the release be an academic demonstration using synthetic records or a service for real patients? Which locations and languages are supported? |
+| Q-003 | Release context | Tester release resolved: fictional Pakistani profiles, English responsive web UI. Real-patient production geography/language/privacy criteria remain [NEEDS CLARIFICATION]. |
 | Q-004 | Roles and ownership | [NEEDS CLARIFICATION] Which roles exist, can an account have multiple roles, and who creates or assigns roles? Is any administrative role required? |
-| Q-005 | Accounts and sessions | [NEEDS CLARIFICATION] What registration fields, login identifier, credential method, account verification, session lifetime, logout, recovery, and account lifecycle are required? These mechanisms are not specified. |
+| Q-005 | Accounts and sessions | Google signup selected. Tester implementation uses Better Auth sessions, sign-out and Google-managed recovery. Google OAuth setup is pending; real-release account deletion/retention requirements remain [NEEDS CLARIFICATION]. |
 | Q-006 | Doctor profiles | [NEEDS CLARIFICATION] May ordinary registered users create doctor profiles, as section 1.1 states, or only doctors? Who can edit which profiles, and which fields are mandatory or public? |
 | Q-007 | Doctor verification | [NEEDS CLARIFICATION] Who verifies doctors, using what evidence and process, and what happens when verification is withdrawn? |
 | Q-008 | Discovery access and matching | [NEEDS CLARIFICATION] Can guests browse doctors or diseases? How do symptoms map to doctors, how are location and specialization matched, and how do combined filters, ordering, and empty results work? |

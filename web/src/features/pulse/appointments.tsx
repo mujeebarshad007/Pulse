@@ -236,9 +236,12 @@ export function Appointments({ doctorMode = false }: { doctorMode?: boolean }) {
             Go back
           </Button>
           <Button
-            onClick={() => {
-              if (pendingAction) run({ type: "appointment", ...pendingAction });
-              setPendingAction(null);
+            onClick={async () => {
+              if (
+                pendingAction &&
+                (await run({ type: "appointment", ...pendingAction }))
+              )
+                setPendingAction(null);
             }}
           >
             Apply demo status

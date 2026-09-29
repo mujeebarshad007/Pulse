@@ -1,16 +1,16 @@
-# PULSE web
+# Big Pulse web
 
-The complete fictional-data frontend lives here. Read [the main README](../README.md), [delivery checklist](../docs/frontend-delivery.md), and [file-by-file learning guide](../docs/frontend-learning-guide.md).
+This is the Next.js app. Read the [main README](../README.md), [connected file guide](../docs/connected-app-guide.md) and [setup guide](../docs/deploy-tester.md).
 
 ```bash
 npm ci
+npm run db:local:start
+npm run db:migrate
+npm run db:seed
 npm run dev
-npm run check
-npm run typecheck
+npm run check:all
 ```
 
-Run checks in a second terminal while development runs. `npm run check` runs lint, compiles and executes 15 domain tests with Node's built-in test runner, and builds Next.js with type checking. Generated test output stays in ignored `.test-build/`.
+Configure the local database URL in ignored `.env.local` first. Google entry needs the settings in `.env.example`; never commit real values. Connected screens use authenticated APIs. `APP_MODE=demo` explicitly selects the original memory-only prototype.
 
-To preview a production build: `npm run build`, then `npm run start -- --port 3001`. Open localhost:3001. No .env file, remote account, real password, database or connector is required.
-
-The `/` route is the landing page. Feature screens live under `src/features/pulse/`; thin route files in `src/app/` compose them. `DemoProvider` preserves fictional records across client navigation. A reload ends the demo session and restores fixtures. There are no product APIs or real authentication in this delivery.
+`npm run build` creates a standalone bundle. See `Dockerfile` for a durable-volume host. A local production preview can use `npm run start -- --port 3001`; the OAuth base/callback URL must match the actual sign-in origin.

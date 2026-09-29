@@ -13,7 +13,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en">
       <body>
-        <DemoProvider>{children}</DemoProvider>
+        <DemoProvider connected={process.env.APP_MODE !== "demo"}>
+          {children}
+        </DemoProvider>
       </body>
     </html>
   );

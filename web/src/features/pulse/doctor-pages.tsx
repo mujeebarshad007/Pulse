@@ -344,7 +344,22 @@ export function DoctorProfile() {
   );
 }
 export function Availability() {
-  const { state, actor, run } = useDemo();
+  const { state, actor, run, connected } = useDemo();
+  const [upcomingDates] = useState(() =>
+    Array.from({ length: 7 }, (_, i) =>
+      new Date(Date.now() + (i + 1) * 86400000).toISOString().slice(0, 10),
+    ),
+  );
+  const dates = connected
+    ? [
+        ...new Set([
+          ...upcomingDates,
+          ...state.slots
+            .filter((s) => s.doctorId === actor?.id)
+            .map((s) => s.date),
+        ]),
+      ].sort()
+    : DEMO_DATES;
   const [removeId, setRemoveId] = useState<string | null>(null);
   const doctor = state.doctors.find((d) => d.id === actor?.id);
   const slots = state.slots.filter((s) => s.doctorId === actor?.id);
@@ -362,7 +377,7 @@ export function Availability() {
       <PageTitle
         eyebrow="MAKE SPACE FOR CARE"
         title="Availability, made clear."
-        description="Manage a sample week of 30-minute physical appointments. Times use Asia/Karachi."
+        description="Manage 30-minute test appointments. All times use Asia/Karachi."
       />
       {!doctor ? (
         <Panel>
@@ -381,9 +396,9 @@ export function Availability() {
         <>
           <Panel>
             <form className="p-availability-form" onSubmit={add}>
-              <Field id="slot-date" label="Sample date">
+              <Field id="slot-date" label="Appointment date">
                 <select id="slot-date" name="date" className="ui-input">
-                  {DEMO_DATES.map((date) => (
+                  {dates.map((date) => (
                     <option key={date} value={date}>
                       {dateLabel(date)}
                     </option>
@@ -404,19 +419,16 @@ export function Availability() {
             </form>
           </Panel>
           <div className="p-week-grid">
-            {DEMO_DATES.map((date, i) => (
+            {dates.map((date) => (
               <Panel key={date}>
                 <header>
                   <span>
-                    {
-                      ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"][
-                        i
-                      ]
-                    }
+                    {new Intl.DateTimeFormat("en-GB", {
+                      weekday: "long",
+                      timeZone: "UTC",
+                    }).format(new Date(`${date}T12:00:00Z`))}
                   </span>
-                  <h2>
-                    {5 + i} <small>Oct</small>
-                  </h2>
+                  <h2>{dateLabel(date)}</h2>
                 </header>
                 <div className="p-day-slots">
                   {slots

@@ -1,56 +1,46 @@
 # Big Pulse
 
-**Care, with clarity.** A responsive healthcare frontend with professional glass surfaces and complete, connected demo journeys.
+**Care, with clarity.** A responsive healthcare web app for testing doctor discovery, appointments, private fictional PDF reports and sourced health information.
 
-Current delivery: **frontend MVP demo**. Patient, doctor, laboratory and content workspaces share fictional records during one browser session. Real authentication, backend persistence and private medical storage are the next phase. Refreshing resets the demo.
+Connected implementation: Next.js, TypeScript, PostgreSQL and Better Auth with Google sign-in. Pakistani providers are **fictional**. Google OAuth credentials and hosting are not yet configured; this is not a live real-patient service.
 
-**Backend progress:** PostgreSQL infrastructure and internal scheduling/appointment services now exist, with database-enforced overlap protection and 14 integration tests. Account/profile/content/report persistence and frontend integration are still pending. Read [the backend checkpoint](docs/backend-foundation.md) and [the tester MVP plan](docs/tester-mvp.md) before running database commands.
+## Run locally
 
-## Run
-
-Use Node 22 (at least 22.6) and npm. From this folder:
+Use Node 22 and PostgreSQL server tools. From the repository root:
 
 ```bash
 npm run setup
+npm run db:local:start
+npm run db:migrate
+npm run db:seed
 npm run dev
 ```
 
-Open [localhost:3000](http://localhost:3000) and choose **Explore patient demo**. The **Demo controls** menu switches roles. **Follow the journey** connects the full workflows. No secrets or accounts are needed. If dependencies already exist, run only `npm run dev`.
+On a new machine, put the database URL printed by `db:local:start` in ignored `web/.env.local` before migrating. This workspace already has that local connection.
 
-## What works in the demo
+Open [localhost:3000](http://localhost:3000). The fictional directory and library work before Google is configured. Follow [Google and hosting setup](docs/deploy-tester.md) to enable sign-in and share a hosted link.
 
-- Landing page, account-entry forms, patient onboarding and profile editing.
-- Combined doctor search, details, sample availability, booking review and confirmation.
-- Doctor profile creation/editing, availability and shared appointment lifecycle.
-- Laboratory report preparation, recipient review, patient search and text report viewing.
-- Disease-information library and create/edit/draft/publish frontend.
-- Guided cross-role walkthrough, validation, empty/error/loading previews, reduced glass and responsive layouts.
+## Implemented
 
-[Delivery checklist and remaining boundaries](docs/frontend-delivery.md) · [Start learning here](docs/frontend-learning-guide.md) · [Future prompts](docs/prompt-pack.md)
+- Big Pulse branding and responsive glass UI.
+- Google authentication integration, server sessions, sign-out and owner-assigned staff roles.
+- Saved patient/doctor profiles, fictional Pakistani directory and combined search filters.
+- Saved slots and bookings, overlap protection, doctor confirmation/decline/completion.
+- Refresh after changes, on focus and every 15 seconds while visible.
+- Private PDFs up to 10 MB, exact patient-reference matching, recipient review and authorized downloads.
+- Saved sourced health-library drafts/publication.
+- Migrations, repeatable seeds, automated tests, CI and a Docker/standalone deployment recipe.
 
-## Validate
+Private files require a durable disk and one app instance. File signature checks are not malware scanning; only fictional test documents are supported. No payments, prescriptions, video consultations, diagnosis, notifications or native mobile app are included.
+
+## Validate and learn
 
 ```bash
-npm run check       # ESLint, 15 domain tests, TypeScript/production build
-npm run typecheck   # optional separate type check
-npm run test:backend # requires local PostgreSQL server tools; owns a fresh test database
+npm run check:all
+npm run db:check
+git diff --check
 ```
 
-To serve the production build locally after `npm run build`, stop the dev server and run `npm run start`. The GitHub Actions workflow runs checks; it does not deploy. CI is configured locally and has not been executed on GitHub.
+[Connected file guide and exercises](docs/connected-app-guide.md) · [Current status and limits](docs/tester-mvp.md) · [Frontend guide](docs/frontend-learning-guide.md) · [Security](SECURITY.md)
 
-## Repository map
-
-```text
-web/src/app/               URL routes and shared layouts
-web/src/features/pulse/    Product screens, demo state and rules
-web/src/components/        Reusable UI and workspace shell
-web/tests/                 Outcome-focused domain tests
-docs/requirements/        Scope and unresolved production policies
-docs/architecture/        Current and planned boundaries
-docs/frontend-*.md        Delivery report and build-then-learn guide
-.github/                  CI and PR template
-```
-
-Stack: Next.js, React, TypeScript and CSS/Tailwind. Backend infrastructure uses PostgreSQL, `pg` and `server-only`. NestJS, Redux and GSAP remain deferred. The original design comparisons are preserved at `/design-preview`; shared controls at `/design-system`.
-
-The app is locally runnable and builds for a Next.js host. No live deployment, GitHub push, real accounts, or healthcare-service launch is claimed. No license has yet been chosen. See [contributing](CONTRIBUTING.md) and [security](SECURITY.md).
+The old memory-only prototype is explicitly available with `APP_MODE=demo` before starting/building. Connected mode is the default and never accepts a browser persona as authentication. No credentials, real patient records, commits, pushes or public deployments were created in this delivery.

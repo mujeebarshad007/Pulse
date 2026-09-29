@@ -173,9 +173,8 @@ export function ArticleReader({ id }: { id: string }) {
           </p>
         </div>
         <FormNote>
-          Big Pulse’s frontend demo does not diagnose conditions or recommend
-          treatment. Contact a qualified clinician for personal medical
-          concerns.
+          Big Pulse does not diagnose conditions or recommend treatment. Contact
+          a qualified clinician for personal medical concerns.
         </FormNote>
       </Panel>
     </>
@@ -267,8 +266,8 @@ export function ContentLibrary() {
         )}
       </Panel>
       <FormNote>
-        Publishing here affects only this frontend session. Content governance,
-        clinical review and production publishing rights remain undecided.
+        Published entries appear in the health library. Edited material remains
+        marked as unreviewed and is for testing only.
       </FormNote>
     </Gate>
   );
@@ -279,7 +278,7 @@ export function ArticleEditor({ id }: { id: string }) {
   const [error, setError] = useState("");
   const original = state.articles.find((a) => a.id === id);
   const creating = id === "new";
-  function submit(e: FormEvent<HTMLFormElement>) {
+  async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const f = new FormData(e.currentTarget);
     const source = String(f.get("source"));
@@ -298,7 +297,7 @@ export function ArticleEditor({ id }: { id: string }) {
       published: f.get("published") === "on",
       edited: true,
     };
-    if (run({ type: "article", article })) router.push("/content");
+    if (await run({ type: "article", article })) router.push("/content");
   }
   return (
     <Gate role="editor">

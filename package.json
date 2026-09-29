@@ -9,14 +9,16 @@
     "typecheck": "npm --prefix web run typecheck",
     "build": "npm --prefix web run build",
     "check": "npm --prefix web run check",
-    "start": "npm --prefix web run start",
+    "start": "npm --prefix web run start --",
     "test:backend": "npm --prefix web run test:backend",
     "check:all": "npm --prefix web run check:all",
     "db:local:start": "npm --prefix web run db:local:start",
     "db:local:stop": "npm --prefix web run db:local:stop",
     "db:local:status": "npm --prefix web run db:local:status",
     "db:migrate": "npm --prefix web run db:migrate",
-    "db:check": "npm --prefix web run db:check"
+    "db:check": "npm --prefix web run db:check",
+    "db:seed": "npm --prefix web run db:seed",
+    "staff": "npm --prefix web run staff --"
   },
   "engines": {
     "node": ">=22.6.0"

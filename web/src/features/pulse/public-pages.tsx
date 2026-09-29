@@ -8,18 +8,23 @@ import { Logo, InputError } from "@/components/pulse/primitives";
 import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
 import { Icon } from "@/components/ui/icon";
+import { GoogleEntry } from "./google-entry";
 
 export function Landing() {
-  const { enter } = useDemo();
+  const { enter, connected } = useDemo();
   const router = useRouter();
   function explore() {
+    if (connected) {
+      router.push("/doctors");
+      return;
+    }
     enter("patient-jamie");
     router.push("/patient");
   }
   return (
     <div className="pulse-app p-landing">
       <div className="p-public-notice">
-        A working frontend demo · Fictional providers and records · No real
+        Big Pulse testing environment · Fictional Pakistani providers · No real
         appointments
       </div>
       <header className="p-public-nav">
@@ -30,7 +35,7 @@ export function Landing() {
           <Link href="/journey">How it connects</Link>
         </nav>
         <Link className="p-link-button" href="/login">
-          Enter demo <Icon name="arrow" size={16} />
+          {connected ? "Sign in" : "Enter demo"} <Icon name="arrow" size={16} />
         </Link>
       </header>
       <main>
@@ -52,7 +57,8 @@ export function Landing() {
             </p>
             <div className="p-hero-actions">
               <Button onClick={explore}>
-                Explore patient demo <Icon name="arrow" size={18} />
+                {connected ? "Find a doctor" : "Explore patient demo"}{" "}
+                <Icon name="arrow" size={18} />
               </Button>
               <Link className="p-link-button secondary" href="/journey">
                 Take the guided journey
@@ -77,8 +83,8 @@ export function Landing() {
                 <span className="p-demo-chip">YOUR NEXT STEP</span>
                 <Icon name="sparkle" />
               </div>
-              <div className="p-hero-avatar">MC</div>
-              <h2>Dr. Maya Chen</h2>
+              <div className="p-hero-avatar">AK</div>
+              <h2>Dr. Ayesha Khan</h2>
               <p>General medicine · Fictional provider</p>
               <div className="p-mini-week">
                 {["M", "T", "W", "T", "F"].map((d, i) => (
@@ -186,6 +192,10 @@ export function Landing() {
   );
 }
 export function AuthPage({ mode }: { mode: "login" | "register" }) {
+  const { connected } = useDemo();
+  return connected ? <GoogleEntry /> : <DemoAuthPage mode={mode} />;
+}
+function DemoAuthPage({ mode }: { mode: "login" | "register" }) {
   const { enter, register, state, notice, clearNotice } = useDemo();
   const router = useRouter();
   const [error, setError] = useState("");

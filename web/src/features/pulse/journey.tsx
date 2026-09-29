@@ -2,17 +2,66 @@
 import { useRouter } from "next/navigation";
 import { useDemo } from "./provider";
 import { PageTitle, Panel } from "@/components/pulse/primitives";
+import Link from "next/link";
 import { Icon, type IconName } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 
 export function Journey() {
+  const { connected, actor } = useDemo();
+  if (connected)
+    return (
+      <>
+        <PageTitle
+          eyebrow="BIG PULSE · TEST TOGETHER"
+          title="One journey, across real accounts."
+          description="Use separate Google accounts for the patient, doctor, laboratory and content editor. Staff roles are assigned by the owner."
+        />
+        <Panel>
+          <ol>
+            <li>
+              The patient signs in, completes My profile and requests a
+              fictional appointment.
+            </li>
+            <li>
+              The assigned doctor signs in on another device and confirms the
+              request. The patient sees the new status within 15 seconds or
+              after Refresh.
+            </li>
+            <li>
+              The patient shares their profile reference with the laboratory
+              tester. The lab uploads a fictional PDF; the patient can download
+              it privately.
+            </li>
+            <li>
+              The editor saves a sourced draft and publishes it in the health
+              library.
+            </li>
+          </ol>
+          <p>
+            Current role: {actor?.role ?? "guest"}. Changing roles requires the
+            owner’s server command; it cannot be done in the browser.
+          </p>
+          <Link href="/account" className="p-link-button">
+            Open my workspace
+          </Link>
+        </Panel>
+      </>
+    );
+  return <DemoJourney />;
+}
+function DemoJourney() {
   const { state, enter } = useDemo();
   const router = useRouter();
   const requested = state.appointments.find(
-    (a) => a.id !== "APT-1001" && a.patientId === "patient-jamie" && a.doctorId === "doctor-maya",
+    (a) =>
+      a.id !== "APT-1001" &&
+      a.patientId === "patient-jamie" &&
+      a.doctorId === "doctor-maya",
   );
   const reportAdded = state.reports.some(
-    (r) => r.patientId === "patient-jamie" && !["REP-1001", "REP-1002"].includes(r.id),
+    (r) =>
+      r.patientId === "patient-jamie" &&
+      !["REP-1001", "REP-1002"].includes(r.id),
   );
   const edited = state.articles.some((a) => a.edited && a.published);
   const journeys: {
