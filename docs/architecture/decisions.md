@@ -41,3 +41,10 @@ No current document claims authentication, PostgreSQL tables, report storage or 
 ## Frontend delivery decisions
 
 The user requested the complete glassmorphism frontend after the samples. Air now informs the full product shell; original alternatives remain under `/design-preview`. React context + a pure demo model coordinate fictional records across roles, with no browser persistence. Proposed slot, lifecycle, report and content rules are explicitly documented in [frontend delivery](../frontend-delivery.md), not silently accepted as production requirements. A guided walkthrough is an additional demo UX feature. The repository now includes root commands, CI, contribution guidance and a file-by-file learning guide. These choices do not implement the planned backend or certify real-patient use.
+
+
+## Implementation update — 2026-10-03
+
+Decision for the owner-requested Netlify delivery: retain one Next.js app; add only @netlify/blobs for persistent private report objects; use native fetch and strict structured responses for the approved directory/booking assistant. Retain the 10 MiB PDF limit through 2 MiB authenticated chunks, because Netlify buffered payload limits are lower. Source packaging excludes local secrets/state. Production business-policy gaps remain unresolved.
+
+This update supersedes conflicting earlier tester-deployment descriptions, without approving unresolved real-patient production policies. Validation and limits: [release evidence](../release-readiness.md).

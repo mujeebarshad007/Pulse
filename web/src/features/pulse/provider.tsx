@@ -96,6 +96,7 @@ export function DemoProvider({
         store.current = emptyState();
         setState(emptyState());
         setActor(null);
+        setGoogleReady(false);
         setNotice({
           kind: "error",
           text:

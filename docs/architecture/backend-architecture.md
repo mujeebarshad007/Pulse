@@ -15,3 +15,10 @@ Google accounts begin as patients. Staff grants are operator commands, not a pub
 Upload writes a random private file before inserting metadata and cleans up on an ordinary SQL failure. A process crash between those steps can leave an orphan file; automated reconciliation is not implemented. Files are not held inside long SQL transactions. Downloads check the current actor and file hash.
 
 Snapshots have explicit tester-size bounds, not full large-dataset pagination. No second NestJS service is needed. See [current scope and limits](../tester-mvp.md) and [learning guide](../connected-app-guide.md).
+
+
+## Implementation update — 2026-10-03
+
+New same-origin authenticated assistant and chunked report-upload routes use PostgreSQL-backed shared quotas. Upload pieces are staged transactionally, finalized idempotently and stored through the local/Netlify adapter. AI receives only public directory data and a user question; returned intent/IDs are validated before app-authored responses are selected.
+
+This update supersedes conflicting earlier tester-deployment descriptions, without approving unresolved real-patient production policies. Validation and limits: [release evidence](../release-readiness.md).

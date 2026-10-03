@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "@/features/pulse/pulse.css";
+import "@/features/pulse/next-ui.css";
 import { DemoProvider } from "@/features/pulse/provider";
 
 export const metadata: Metadata = {

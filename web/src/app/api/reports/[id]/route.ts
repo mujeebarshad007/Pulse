@@ -10,7 +10,15 @@ export async function GET(
   try {
     const actor = await requireActor(request.headers);
     const report = await loadReport(getDatabase(), actor, (await params).id);
-    return new Response(new Uint8Array(report.bytes), {
+    // Streaming avoids the host's buffered-response limit for 10 MB PDFs.
+    const body = new ReadableStream<Uint8Array>({
+      start(controller) {
+        for(let offset=0;offset<report.bytes.length;offset+=65536)
+          controller.enqueue(new Uint8Array(report.bytes.subarray(offset,offset+65536)));
+        controller.close();
+      },
+    });
+    return new Response(body, {
       headers: {
         ...privateHeaders,
         "Content-Type": "application/pdf",

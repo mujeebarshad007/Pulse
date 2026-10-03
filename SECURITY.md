@@ -9,3 +9,10 @@ PDF bytes stay outside public assets, with random filenames, OS permissions, int
 No real-patient launch, clinical review, compliance certification, penetration test, operational backup restore test or unlimited scalability is claimed. Retention/correction/deletion, provider verification, malware inspection, monitoring and incident response remain real-release requirements. See [current limits](docs/tester-mvp.md).
 
 Do not post secrets or private records in issues. The owner must establish a private disclosure contact before public production use.
+# Netlify and AI update — 2026-10-03
+
+Netlify deployments use a private Blobs adapter, authenticated 2 MiB upload pieces and streamed authorized downloads. File type/signature/integrity checks do not constitute malware scanning. Use trusted fictional PDFs. Local report objects are not automatically transferred to Netlify. See [deployment/storage limits](docs/netlify-deployment.md).
+
+The optional AI assistant requires a server session, explicit transmission consent and database-backed request limits. It transmits the user's question and public directory fields to OpenAI with `store:false`. It never queries private reports or patient records. Users must not put private information in questions; this is not a clinical assistant or a promise of zero provider retention. Model responses are schema-checked, doctor IDs are verified and app-authored text/links replace arbitrary model prose.
+
+See [release findings](docs/release-readiness.md), including the unresolved development dependency advisory and operational security gates. Never use the fictional tester as an accepted real-patient production service.

@@ -5,12 +5,8 @@ import { ServiceError } from "./errors.ts";
 import type { Actor, Role } from "../features/pulse/model.ts";
 
 export function authConfigured() {
-  return !!(
-    process.env.BETTER_AUTH_URL &&
-    process.env.BETTER_AUTH_SECRET &&
-    process.env.GOOGLE_CLIENT_ID &&
-    process.env.GOOGLE_CLIENT_SECRET
-  );
+  return [process.env.BETTER_AUTH_URL,process.env.BETTER_AUTH_SECRET,process.env.GOOGLE_CLIENT_ID,process.env.GOOGLE_CLIENT_SECRET]
+    .every(value=>!!value&&!value.startsWith("REPLACE")&&!value.startsWith("<"));
 }
 export function createAuth(
   pool: Database,

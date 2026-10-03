@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "release:check": "npm run backend:compile && node --conditions=react-server scripts/release-check.mjs",
     "dev": "next dev",
     "build": "next build",
     "start": "node --env-file-if-exists=.env.local scripts/start.mjs",
@@ -22,6 +23,7 @@
     "staff": "npm run backend:compile && node --env-file-if-exists=.env.local --conditions=react-server scripts/manage-app.mjs staff"
   },
   "dependencies": {
+    "@netlify/blobs": "11.1.3",
     "better-auth": "1.7.6",
     "next": "16.3.6",
     "pg": "8.23.0",
@@ -43,6 +45,6 @@
   },
   "type": "module",
   "engines": {
-    "node": ">=22.6.0"
+    "node": ">=22.12.0"
   }
 }

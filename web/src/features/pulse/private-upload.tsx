@@ -1,5 +1,5 @@
 "use client";
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { useDemo } from "./provider";
 import { Gate } from "@/components/pulse/shell";
@@ -23,10 +23,13 @@ export function PrivateUpload() {
   } | null>(null);
   const [busy, setBusy] = useState(false),
     [error, setError] = useState("");
+  const uploadSession = useRef<{ id: string; partBytes: number } | null>(null);
+  const [progress, setProgress] = useState(0);
   async function prepare(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
     setBusy(true);
+    uploadSession.current = null;
     const form = new FormData(event.currentTarget),
       file = form.get("file");
     try {
@@ -58,10 +61,48 @@ export function PrivateUpload() {
     setBusy(true);
     setError("");
     try {
-      const response = await fetch("/api/reports", {
+      const file = review.form.get("file") as File;
+      if (!uploadSession.current) {
+        const response = await fetch("/api/report-uploads", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            patientId: review.id,
+            title: String(review.form.get("title")),
+            fileName: file.name,
+            byteSize: file.size,
+          }),
+          signal: AbortSignal.timeout(15000),
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error);
+        uploadSession.current = result;
+      }
+      const session = uploadSession.current!;
+      for (
+        let start = 0, part = 0;
+        start < file.size;
+        start += session.partBytes, part++
+      ) {
+        const response = await fetch(
+          `/api/report-uploads/${session.id}?part=${part}`,
+          {
+            method: "PUT",
+            body: file.slice(start, start + session.partBytes),
+            signal: AbortSignal.timeout(30000),
+          },
+        );
+        if (!response.ok) throw new Error((await response.json()).error);
+        setProgress(
+          Math.min(
+            100,
+            Math.round(((start + session.partBytes) / file.size) * 100),
+          ),
+        );
+      }
+      const response = await fetch(`/api/report-uploads/${session.id}`, {
         method: "POST",
-        body: review.form,
-        signal: AbortSignal.timeout(60000),
+        signal: AbortSignal.timeout(45000),
       });
       const result = await response.json();
       if (!response.ok) throw new Error(result.error);
@@ -74,7 +115,6 @@ export function PrivateUpload() {
           ? error.message
           : "Upload failed. Check the report list before retrying.",
       );
-      setReview(null);
     } finally {
       setBusy(false);
     }
@@ -147,6 +187,7 @@ export function PrivateUpload() {
           this PDF.
         </p>
         <div className="p-form-actions">
+          <InputError>{error}</InputError>
           <Button
             variant="secondary"
             disabled={busy}
@@ -155,7 +196,7 @@ export function PrivateUpload() {
             Check details
           </Button>
           <Button disabled={busy} onClick={upload}>
-            {busy ? "Uploading…" : "Save private report"}
+            {busy ? `Uploading… ${progress}%` : "Save private report"}
           </Button>
         </div>
       </Modal>

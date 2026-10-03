@@ -21,27 +21,68 @@ export function Journey() {
             <h2>Account features are awaiting Google setup</h2>
             <p role="status">
               Everyone can browse doctors and the health library. Appointment,
-              report and staff workspaces need sign-in. The app owner must finish
-              Google sign-in setup before testers can use these account features.
+              report and staff workspaces need sign-in. The app owner must
+              finish Google sign-in setup before testers can use these account
+              features.
             </p>
-            <Link href="/login" className="p-text-link">View sign-in status →</Link>
+            <Link href="/login" className="p-text-link">
+              View sign-in status →
+            </Link>
           </Panel>
         )}
         <section className="p-section" aria-labelledby="workspace-list-title">
           <h2 id="workspace-list-title">Choose an experience</h2>
           <div className="p-feature-grid">
             {[
-              { title: "Doctor discovery", body: "Public access. Search fictional profiles, fees, cities and future slots.", href: "/doctors", link: "Find a doctor" },
-              { title: "Patient workspace", body: "Patient sign-in. Edit your profile, request visits, follow appointment status and access your reports.", href: "/patient", link: "Open patient workspace" },
-              { title: "Doctor workspace", body: "Doctor role required. Maintain your profile, manage availability and respond to bookings.", href: "/doctor", link: "Open doctor workspace" },
-              { title: "Laboratory workspace", body: "Laboratory role required. Match a patient reference and upload private fictional PDF reports.", href: "/laboratory", link: "Open laboratory workspace" },
-              { title: "Health library", body: "Public access. Read published entries and follow their original sources.", href: "/library", link: "Read health information" },
-              { title: "Editor workspace", body: "Editor role required. Write sourced entries, save drafts and manage publication.", href: "/content", link: "Open editor workspace" },
+              {
+                title: "Pulse assistant",
+                body: "Directory and booking guidance. Quick guides are public; AI questions require sign-in and owner configuration. No diagnosis or private report access.",
+                href: "/assistant",
+                link: "Ask Pulse",
+              },
+              {
+                title: "Doctor discovery",
+                body: "Public access. Search fictional profiles, fees, cities and future slots.",
+                href: "/doctors",
+                link: "Find a doctor",
+              },
+              {
+                title: "Patient workspace",
+                body: "Patient sign-in. Edit your profile, request visits, follow appointment status and access your reports.",
+                href: "/patient",
+                link: "Open patient workspace",
+              },
+              {
+                title: "Doctor workspace",
+                body: "Doctor role required. Maintain your profile, manage availability and respond to bookings.",
+                href: "/doctor",
+                link: "Open doctor workspace",
+              },
+              {
+                title: "Laboratory workspace",
+                body: "Laboratory role required. Match a patient reference and upload private fictional PDF reports.",
+                href: "/laboratory",
+                link: "Open laboratory workspace",
+              },
+              {
+                title: "Health library",
+                body: "Public access. Read published entries and follow their original sources.",
+                href: "/library",
+                link: "Read health information",
+              },
+              {
+                title: "Editor workspace",
+                body: "Editor role required. Write sourced entries, save drafts and manage publication.",
+                href: "/content",
+                link: "Open editor workspace",
+              },
             ].map((feature) => (
               <Panel key={feature.href}>
                 <h3>{feature.title}</h3>
                 <p>{feature.body}</p>
-                <Link href={feature.href} className="p-text-link">{feature.link} →</Link>
+                <Link href={feature.href} className="p-text-link">
+                  {feature.link} →
+                </Link>
               </Panel>
             ))}
           </div>

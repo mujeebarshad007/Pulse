@@ -1,4 +1,4 @@
-import { Landing } from "@/features/pulse/public-pages";
+import { Landing } from "@/features/pulse/landing";
 export default function Page() {
   return <Landing />;
 }

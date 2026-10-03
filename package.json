@@ -2,6 +2,8 @@
   "name": "pulse",
   "private": true,
   "scripts": {
+    "package:netlify": "node scripts/package-netlify.mjs",
+    "release:check": "npm --prefix web run release:check",
     "setup": "npm --prefix web ci",
     "dev": "npm --prefix web run dev",
     "lint": "npm --prefix web run lint",
@@ -21,6 +23,6 @@
     "staff": "npm --prefix web run staff --"
   },
   "engines": {
-    "node": ">=22.6.0"
+    "node": ">=22.12.0"
   }
 }

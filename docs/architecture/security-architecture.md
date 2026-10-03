@@ -11,3 +11,10 @@ PDFs are limited to 10 MB, extension/signature checked, stored using random UUID
 Remote production PostgreSQL requires verified TLS; local OS-private Unix sockets are permitted. Auth uses secure cookies on HTTPS, bounded sessions and database-backed auth rate limits. Account tokens use the authentication library's encryption option. The reverse proxy must correctly sanitize forwarded client-IP headers and bound request size/rate; general distributed API rate limiting is not implemented.
 
 Retained-data deletion/correction, real provider verification, clinical governance, malware scanning, operational recovery and privacy-release review remain future real-patient requirements. No compliance or penetration-test claim is made. See [SECURITY.md](../../SECURITY.md) and [tester limits](../tester-mvp.md).
+
+
+## Implementation update — 2026-10-03
+
+The AI scope excludes clinical advice and private record access. Explicit consent precedes external question transmission. Private report downloads authenticate ownership before storage access; Netlify objects have no public app URL. Chunked uploads share lab quotas with the retained legacy multipart endpoint. Provider secrets remain server-only. See ../../SECURITY.md and ../release-readiness.md for remaining gates.
+
+This update supersedes conflicting earlier tester-deployment descriptions, without approving unresolved real-patient production policies. Validation and limits: [release evidence](../release-readiness.md).

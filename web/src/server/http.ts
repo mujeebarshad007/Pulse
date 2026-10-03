@@ -12,6 +12,7 @@ export function failure(error: unknown) {
   const status = {
     INVALID_INPUT: 400,
     UNAUTHENTICATED: 401,
+    RATE_LIMITED: 429,
     FORBIDDEN: 403,
     NOT_FOUND: 404,
     CONFLICT: 409,
@@ -20,7 +21,9 @@ export function failure(error: unknown) {
   }[safe.code];
   if (status >= 500)
     console.error(JSON.stringify({ event: "request_failed", code: safe.code }));
-  return json({ error: safe.message }, status);
+  const response = json({ error: safe.message }, status);
+  if (status === 429) response.headers.set("Retry-After", "60");
+  return response;
 }
 export function sameOrigin(request: Request) {
   const expected = process.env.BETTER_AUTH_URL;

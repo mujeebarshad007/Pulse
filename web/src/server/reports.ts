@@ -13,6 +13,7 @@ import os from "node:os";
 import type { Actor } from "../features/pulse/model.ts";
 import type { Database } from "./database.ts";
 import { ServiceError, safely } from "./errors.ts";
+import { reportBlobs } from "./blob-storage.ts";
 
 export const MAX_REPORT_BYTES = 10 * 1024 * 1024;
 export async function storageRoot(directory = process.env.PRIVATE_STORAGE_DIR) {
@@ -55,7 +56,7 @@ export async function storageRoot(directory = process.env.PRIVATE_STORAGE_DIR) {
   return resolved;
 }
 export async function saveReport(
-  pool: Database,
+  pool: Pick<Database, "query">,
   actor: Actor,
   data: { patientId: string; title: string; fileName: string; bytes: Buffer },
   directory?: string,
@@ -90,14 +91,17 @@ export async function saveReport(
   ]);
   if (!patient.rowCount)
     throw new ServiceError("NOT_FOUND", "Patient reference not found.");
-  const id = randomUUID(),
-    root = await storageRoot(directory),
-    file = path.join(root, id + ".pdf");
-  await writeFile(file, bytes, { mode: 0o600, flag: "wx" });
+  const driver = directory ? "local" : (process.env.REPORT_STORAGE ?? (process.env.NETLIFY ? "netlify" : "local"));
+  if (!["local", "netlify"].includes(driver) || (process.env.NETLIFY && driver === "local"))
+    throw new ServiceError("DEPENDENCY_UNAVAILABLE", "Durable private report storage is not configured.");
+  const id = randomUUID();
+  const file = driver === "local" ? path.join(await storageRoot(directory), id + ".pdf") : null;
+  if (file) await writeFile(file, bytes, { mode: 0o600, flag: "wx" });
+  else await reportBlobs().set(id, new Uint8Array(bytes).buffer);
   try {
     await safely(() =>
       pool.query(
-        `INSERT INTO pulse.reports(id,patient_id,lab_id,title,file_name,byte_size,sha256) VALUES($1,$2,$3,$4,$5,$6,$7)`,
+        `INSERT INTO pulse.reports(id,patient_id,lab_id,title,file_name,byte_size,sha256,storage_driver) VALUES($1,$2,$3,$4,$5,$6,$7,$8)`,
         [
           id,
           patientId,
@@ -106,11 +110,12 @@ export async function saveReport(
           data.fileName.replace(/[^a-zA-Z0-9._-]/g, "-"),
           bytes.length,
           createHash("sha256").update(bytes).digest("hex"),
+          driver,
         ],
       ),
     );
   } catch (error) {
-    await unlink(file).catch(() =>
+    await (file ? unlink(file) : reportBlobs().delete(id)).catch(() =>
       console.error(JSON.stringify({ event: "report_cleanup_failed" })),
     );
     throw error;
@@ -125,15 +130,19 @@ export async function loadReport(
 ) {
   if (!/^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/i.test(id))
     throw new ServiceError("NOT_FOUND", "Report not found.");
-  const result = await pool.query<{ file_name: string; sha256: string }>(
-    `SELECT file_name,sha256 FROM pulse.reports
+  const result = await pool.query<{ file_name: string; sha256: string; storage_driver: string }>(
+    `SELECT file_name,sha256,storage_driver FROM pulse.reports
     WHERE id=$1 AND (($3='patient' AND patient_id=$2) OR ($3='lab' AND lab_id=$2))`,
     [id, actor.id, actor.role],
   );
   if (!result.rows[0]) throw new ServiceError("NOT_FOUND", "Report not found.");
   let bytes: Buffer;
   try {
-    bytes = await readFile(
+    if (result.rows[0].storage_driver === "netlify") {
+      const stored = await reportBlobs().get(id, { type: "arrayBuffer" });
+      if (!stored) throw new Error("Missing private object");
+      bytes = Buffer.from(stored);
+    } else bytes = await readFile(
       /* turbopackIgnore: true */ path.join(
         await storageRoot(directory),
         id + ".pdf",

@@ -44,4 +44,5 @@ next-env.d.ts
 .test-build/
 .backend-build/
 .local/
+.netlify/
 !.env.example

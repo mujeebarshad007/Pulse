@@ -9,3 +9,10 @@ Implemented journeys match the [MVP freeze](../requirements/MVP-freeze.md): phys
 The existing memory-only prototype is explicitly selectable with `APP_MODE=demo`. It is not authentication. Connected mode is the default.
 
 This release targets fictional-data testers, one app instance and a durable disk. Real Google consent, hosting, browser acceptance and operational recovery remain external/release work. No native mobile app, clinical production acceptance or unlimited scale is claimed. See [delivery status](../tester-mvp.md), [setup](../deploy-tester.md) and [file guide](../connected-app-guide.md).
+
+
+## Implementation update — 2026-10-03
+
+Netlify hosts the same single Next.js app using its adapter. PostgreSQL remains the source of truth. Netlify Blobs is an additional private report-storage adapter; there is no separate NestJS service. The bounded assistant calls OpenAI only from server code.
+
+This update supersedes conflicting earlier tester-deployment descriptions, without approving unresolved real-patient production policies. Validation and limits: [release evidence](../release-readiness.md).

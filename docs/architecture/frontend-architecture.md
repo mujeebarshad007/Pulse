@@ -9,3 +9,10 @@ GoogleEntry uses the Better Auth client and explains missing OAuth setup. Gate i
 PrivateUpload sends a bounded PDF after exact-reference lookup and recipient review. Reports download through an authenticated endpoint. Calendar labels derive actual dates; Asia/Karachi times and PKR sample fees remain explicit.
 
 The interface is responsive web, not a native mobile app. The browser tool blocked local validation, so keyboard/narrow-screen/live OAuth acceptance remains pending. Read [the connected file guide](../connected-app-guide.md) and [current validation](../tester-mvp.md).
+
+
+## Implementation update — 2026-10-03
+
+The new landing.tsx and next-ui.css implement the refreshed cream/sage glass design with CSS motion and reduced-motion/transparency fallbacks. The assistant page holds conversation state in memory, labels quick guides separately, and sends consented questions to /api/assistant. No Redux or animation dependency was added.
+
+This update supersedes conflicting earlier tester-deployment descriptions, without approving unresolved real-patient production policies. Validation and limits: [release evidence](../release-readiness.md).

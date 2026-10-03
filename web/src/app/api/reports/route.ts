@@ -1,5 +1,6 @@
 import { requireActor } from "@/server/auth";
-import { getDatabase } from "@/server/database";
+import { getDatabase, transaction } from "@/server/database";
+import { takeLimit } from "@/server/rate-limit";
 import { saveReport, MAX_REPORT_BYTES } from "@/server/reports";
 import { boundedBody, failure, json, sameOrigin } from "@/server/http";
 import { ServiceError } from "@/server/errors";
@@ -13,6 +14,10 @@ export async function POST(request: Request) {
         "FORBIDDEN",
         "Only laboratory accounts can upload reports.",
       );
+    // Legacy multipart clients share the same budget as the chunked uploader.
+    await transaction(getDatabase(), (client) =>
+      takeLimit(client, `upload:${actor.id}`, 20, 3600),
+    );
     const body = await boundedBody(request, MAX_REPORT_BYTES + 65536);
     const form = await new Response(new Uint8Array(body), {
       headers: { "Content-Type": request.headers.get("content-type") ?? "" },

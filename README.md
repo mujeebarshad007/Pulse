@@ -2,7 +2,7 @@
 
 **Care, with clarity.** A responsive healthcare web app for testing doctor discovery, appointments, private fictional PDF reports and sourced health information.
 
-Connected implementation: Next.js, TypeScript, PostgreSQL and Better Auth with Google sign-in. Pakistani providers are **fictional**. Google OAuth credentials and hosting are not yet configured; this is not a live real-patient service.
+Connected implementation: Next.js, TypeScript, PostgreSQL and Better Auth with Google sign-in. Pakistani providers are **fictional**. Google settings are present locally but live OAuth and hosted deployment are unverified; this is not a live real-patient service.
 
 ## Run locally
 
@@ -31,7 +31,17 @@ Open [localhost:3000](http://localhost:3000). The fictional directory and librar
 - Saved sourced health-library drafts/publication.
 - Migrations, repeatable seeds, automated tests, CI and a Docker/standalone deployment recipe.
 
-Private files require a durable disk and one app instance. File signature checks are not malware scanning; only fictional test documents are supported. No payments, prescriptions, video consultations, diagnosis, notifications or native mobile app are included.
+The refreshed homepage and workspaces use glass surfaces, restrained animation and reduced-motion fallbacks. `/assistant` supplies public quick guides and an authenticated OpenAI directory/booking integration, with explicit consent and shared request limits. AI requires owner configuration; it does not diagnose or access private records.
+
+For Netlify, private reports use authenticated chunked uploads and a Netlify Blobs adapter. Local/standalone storage still requires a durable disk. File signature checks are not malware scanning; only fictional test documents are supported. Payments, prescriptions, video consultations, messaging, notifications and native mobile apps remain outside the implemented tester.
+
+## Netlify source package
+
+```bash
+npm run package:netlify
+```
+
+This produces a clean `artifacts/pulse-netlify-*` source folder with `netlify.toml`. A server-backed Next.js app needs a Netlify build, hosted PostgreSQL and private Google/AI configuration; it is not a static drag-and-drop export. Follow [Netlify setup and sharing](docs/netlify-deployment.md), [this delivery's file guide](docs/netlify-learning-guide.md) and [release evidence](docs/release-readiness.md). No live service has been deployed.
 
 ## Validate and learn
 

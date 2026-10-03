@@ -221,12 +221,12 @@ export function PatientDashboard() {
     </Gate>
   );
 }
-export function Directory() {
+export function Directory({ initialFilters = {} }: {initialFilters?:{query?:string;city?:string;specialty?:string}}) {
   const { state } = useDemo();
   const [filters, setFilters] = useState({
-    query: "",
-    specialty: "",
-    city: "",
+    query: initialFilters.query ?? "",
+    specialty: initialFilters.specialty ?? "",
+    city: initialFilters.city ?? "",
     symptom: "",
   });
   const [sort, setSort] = useState("name");

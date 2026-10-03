@@ -7,6 +7,7 @@ export type ErrorCode =
   | "DEPENDENCY_UNAVAILABLE"
   | "INTERNAL_ERROR"
   | "UNAUTHENTICATED"
+  | "RATE_LIMITED"
   | "FORBIDDEN";
 export class ServiceError extends Error {
   constructor(
