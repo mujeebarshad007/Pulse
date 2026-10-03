@@ -46,3 +46,8 @@ No Redux, animation runtime or AI SDK was necessary for these paths. React state
 Run `npm run check:all`. Open `/assistant`, activate “How do I book a visit?” using Tab/Enter, and explain why this works with no AI key. Then find the exact server check preventing an anonymous caller from sending an AI request. Follow the test that removes an invented doctor ID from a mocked provider result.
 
 Next, change only one quick-guide sentence and its explanation. Verify the screen, run `npm run check`, and explain which files did **not** need to change. Finally, inspect the upload retry test: explain why the same part is accepted twice but different bytes with the same part number are rejected. Understanding those boundaries is more valuable than memorizing each line.
+
+
+## Login recovery update
+
+For the subsequent Google-login repair, see [login recovery](login-recovery.md): it explains configuration validation, callback messages, session boundaries, retry behavior and the added tests.

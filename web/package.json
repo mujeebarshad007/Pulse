@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "auth:check": "npm run backend:compile && node scripts/auth-check.mjs",
     "release:check": "npm run backend:compile && node --conditions=react-server scripts/release-check.mjs",
     "dev": "next dev",
     "build": "next build",

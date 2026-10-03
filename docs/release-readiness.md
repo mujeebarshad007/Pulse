@@ -15,6 +15,10 @@ Updated 2026-10-03. Deliverable: connected fictional-data tester plus Netlify so
 
 ## Recorded automated evidence
 
+**Latest repair supersedes earlier Google readiness assumptions:** `GOOGLE_CLIENT_SECRET` contains placeholder text. `auth:check` now detects it; `release:check` stops for `GOOGLE_CLIENT_SECRET`, `OPENAI_API_KEY` and `OPENAI_MODEL`. No credential values were printed or changed. Port 3000 is the configured OAuth origin; the second local development server on port 3001 is not an authorized substitute.
+
+After the repair, `npm run check:all` passed lint, optimized build, 16 frontend/domain tests and 33 backend tests (49 total). Added tests verify placeholder/URL rejection, local production OAuth cookie attributes, callback error routing and safe error messages. They do not prove a live Google token exchange. See [recovery steps](login-recovery.md).
+
 `npm run check:all` passed: ESLint, TypeScript/optimized Next.js build, 15 frontend domain tests and 31 PostgreSQL/backend tests (46 total). New tests cover concurrent shared limits, 10 MiB chunk assembly, retry conflicts, upload ownership/expiry, local Netlify Blobs emulator storage and mocked AI configuration/consent/provider failures. They do not contact Google or OpenAI, and the emulator does not prove Netlify's hosted adapter behavior.
 
 Local migration `0005_netlify_uploads_and_limits.sql` and repeatable fictional seed passed. The root release check currently fails because OPENAI_API_KEY and OPENAI_MODEL are absent. Google variables are present locally, but their validity and a hosted HTTPS callback remain unverified; do not fill those fields with fake credentials to make a check green.

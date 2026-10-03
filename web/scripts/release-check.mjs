@@ -1,4 +1,5 @@
 import { loadEnvFile } from "node:process";
+import { configuredValue } from "../.backend-build/src/server/configuration.js";
 import {
   createDatabase,
   databaseConfig,
@@ -19,8 +20,7 @@ for (const name of [
   "OPENAI_MODEL",
 ]) {
   const value = process.env[name];
-  if (!value || value.includes("REPLACE") || value.startsWith("<"))
-    missing.push(name);
+  if (!configuredValue(value)) missing.push(name);
 }
 if (missing.length) {
   console.error(`Configure privately before release: ${missing.join(", ")}`);
@@ -30,7 +30,21 @@ if (process.env.BETTER_AUTH_SECRET.length < 32) {
   console.error("BETTER_AUTH_SECRET must have at least 32 random characters.");
   process.exit(1);
 }
-if (new URL(process.env.BETTER_AUTH_URL).protocol !== "https:") {
+let authURL;
+try {
+  authURL = new URL(process.env.BETTER_AUTH_URL);
+} catch {
+  console.error("BETTER_AUTH_URL must be a valid HTTPS origin.");
+  process.exit(1);
+}
+if (
+  authURL.protocol !== "https:" ||
+  authURL.username ||
+  authURL.password ||
+  authURL.pathname !== "/" ||
+  authURL.search ||
+  authURL.hash
+) {
   console.error("The hosted authentication origin must use HTTPS.");
   process.exit(1);
 }

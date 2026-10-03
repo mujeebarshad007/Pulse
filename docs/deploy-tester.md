@@ -17,6 +17,8 @@ Open `http://localhost:3000`. New machines first run `npm run setup` and put the
 
 ## 2. Configure Google once
 
+Run `npm run auth:check` before testing. A placeholder client secret was found during the latest investigation; see [login recovery](login-recovery.md) if Google returns to login. Passing this check validates syntax, not Google's acceptance of the credentials.
+
 1. Open [Google Cloud Console](https://console.cloud.google.com/) in your own account and create/select a project for Pulse.
 2. Configure Google Auth Platform branding/audience. Use the app name Pulse, your real owner/support contact, and testing mode with your intended tester Google accounts where required.
 3. Create an OAuth client of type **Web application**. Add the exact local callback: `http://localhost:3000/api/auth/callback/google`.

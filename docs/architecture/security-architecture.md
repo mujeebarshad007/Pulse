@@ -18,3 +18,8 @@ Retained-data deletion/correction, real provider verification, clinical governan
 The AI scope excludes clinical advice and private record access. Explicit consent precedes external question transmission. Private report downloads authenticate ownership before storage access; Netlify objects have no public app URL. Chunked uploads share lab quotas with the retained legacy multipart endpoint. Provider secrets remain server-only. See ../../SECURITY.md and ../release-readiness.md for remaining gates.
 
 This update supersedes conflicting earlier tester-deployment descriptions, without approving unresolved real-patient production policies. Validation and limits: [release evidence](../release-readiness.md).
+
+
+## Login recovery update
+
+Google/AI readiness now rejects placeholder credentials. OAuth failures return to /login with allowlisted app-authored feedback. Library auth logs retain category/level only; raw provider arguments are excluded. The private auth:check command outputs variable names only.

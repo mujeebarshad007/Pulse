@@ -189,7 +189,7 @@ test("shared request limits enforce concurrent capacity and reset expired window
   await transaction(pool, (client) => takeLimit(client, key, 3, 60));
 });
 const env = {
-  OPENAI_API_KEY: "test-placeholder-never-a-real-key",
+  OPENAI_API_KEY: "fictional-unit-test-key-never-sent",
   OPENAI_MODEL: "test-model",
   AI_DAILY_REQUEST_LIMIT: "10000",
 };

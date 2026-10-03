@@ -7,8 +7,12 @@ import { homeFor } from "./model";
 import { Logo, InputError } from "@/components/pulse/primitives";
 import { Button } from "@/components/ui/button";
 
-export function GoogleEntry() {
-  const { actor, googleReady, loading } = useDemo();
+export function GoogleEntry({
+  callbackError = "",
+}: {
+  callbackError?: string;
+}) {
+  const { actor, googleReady, loading, connectionError, refresh } = useDemo();
   const [error, setError] = useState(""),
     [pending, setPending] = useState(false);
   async function signIn() {
@@ -18,6 +22,7 @@ export function GoogleEntry() {
       const result = await authClient.signIn.social({
         provider: "google",
         callbackURL: "/account",
+        errorCallbackURL: "/login",
       });
       if (result.error) throw new Error(result.error.message);
     } catch {
@@ -70,14 +75,20 @@ export function GoogleEntry() {
           )}
           {!loading && !googleReady && (
             <p role="status" className="p-form-note">
-              Google sign-in is awaiting owner setup. You can browse the
-              fictional directory now.
+              Google sign-in configuration is incomplete or unavailable. The
+              owner must check the Google client ID, client secret and callback
+              address. You can browse the fictional directory now.
             </p>
           )}
-          <InputError>{error}</InputError>
+          <InputError>{error || callbackError || connectionError}</InputError>
+          {connectionError && (
+            <Button variant="secondary" onClick={() => void refresh()}>
+              Retry connection
+            </Button>
+          )}
           <p className="p-auth-disclaimer">
-            Google handles your password. Pulse requests your basic account
-            name and email to identify your account.
+            Google handles your password. Pulse requests your basic account name
+            and email to identify your account.
           </p>
           <Link className="p-text-link" href="/doctors">
             Browse fictional providers →

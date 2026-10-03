@@ -4,6 +4,7 @@ import type { Actor } from "../features/pulse/model.ts";
 import { transaction, type Database } from "./database.ts";
 import { ServiceError } from "./errors.ts";
 import { takeLimit } from "./rate-limit.ts";
+import { configuredValue } from "./configuration.ts";
 
 const inputSchema = z
   .object({
@@ -38,10 +39,8 @@ export type AssistantReply = {
 export function assistantConfigured(
   env: Readonly<Record<string, string | undefined>> = process.env,
 ) {
-  return !!(
-    env.OPENAI_API_KEY &&
-    env.OPENAI_MODEL &&
-    !env.OPENAI_API_KEY.startsWith("REPLACE")
+  return (
+    configuredValue(env.OPENAI_API_KEY) && configuredValue(env.OPENAI_MODEL)
   );
 }
 export async function askAssistant(

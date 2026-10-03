@@ -16,3 +16,8 @@ The interface is responsive web, not a native mobile app. The browser tool block
 The new landing.tsx and next-ui.css implement the refreshed cream/sage glass design with CSS motion and reduced-motion/transparency fallbacks. The assistant page holds conversation state in memory, labels quick guides separately, and sends consented questions to /api/assistant. No Redux or animation dependency was added.
 
 This update supersedes conflicting earlier tester-deployment descriptions, without approving unresolved real-patient production policies. Validation and limits: [release evidence](../release-readiness.md).
+
+
+## Login recovery update
+
+The account landing screen now distinguishes workspace connection failure from a missing session. Connection failures show Retry; missing sessions reach login with an explanation. Provider errors are never reflected directly from query parameters.

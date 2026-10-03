@@ -2,6 +2,7 @@
   "name": "pulse",
   "private": true,
   "scripts": {
+    "auth:check": "npm --prefix web run auth:check",
     "package:netlify": "node scripts/package-netlify.mjs",
     "release:check": "npm --prefix web run release:check",
     "setup": "npm --prefix web ci",

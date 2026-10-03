@@ -43,6 +43,7 @@ type DemoContext = {
   loading: boolean;
   busy: boolean;
   googleReady: boolean;
+  connectionError: string;
   refresh: () => Promise<void>;
   enter: (id: string) => void;
   leave: () => Promise<boolean>;
@@ -75,6 +76,7 @@ export function DemoProvider({
   const writing = useRef(false),
     revision = useRef(0);
   const [googleReady, setGoogleReady] = useState(false);
+  const [connectionError, setConnectionError] = useState("");
   const refresh = useCallback(async () => {
     if (!connected) return;
     const request = ++revision.current;
@@ -91,12 +93,18 @@ export function DemoProvider({
       setState(payload.state);
       setActor(payload.actor);
       setGoogleReady(payload.googleReady);
+      setConnectionError("");
     } catch (error) {
       if (request === revision.current) {
         store.current = emptyState();
         setState(emptyState());
         setActor(null);
         setGoogleReady(false);
+        setConnectionError(
+          error instanceof Error
+            ? error.message
+            : "The workspace could not be loaded. Retry the connection.",
+        );
         setNotice({
           kind: "error",
           text:
@@ -232,6 +240,7 @@ export function DemoProvider({
         loading,
         busy,
         googleReady,
+        connectionError,
         refresh,
         enter,
         run,

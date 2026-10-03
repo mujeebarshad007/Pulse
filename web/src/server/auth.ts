@@ -3,10 +3,10 @@ import { betterAuth } from "better-auth";
 import { getDatabase, type Database } from "./database.ts";
 import { ServiceError } from "./errors.ts";
 import type { Actor, Role } from "../features/pulse/model.ts";
+import { googleConfiguration } from "./configuration.ts";
 
 export function authConfigured() {
-  return [process.env.BETTER_AUTH_URL,process.env.BETTER_AUTH_SECRET,process.env.GOOGLE_CLIENT_ID,process.env.GOOGLE_CLIENT_SECRET]
-    .every(value=>!!value&&!value.startsWith("REPLACE")&&!value.startsWith("<"));
+  return googleConfiguration(process.env).ready;
 }
 export function createAuth(
   pool: Database,
@@ -31,6 +31,14 @@ export function createAuth(
     secret: env.BETTER_AUTH_SECRET,
     database: pool,
     trustedOrigins: [url.origin],
+    onAPIError: { errorURL: `${url.origin}/login` },
+    // Provider/library arguments can contain codes, tokens or SQL values.
+    logger: {
+      level: "warn",
+      log(level) {
+        console.error(JSON.stringify({ event: "authentication_diagnostic", level }));
+      },
+    },
     user: { modelName: "pulse_auth_user" },
     session: {
       modelName: "pulse_auth_session",

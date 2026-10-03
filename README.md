@@ -6,6 +6,8 @@ Connected implementation: Next.js, TypeScript, PostgreSQL and Better Auth with G
 
 ## Run locally
 
+Google returning to login? Start with [login recovery](docs/login-recovery.md) and `npm run auth:check`. The local Google client secret was found to contain placeholder text; a real secret must be entered privately before login can complete.
+
 Use Node 22 and PostgreSQL server tools. From the repository root:
 
 ```bash

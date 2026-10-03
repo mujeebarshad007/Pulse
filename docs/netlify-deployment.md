@@ -51,6 +51,7 @@ npm run setup
 npm run db:migrate
 npm run db:seed
 npm run db:check
+npm run auth:check
 npm run release:check
 ```
 

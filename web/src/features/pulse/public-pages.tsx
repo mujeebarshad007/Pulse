@@ -10,9 +10,9 @@ import { Field } from "@/components/ui/field";
 import { Icon } from "@/components/ui/icon";
 import { GoogleEntry } from "./google-entry";
 
-export function AuthPage({ mode }: { mode: "login" | "register" }) {
+export function AuthPage({ mode, callbackError = "" }: { mode: "login" | "register"; callbackError?: string }) {
   const { connected } = useDemo();
-  return connected ? <GoogleEntry /> : <DemoAuthPage mode={mode} />;
+  return connected ? <GoogleEntry callbackError={callbackError} /> : <DemoAuthPage mode={mode} />;
 }
 function DemoAuthPage({ mode }: { mode: "login" | "register" }) {
   const { enter, register, state, notice, clearNotice } = useDemo();

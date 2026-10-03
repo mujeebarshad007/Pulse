@@ -4,6 +4,8 @@ Updated: 2026-10-03. Scope: a deployable responsive web app with fictional Pakis
 
 ## Recorded direction
 
+**Latest login finding:** the Google client secret is a placeholder, despite all variable names being present. Live sign-in is blocked until the owner replaces it privately. Read [login recovery](login-recovery.md). Readiness checks now catch this; OAuth failures have safe explanations and workspace connection errors offer Retry instead of silently returning to login.
+
 The owner requested Pulse branding, Google signup and explicitly fictional Pakistani profiles for first testing. The previously delegated booking lifecycle remains Requested → Confirmed/Declined; Confirmed → Completed, with one patient per slot and no overlapping non-declined visits.
 
 Implementation defaults explained before work: Google users start as patients; the owner grants one staff role per account; doctors manage their own profiles/slots; PDFs are at most 10 MB and available only to the patient and uploading lab. These are tester implementation defaults, not clinical production policies.
