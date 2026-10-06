@@ -301,7 +301,7 @@ export function availableSlots(state: DemoState, doctorId: string) {
 }
 export function findDoctors(
   doctors: Doctor[],
-  filters: { query: string; specialty: string; city: string; symptom: string },
+  filters: { query: string; specialty: string; city: string; symptom: string; minFee?: number; maxFee?: number },
 ) {
   const query = filters.query.trim().toLocaleLowerCase();
   return doctors.filter(
@@ -312,6 +312,8 @@ export function findDoctors(
           .includes(query)) &&
       (!filters.specialty || d.specialty === filters.specialty) &&
       (!filters.city || d.city === filters.city) &&
+      (filters.minFee === undefined || d.fee >= filters.minFee) &&
+      (filters.maxFee === undefined || d.fee <= filters.maxFee) &&
       (!filters.symptom || d.symptoms.includes(filters.symptom)),
   );
 }

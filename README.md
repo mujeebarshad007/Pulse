@@ -24,6 +24,11 @@ Open [localhost:3000](http://localhost:3000). The fictional directory and librar
 
 ## Implemented
 
+- Lab-test search and lab-managed visits: requests, confirmation/decline, cancellation, expiry, completion, saved prices and private report links.
+- Sourced condition education (high blood pressure and atopic eczema), with clinician navigation. No diagnosis or test recommendations.
+
+See [lab and education delivery/learning guide](docs/labs-and-education-guide.md).
+
 - Pulse branding and responsive glass UI.
 - Google authentication integration, server sessions, sign-out and owner-assigned staff roles.
 - Saved patient/doctor profiles, fictional Pakistani directory and combined search filters.
@@ -33,7 +38,7 @@ Open [localhost:3000](http://localhost:3000). The fictional directory and librar
 - Saved sourced health-library drafts/publication.
 - Migrations, repeatable seeds, automated tests, CI and a Docker/standalone deployment recipe.
 
-The refreshed homepage and workspaces use glass surfaces, restrained animation and reduced-motion fallbacks. `/assistant` supplies public quick guides and an authenticated OpenAI directory/booking integration, with explicit consent and shared request limits. AI requires owner configuration; it does not diagnose or access private records.
+The refreshed homepage and workspaces use glass surfaces, restrained animation and reduced-motion fallbacks. `/assistant` supplies public quick guides and an authenticated OpenAI directory, booking and bounded condition-education integration, with explicit consent and shared request limits. AI requires owner configuration; it does not diagnose or access private records.
 
 For Netlify, private reports use authenticated chunked uploads and a Netlify Blobs adapter. Local/standalone storage still requires a durable disk. File signature checks are not malware scanning; only fictional test documents are supported. Payments, prescriptions, video consultations, messaging, notifications and native mobile apps remain outside the implemented tester.
 

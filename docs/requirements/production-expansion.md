@@ -25,14 +25,14 @@ Reference: [Oladoc public home page](https://oladoc.com/), inspected during this
 | Phone login/OTP | Oladoc publicly exposes phone authentication; Pulse uses Google integration | [NEEDS CLARIFICATION] Required login methods, SMS provider, recovery and abuse limits; provider credentials and cost |
 | Cancellation/rescheduling | Not implemented | [NEEDS CLARIFICATION] Eligibility, time cutoff, doctor changes, refunds, race conditions and notifications; do not copy a competitor's policy automatically |
 | Video consultations | Publicly advertised by Oladoc; Pulse CONS-001 deferred | [NEEDS CLARIFICATION] Provider, participant access, consent, recording policy, no-show rules and connection failures |
-| Lab catalog, booking and home collection | Publicly advertised by Oladoc; Pulse LAB-001–002 deferred | [NEEDS CLARIFICATION] Participating labs, catalog/price ownership, capacity, collection geography, booking lifecycle and cancellation |
+| Lab catalog and booking | Implemented under owner-approved LABPOL-001–010 | Real lab onboarding and controlled catalog/preparation content remain required. Home collection is excluded. |
 | Payments | Pulse PAY-001 deferred | [NEEDS CLARIFICATION] Gateway, merchant account, charge timing, refunds, reconciliation and failed/duplicate webhook outcomes |
 | Electronic prescriptions | Pulse RX-001–002 deferred | [NEEDS CLARIFICATION] Verified clinician authority, required content, signing, corrections, patient access and operational review |
 | Doctor access to broader history | Pulse HIST-001 deferred | [NEEDS CLARIFICATION] Patient consent, record scope, expiration, revocation and audit |
 | Medicine information, procedures, hospital services and wellness | Advertised on Oladoc; not specified in Pulse's frozen release | [NEEDS CLARIFICATION] Which complete journeys belong in Pulse, authoritative content/data and service operators |
 | Notifications | Not implemented; Pulse currently refreshes visible workspaces every 15 seconds | [NEEDS CLARIFICATION] Events, channels, preferences, delivery retries and providers |
 | Patient–doctor messaging | Newly requested | EXP-MSG-001 below; participant/lifecycle/retention decisions pending |
-| AI assistant | Approved bounded scope; implemented integration and quick guides | EXP-AI-001; owner provider configuration and live validation pending |
+| AI assistant | Directory/booking help plus approved named-condition education (EXP-AI-002) | Initial sourced coverage is hypertension and atopic eczema; provider configuration and live validation pending |
 
 ## New requirement placeholders
 
@@ -69,3 +69,8 @@ The owner can change priorities; this sequence is a proposed implementation orde
 Run `npm run check` from the repository root. For backend changes also run `npm run test:backend`. UI validation: follow Features & workspaces as a guest, check that protected links show sign-in, and confirm that a staff link never grants that role. Repeat at a narrow viewport and using Tab/Enter.
 
 Learning exercise: follow a workspace link from `public-pages.tsx` or `journey.tsx` into `Gate` in `shell.tsx`, then locate the independent server authorization. Explain why a visible link and permission to access data are different.
+
+
+## EXP-AI-002 — approved 2026-10-06
+
+Owner approved condition education and clinician navigation, without diagnosis, prescriptions or test recommendations. The implementation uses a bounded sourced knowledge set and requires an explicitly named condition; unknown topics receive clarification and library/directory links. It never accesses private reports. Consent explicitly discloses transmission of a condition name if entered in an AI question. See [delivery guide](../labs-and-education-guide.md).

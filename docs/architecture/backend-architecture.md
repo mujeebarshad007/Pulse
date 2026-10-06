@@ -22,3 +22,8 @@ Snapshots have explicit tester-size bounds, not full large-dataset pagination. N
 New same-origin authenticated assistant and chunked report-upload routes use PostgreSQL-backed shared quotas. Upload pieces are staged transactionally, finalized idempotently and stored through the local/Netlify adapter. AI receives only public directory data and a user question; returned intent/IDs are validated before app-authored responses are selected.
 
 This update supersedes conflicting earlier tester-deployment descriptions, without approving unresolved real-patient production policies. Validation and limits: [release evidence](../release-readiness.md).
+
+
+## Lab and education expansion — 2026-10-06
+
+Lab catalog, slots, booking lifecycle, price snapshots and private report linkage are implemented under owner-approved rules. The assistant now supports bounded sourced condition education with explicit transmission consent. Earlier statements excluding all lab booking/condition education are historical. See [delivery, data flow and limitations](../labs-and-education-guide.md). Google credentials, hosted services and real-patient readiness are not implied by this expansion.

@@ -19,3 +19,8 @@ Business rules describe domain restrictions. Functional requirements describe th
 Coverage: BR-001 → AUTH-003; BR-002 → RX-001; BR-003 → RX-002 and LAB-004; BR-004 → LAB-003; BR-005 → SCHED-001 and APPT-001; BR-006 → HIST-001; BR-007 → DOC-001, DISEASE-002, and LAB-003.
 
 No cancellation fee, refund policy, age threshold, retention period, or clinical decision rule has been assumed. See the clarification register in [SRS.md](SRS.md).
+
+
+## Approved expansion — 2026-10-06
+
+Owner approved LABPOL-001–010 in [lab booking policy](lab-booking-policy.md), extending the earlier laboratory search/booking exclusions. The policy table contains rules and acceptance outcomes for discovery → request → lab response → cancellation/expiry/completion → private report linkage. Doctor confirmation remains unchanged. EXP-AI-002 adds sourced education for a named condition and clinician navigation, without diagnosis, prescribing or test recommendations. Implementation and limitations: [lab and education guide](../labs-and-education-guide.md). Real-patient operational acceptance remains outstanding.

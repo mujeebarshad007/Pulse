@@ -190,3 +190,8 @@ Q-002 is resolved for V1 selection by [MVP-freeze.md](MVP-freeze.md). Other unan
 | 0.1 | 2026-09-26 | Initial source-derived requirements draft; all unresolved decisions retained explicitly. |
 | 0.2 | 2026-09-26 | Linked Phase 3 V1 scope freeze; updated release inclusion/exclusion summary and Q-002 without changing canonical capability definitions. |
 | 0.3 | 2026-09-26 | Recorded the Phase 4 intended stack and linked architecture decisions; updated Q-025 without changing product scope or unresolved business policies. |
+
+
+## Approved expansion — 2026-10-06
+
+Owner approved LABPOL-001–010 in [lab booking policy](lab-booking-policy.md), extending the earlier laboratory search/booking exclusions. The policy table contains rules and acceptance outcomes for discovery → request → lab response → cancellation/expiry/completion → private report linkage. Doctor confirmation remains unchanged. EXP-AI-002 adds sourced education for a named condition and clinician navigation, without diagnosis, prescribing or test recommendations. Implementation and limitations: [lab and education guide](../labs-and-education-guide.md). Real-patient operational acceptance remains outstanding.

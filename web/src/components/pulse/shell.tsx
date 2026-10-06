@@ -19,6 +19,7 @@ const links: Record<
     { href: "/patient/reports", label: "Lab reports", icon: "file" },
     { href: "/library", label: "Health library", icon: "book" },
     { href: "/patient/profile", label: "My profile", icon: "user" },
+    { href: "/labs", label: "Lab tests & visits", icon: "file" },
     { href: "/assistant", label: "Pulse assistant", icon: "sparkle" },
   ],
   doctor: [
@@ -26,21 +27,25 @@ const links: Record<
     { href: "/doctor/appointments", label: "Appointments", icon: "calendar" },
     { href: "/doctor/availability", label: "Availability", icon: "clock" },
     { href: "/doctor/profile", label: "Doctor profile", icon: "user" },
+    { href: "/labs", label: "Lab tests & visits", icon: "file" },
     { href: "/assistant", label: "Pulse assistant", icon: "sparkle" },
   ],
   lab: [
     { href: "/laboratory", label: "Reports overview", icon: "grid" },
     { href: "/laboratory/upload", label: "Prepare report", icon: "upload" },
+    { href: "/labs", label: "Lab tests & visits", icon: "file" },
     { href: "/assistant", label: "Pulse assistant", icon: "sparkle" },
   ],
   editor: [
     { href: "/content", label: "Content library", icon: "book" },
     { href: "/content/new", label: "Create entry", icon: "plus" },
+    { href: "/labs", label: "Lab tests & visits", icon: "file" },
     { href: "/assistant", label: "Pulse assistant", icon: "sparkle" },
   ],
   guest: [
     { href: "/doctors", label: "Explore doctors", icon: "search" },
     { href: "/library", label: "Health library", icon: "book" },
+    { href: "/labs", label: "Lab tests & visits", icon: "file" },
     { href: "/assistant", label: "Pulse assistant", icon: "sparkle" },
     { href: "/journey", label: "Features & workspaces", icon: "grid" },
     { href: "/login", label: "Sign in", icon: "user" },

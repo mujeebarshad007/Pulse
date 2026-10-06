@@ -1,6 +1,6 @@
 # Pulse — connected tester delivery
 
-Updated: 2026-10-03. Scope: a deployable responsive web app with fictional Pakistani providers and documents. Real-patient production acceptance remains separate.
+Updated: 2026-10-06. Scope: a deployable responsive web app with fictional Pakistani providers and documents. Real-patient production acceptance remains separate.
 
 ## Recorded direction
 
@@ -32,7 +32,7 @@ The owner has now requested a broader production marketplace, messaging and AI. 
 - Netlify Blobs storage and chunked uploads are now implemented; standalone local storage still needs a durable volume. No malware scanner or operational backup/restore automation is implemented. See [Netlify deployment](netlify-deployment.md).
 - PDF size, extension and signature checks do not prove safety. Use fictional, trusted documents.
 - Snapshots are bounded to 500 doctors/articles, 5,000 visible slots and 1,000 related private records. Larger scale needs pagination.
-- No real verification badge, medical review, diagnosis, payments, prescriptions, video or lab-test booking.
+- No real verification badge, medical review, diagnosis, payments, prescriptions or video. Lab-test booking is now included under the approved lab policy.
 - Google manages account recovery. Password/phone/Apple login are not shipped. Email/password is enabled only in isolated automated tests.
 
 ## Pakistani data
@@ -64,3 +64,8 @@ The owner approved a directory/booking assistant with no diagnosis, prescription
 Private 10 MiB PDFs can be sent in 2 MiB pieces and persisted through a Netlify Blobs adapter. New PostgreSQL tables provide upload staging and shared request limits. Netlify source packaging excludes local state and secrets. Google authentication was already integrated; live Google consent/callback validation remains outstanding.
 
 Current validation: `npm run check:all` passed 46 tests (15 frontend + 31 backend), lint and production build. New database migration and fictional seed passed locally. Read [release evidence and remaining gates](release-readiness.md), [Netlify setup](netlify-deployment.md) and [new file responsibilities/learning exercise](netlify-learning-guide.md). These updates supersede earlier statements that there was no object-storage or AI integration.
+
+
+## Lab and education expansion — 2026-10-06
+
+Lab catalog, slots, booking lifecycle, price snapshots and private report linkage are implemented under owner-approved rules. The assistant now supports bounded sourced condition education with explicit transmission consent. Earlier statements excluding all lab booking/condition education are historical. See [delivery, data flow and limitations](labs-and-education-guide.md). Google credentials, hosted services and real-patient readiness are not implied by this expansion.

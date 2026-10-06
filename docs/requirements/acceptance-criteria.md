@@ -53,3 +53,8 @@ AC IDs identify verification criteria; each links to a canonical requirement or 
 Q-028 must identify the approver and required evidence. Once scope and criteria are approved, evidence should identify the tested requirement, environment, input, expected outcome, observed outcome, and result. This is a proposed review format, not an additional application feature.
 
 Test fixtures and workflows remain undecided where source data rules are missing. All criteria are currently **not executed**; no feature is accepted by this draft.
+
+
+## Approved expansion — 2026-10-06
+
+Owner approved LABPOL-001–010 in [lab booking policy](lab-booking-policy.md), extending the earlier laboratory search/booking exclusions. The policy table contains rules and acceptance outcomes for discovery → request → lab response → cancellation/expiry/completion → private report linkage. Doctor confirmation remains unchanged. EXP-AI-002 adds sourced education for a named condition and clinician navigation, without diagnosis, prescribing or test recommendations. Implementation and limitations: [lab and education guide](../labs-and-education-guide.md). Real-patient operational acceptance remains outstanding.

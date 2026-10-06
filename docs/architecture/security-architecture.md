@@ -23,3 +23,8 @@ This update supersedes conflicting earlier tester-deployment descriptions, witho
 ## Login recovery update
 
 Google/AI readiness now rejects placeholder credentials. OAuth failures return to /login with allowlisted app-authored feedback. Library auth logs retain category/level only; raw provider arguments are excluded. The private auth:check command outputs variable names only.
+
+
+## Lab and education expansion — 2026-10-06
+
+Lab catalog, slots, booking lifecycle, price snapshots and private report linkage are implemented under owner-approved rules. The assistant now supports bounded sourced condition education with explicit transmission consent. Earlier statements excluding all lab booking/condition education are historical. See [delivery, data flow and limitations](../labs-and-education-guide.md). Google credentials, hosted services and real-patient readiness are not implied by this expansion.

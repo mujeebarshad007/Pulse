@@ -34,3 +34,8 @@ Each requirement is defined once here. “Source-backed” means the capability 
 | DATA-001 | Input validation | The system shall validate entered patient, doctor, appointment, and laboratory data to reduce incorrect or incomplete records. | 6.2 | Q-019, Q-024 |
 
 No administrator functionality, recovery mechanism, communication channel, or payment provider is inferred. DIAG-001 and LAB-002 are unresolved capability placeholders, not implementable specifications.
+
+
+## Approved expansion — 2026-10-06
+
+Owner approved LABPOL-001–010 in [lab booking policy](lab-booking-policy.md), extending the earlier laboratory search/booking exclusions. The policy table contains rules and acceptance outcomes for discovery → request → lab response → cancellation/expiry/completion → private report linkage. Doctor confirmation remains unchanged. EXP-AI-002 adds sourced education for a named condition and clinician navigation, without diagnosis, prescribing or test recommendations. Implementation and limitations: [lab and education guide](../labs-and-education-guide.md). Real-patient operational acceptance remains outstanding.

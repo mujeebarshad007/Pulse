@@ -37,7 +37,7 @@ Chromium guest checks passed for the refreshed homepage and assistant. Enter act
 
 ## Remaining product work
 
-Google/AI accounts and hosting still need owner setup. Real Pakistani provider onboarding and permission to publish their details are not supplied. Messaging lifecycle/retention, cancellation/rescheduling, phone OTP, lab booking, payments/refunds, video, prescriptions, notification policies and clinical governance remain unresolved in [production expansion](requirements/production-expansion.md). No claim of complete Oladoc parity or a bug-free production system is made.
+Google/AI accounts and hosting still need owner setup. Real Pakistani provider onboarding and permission to publish their details are not supplied. Messaging lifecycle/retention, doctor cancellation/rescheduling, phone OTP, payments/refunds, video, prescriptions, notification policies and clinical governance remain unresolved in [production expansion](requirements/production-expansion.md). No claim of complete Oladoc parity or a bug-free production system is made.
 
 Validation commands:
 
@@ -49,3 +49,15 @@ npm --prefix web audit --omit=dev
 git diff --check
 npm run package:netlify
 ```
+
+
+## Lab and education expansion — 2026-10-06
+
+Lab catalog, slots, booking lifecycle, price snapshots and private report linkage are implemented under owner-approved rules. The assistant now supports bounded sourced condition education with explicit transmission consent. Earlier statements excluding all lab booking/condition education are historical. See [delivery, data flow and limitations](labs-and-education-guide.md). Google credentials, hosted services and real-patient readiness are not implied by this expansion.
+
+
+Latest validation: `npm run db:check` passed and migration `0006_lab_bookings.sql` is applied locally. Browser checks passed for keyboard activation of sourced eczema education, clearing lab filters, and combined doctor fee/availability filtering (one matching provider, then five after reset). At 390 px, lab and doctor pages had no horizontal document overflow. Authenticated patient/lab browser journeys remain pending valid Google configuration; automated backend tests do not replace that acceptance.
+
+Dependency patch: `source-map-js` was updated from 1.2.1 to 1.2.2 for [GHSA-68fv-2mgg-jv7q](https://github.com/advisories/GHSA-68fv-2mgg-jv7q). No dependency was added. The fresh runtime audit reports zero findings; the full audit still reports the five development lint-chain entries described above. Do not interpret this as a security certification.
+
+Current release preflight stops for `GOOGLE_CLIENT_SECRET`, `OPENAI_API_KEY` and `OPENAI_MODEL`. Earlier records listing only two missing variables are historical. No external deployment, real Google token exchange or live AI call has been verified.

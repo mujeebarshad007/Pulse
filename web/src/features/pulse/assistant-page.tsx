@@ -6,6 +6,7 @@ import { PageTitle, Panel } from "@/components/pulse/primitives";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import type { AssistantReply } from "@/server/assistant";
+import { conditionEducation, educationReply } from "./condition-education";
 
 const guides = [
   {
@@ -30,7 +31,7 @@ const guides = [
 type Turn = {
   question: string;
   reply: AssistantReply;
-  kind: "AI response" | "Quick guide";
+  kind: "AI response" | "Quick guide" | "Sourced education";
 };
 export function AssistantPage() {
   const { actor, connected } = useDemo();
@@ -106,7 +107,7 @@ export function AssistantPage() {
       <PageTitle
         eyebrow="PULSE ASSISTANT"
         title="A little help. A clearer next step."
-        description="Find your way through Pulse. Search the directory or get help with appointments, reports and your account."
+        description="Understand a named condition, explore clinicians and get help with Pulse. General education, never diagnosis."
       />
       <div className="p-assistant-layout">
         <Panel className="p-assistant-intro">
@@ -115,9 +116,32 @@ export function AssistantPage() {
           </div>
           <h2>Care, without the confusion.</h2>
           <p>
-            Try “Find a dermatologist in Karachi.” The assistant matches
-            directory entries, then you choose your next step.
+            Which condition would you like to understand? Read a sourced
+            introduction below, or ask a general question after signing in. No
+            personal history is needed.
           </p>
+          <span className="p-eyebrow">
+            CONDITION EDUCATION · NO AI REQUIRED
+          </span>
+          {conditionEducation.map((item) => (
+            <button
+              key={item.id}
+              className="p-guide-button"
+              onClick={() =>
+                setTurns((current) => [
+                  ...current.slice(-19),
+                  {
+                    question: `Explain ${item.title}`,
+                    reply: educationReply(item.id, item.title),
+                    kind: "Sourced education",
+                  },
+                ])
+              }
+            >
+              {item.title}
+              <Icon name="arrow" size={16} />
+            </button>
+          ))}
           <span className="p-eyebrow">QUICK GUIDES · NO AI REQUIRED</span>
           {guides.map((guide) => (
             <button
@@ -211,7 +235,7 @@ export function AssistantPage() {
             ))}
             {busy && (
               <p role="status" className="p-chat-thinking">
-                Checking the directory<span aria-hidden="true">…</span>
+                Checking your question<span aria-hidden="true">…</span>
               </p>
             )}
             <div ref={end} />
@@ -249,8 +273,9 @@ export function AssistantPage() {
                 checked={consent}
                 onChange={(e) => setConsent(e.target.checked)}
               />{" "}
-              Send my question to OpenAI. I won’t include private medical or
-              personal information.
+              Send my question, including any condition name I enter, to OpenAI.
+              I won’t include identifying information, medical records or
+              reports.
             </label>
             {error && (
               <p role="alert" className="p-input-error">

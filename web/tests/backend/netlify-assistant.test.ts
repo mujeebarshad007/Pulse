@@ -199,7 +199,12 @@ function responseFor(value: unknown) {
     output: [
       {
         type: "message",
-        content: [{ type: "output_text", text: JSON.stringify(value) }],
+        content: [
+          {
+            type: "output_text",
+            text: JSON.stringify({ conditionId: null, ...(value as object) }),
+          },
+        ],
       },
     ],
   });
@@ -287,6 +292,52 @@ test("AI refuses missing consent/configuration and handles provider failures wit
       {
         env,
         request: async () => Response.json({ status: "completed", output: [] }),
+      },
+    ),
+    { code: "DEPENDENCY_UNAVAILABLE" },
+  );
+});
+
+test("condition education is sourced, cannot infer a condition and cannot return model-selected doctors", async () => {
+  const actor = await fixtureActor(pool, "patient");
+  const request: typeof fetch = async () =>
+    responseFor({
+      intent: "education",
+      conditionId: "eczema",
+      doctorIds: ["doctor-maya"],
+    });
+  const result = await askAssistant(
+    pool,
+    actor,
+    { message: "Explain atopic eczema", consent: true },
+    { env, request },
+  );
+  assert.match(result.message, /general education/i);
+  assert.deepEqual(result.doctors, []);
+  assert.equal(
+    result.links[0].href,
+    "https://www.nhs.uk/conditions/atopic-eczema/",
+  );
+  const mismatch = await askAssistant(
+    pool,
+    actor,
+    { message: "I have itchy skin", consent: true },
+    { env, request },
+  );
+  assert.match(mismatch.message, /Which condition/);
+  await assert.rejects(
+    askAssistant(
+      pool,
+      actor,
+      { message: "Explain eczema", consent: true },
+      {
+        env,
+        request: async () =>
+          responseFor({
+            intent: "education",
+            conditionId: "invented",
+            doctorIds: [],
+          }),
       },
     ),
     { code: "DEPENDENCY_UNAVAILABLE" },

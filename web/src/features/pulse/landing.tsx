@@ -14,6 +14,14 @@ const services: {
   tag: string;
 }[] = [
   {
+    icon: "file",
+    title: "Your laboratory visit.",
+    description:
+      "Explore test offerings, review preparation details and request a laboratory-confirmed visit.",
+    href: "/labs",
+    tag: "LAB TESTS",
+  },
+  {
     icon: "search",
     title: "Find your doctor.",
     description:
@@ -73,6 +81,7 @@ export function Landing() {
         <Logo />
         <nav aria-label="Main navigation">
           <Link href="/doctors">Find a doctor</Link>
+          <Link href="/labs">Lab tests</Link>
           <Link href="/library">Health library</Link>
           <Link href="/assistant">
             Ask Pulse <Icon name="sparkle" size={13} />

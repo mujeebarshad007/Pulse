@@ -221,7 +221,11 @@ export function PatientDashboard() {
     </Gate>
   );
 }
-export function Directory({ initialFilters = {} }: {initialFilters?:{query?:string;city?:string;specialty?:string}}) {
+export function Directory({
+  initialFilters = {},
+}: {
+  initialFilters?: { query?: string; city?: string; specialty?: string };
+}) {
   const { state } = useDemo();
   const [filters, setFilters] = useState({
     query: initialFilters.query ?? "",
@@ -230,13 +234,32 @@ export function Directory({ initialFilters = {} }: {initialFilters?:{query?:stri
     symptom: "",
   });
   const [sort, setSort] = useState("name");
-  const results = findDoctors(state.doctors, filters).sort((a, b) =>
-    sort === "fee"
-      ? a.fee - b.fee
-      : sort === "experience"
-        ? b.experience - a.experience
-        : a.name.localeCompare(b.name),
-  );
+  const [minFee, setMinFee] = useState(""),
+    [maxFee, setMaxFee] = useState(""),
+    [availableOnly, setAvailableOnly] = useState(false);
+  const invalidFee =
+    (minFee !== "" &&
+      (!Number.isFinite(Number(minFee)) || Number(minFee) < 0)) ||
+    (maxFee !== "" &&
+      (!Number.isFinite(Number(maxFee)) || Number(maxFee) < 0)) ||
+    (minFee !== "" && maxFee !== "" && Number(minFee) > Number(maxFee));
+  const results = (
+    invalidFee
+      ? []
+      : findDoctors(state.doctors, {
+          ...filters,
+          minFee: minFee === "" ? undefined : Number(minFee),
+          maxFee: maxFee === "" ? undefined : Number(maxFee),
+        })
+  )
+    .filter((d) => !availableOnly || availableSlots(state, d.id).length > 0)
+    .sort((a, b) =>
+      sort === "fee"
+        ? a.fee - b.fee
+        : sort === "experience"
+          ? b.experience - a.experience
+          : a.name.localeCompare(b.name),
+    );
   function update(key: keyof typeof filters, value: string) {
     setFilters({ ...filters, [key]: value });
   }
@@ -304,6 +327,44 @@ export function Directory({ initialFilters = {} }: {initialFilters?:{query?:stri
             </select>
           </Field>
         </div>
+        <div className="p-filter-grid">
+          <Field id="min-fee" label="Minimum fee (PKR)">
+            <input
+              id="min-fee"
+              className="ui-input"
+              type="number"
+              min={0}
+              value={minFee}
+              onChange={(e) => setMinFee(e.target.value)}
+              aria-invalid={invalidFee}
+            />
+          </Field>
+          <Field id="max-fee" label="Maximum fee (PKR)">
+            <input
+              id="max-fee"
+              className="ui-input"
+              type="number"
+              min={0}
+              value={maxFee}
+              onChange={(e) => setMaxFee(e.target.value)}
+              aria-invalid={invalidFee}
+            />
+          </Field>
+          <label className="p-chat-consent">
+            <input
+              type="checkbox"
+              checked={availableOnly}
+              onChange={(e) => setAvailableOnly(e.target.checked)}
+            />{" "}
+            Only doctors with available slots
+          </label>
+        </div>
+        {invalidFee && (
+          <p role="alert">
+            Enter non-negative fees with the minimum no greater than the
+            maximum.
+          </p>
+        )}
         <p className="p-caption">
           Symptom tags demonstrate filtering, not diagnosis, triage, or a
           clinical recommendation. Final matching rules are not approved.
@@ -317,9 +378,12 @@ export function Directory({ initialFilters = {} }: {initialFilters?:{query?:stri
         <div>
           <Button
             variant="quiet"
-            onClick={() =>
-              setFilters({ query: "", specialty: "", city: "", symptom: "" })
-            }
+            onClick={() => {
+              setFilters({ query: "", specialty: "", city: "", symptom: "" });
+              setMinFee("");
+              setMaxFee("");
+              setAvailableOnly(false);
+            }}
           >
             Clear filters
           </Button>

@@ -42,3 +42,8 @@ npm run package:netlify
 The first command should fail until the real Google secret is entered. Release validation additionally needs AI and hosted settings. Learning exercise: trace **configuration present → Google accepts authorization → browser session cookie → workspace data**. Explain why a Google button proves only the first check, and why a failed data request does not prove logout.
 
 Reference: [Better Auth OAuth errors](https://better-auth.com/docs/reference/errors), [error handling options](https://better-auth.com/docs/reference/options).
+
+
+## Rechecked 2026-10-06
+
+`npm run auth:check` still reports `GOOGLE_CLIENT_SECRET` as missing or placeholder. No secret was created, printed or replaced. Google requires the registered callback to match exactly; see [official Google web-server OAuth setup](https://developers.google.com/identity/protocols/oauth2/web-server). For localhost use `http://localhost:3000/api/auth/callback/google`; for Netlify register the actual HTTPS site origin plus `/api/auth/callback/google`. The client ID and secret must come from that same OAuth web client. Do not use a project ID, API key or placeholder as the client secret.

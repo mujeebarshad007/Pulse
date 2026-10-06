@@ -55,6 +55,8 @@ try {
   await pool.query("SELECT storage_driver FROM pulse.reports LIMIT 0");
   await pool.query("SELECT id FROM pulse.report_uploads LIMIT 0");
   await pool.query("SELECT key FROM pulse.request_limits LIMIT 0");
+  await pool.query("SELECT id FROM pulse.lab_bookings LIMIT 0");
+  await pool.query("SELECT booking_id FROM pulse.lab_booking_reports LIMIT 0");
   console.log(
     "Required configuration and database schema checks passed. This does not verify live OAuth, AI, storage, backups or browser journeys.",
   );

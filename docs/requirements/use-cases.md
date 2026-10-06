@@ -142,3 +142,8 @@ UC IDs identify scenarios, not additional capabilities. These are conceptual wor
 - **Doctor:** profile/schedule maintenance (UC-003) → appointment management (UC-005) → consultation (UC-006) → prescription issuance when applicable (UC-007). Verification precedes prescribing; how it occurs is unresolved.
 - **Laboratory and patient:** authorized result upload → publication under an agreed policy → patient result access (UC-010). Lab booking is not assumed to be a prerequisite.
 - **Patient history:** a doctor with an approved access relationship views prior records (UC-011). Merely being a doctor does not settle patient-specific permission.
+
+
+## Approved expansion — 2026-10-06
+
+Owner approved LABPOL-001–010 in [lab booking policy](lab-booking-policy.md), extending the earlier laboratory search/booking exclusions. The policy table contains rules and acceptance outcomes for discovery → request → lab response → cancellation/expiry/completion → private report linkage. Doctor confirmation remains unchanged. EXP-AI-002 adds sourced education for a named condition and clinician navigation, without diagnosis, prescribing or test recommendations. Implementation and limitations: [lab and education guide](../labs-and-education-guide.md). Real-patient operational acceptance remains outstanding.

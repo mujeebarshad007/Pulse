@@ -35,6 +35,12 @@ export function Journey() {
           <div className="p-feature-grid">
             {[
               {
+                title: "Lab tests & visits",
+                body: "Search published offerings, request a slot and track lab approval. Laboratory accounts maintain their catalog and visits.",
+                href: "/labs",
+                link: "Explore laboratory visits",
+              },
+              {
                 title: "Pulse assistant",
                 body: "Directory and booking guidance. Quick guides are public; AI questions require sign-in and owner configuration. No diagnosis or private report access.",
                 href: "/assistant",
