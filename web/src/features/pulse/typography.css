@@ -1,0 +1,44 @@
+/* One self-hosted variable family, a clear scale and readable product labels. */
+body, .pulse-app, .p-experience-controls {
+  font-family: var(--font-pulse), "Segoe UI", Arial, sans-serif;
+  font-optical-sizing: auto;
+}
+.pulse-app { font-size: 15px; line-height: 1.65; }
+.pulse-app :is(h1, h2, h3) { text-wrap: balance; }
+.pulse-app h1 { font-weight: 650; letter-spacing: -.045em; }
+.pulse-app h2 { font-weight: 650; letter-spacing: -.035em; }
+.pulse-app h3 { font-weight: 650; letter-spacing: -.02em; }
+.pulse-app .pn-hero h1 {
+  font-weight: 650;
+  letter-spacing: -.06em;
+  line-height: 1.08;
+  font-size: clamp(52px, 6.1vw, 82px);
+}
+.pn-hero h1 > span {
+  font-family: inherit;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: -.065em;
+}
+.pulse-app :is(.pn-section-heading h2, .pn-assistant-feature h2) { font-weight: 600; letter-spacing: -.045em; }
+.pn-closing em { font-family: inherit; font-style: normal; font-weight: 500; }
+.pn-hero-copy > p { font-size: 16px; line-height: 1.85; max-width: 400px; }
+.pn-nav nav a, .pn-nav-action { font-size: 13px; font-weight: 650; }
+.pn-kicker, .p-eyebrow { font-weight: 700; letter-spacing: .13em; }
+.pn-kicker { font-size: 11px; }
+.pn-service p { font-size: 13px; line-height: 1.8; }
+.pn-specialties a { font-size: 12px; min-height: 36px; font-weight: 550; }
+.pn-search input, .pn-search select { font-size: 14px; }
+.pulse-app .ui-input { font-size: 15px; line-height: 1.6; }
+.pulse-app :is(.p-form-note, .p-caption) { font-size: 12px; line-height: 1.75; }
+.p-chat-answer > p { font-size: 14px; line-height: 1.85; }
+.pulse-app :is(.p-stat-value, .p-slot-picker, .p-date-picker) { font-variant-numeric: tabular-nums; }
+@media (max-width: 480px) {
+  .pulse-app .pn-hero h1 { font-size: clamp(43px, 12vw, 57px); letter-spacing: -.055em; }
+  .pn-nav-action { font-size: 11px; }
+  .pn-hero-copy > p { font-size: 15px; }
+  .pn-service p { font-size: 12px; }
+  .pn-specialties a { font-size: 11px; }
+  /* Prevent mobile browsers zooming into small form fields. */
+  .pulse-app .ui-input, .pn-search input, .pn-search select { font-size: 16px; }
+}

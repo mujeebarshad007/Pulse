@@ -6,7 +6,7 @@ Connected implementation: Next.js, TypeScript, PostgreSQL and Better Auth with G
 
 ## Run locally
 
-Google returning to login? Start with [login recovery](docs/login-recovery.md) and `npm run auth:check`. The local Google client secret was found to contain placeholder text; a real secret must be entered privately before login can complete.
+Google returning to login? Start with [login recovery](docs/login-recovery.md) and `npm run auth:check`. Google configuration syntax passed on 2026-10-08; a live Google sign-in is still unverified. Earlier placeholder findings are historical.
 
 Use Node 22 and PostgreSQL server tools. From the repository root:
 
@@ -29,7 +29,7 @@ Open [localhost:3000](http://localhost:3000). The fictional directory and librar
 
 See [lab and education delivery/learning guide](docs/labs-and-education-guide.md).
 
-- Pulse branding and responsive glass UI.
+- Pulse branding and responsive glass UI, animated homepage heart, optional click sounds and motion controls. See [motion and sound learning guide](docs/motion-and-sound.md).
 - Google authentication integration, server sessions, sign-out and owner-assigned staff roles.
 - Saved patient/doctor profiles, fictional Pakistani directory and combined search filters.
 - Saved slots and bookings, overlap protection, doctor confirmation/decline/completion.
@@ -38,17 +38,21 @@ See [lab and education delivery/learning guide](docs/labs-and-education-guide.md
 - Saved sourced health-library drafts/publication.
 - Migrations, repeatable seeds, automated tests, CI and a Docker/standalone deployment recipe.
 
-The refreshed homepage and workspaces use glass surfaces, restrained animation and reduced-motion fallbacks. `/assistant` supplies public quick guides and an authenticated OpenAI directory, booking and bounded condition-education integration, with explicit consent and shared request limits. AI requires owner configuration; it does not diagnose or access private records.
+The refreshed homepage and workspaces use glass surfaces, restrained animation and reduced-motion fallbacks. `/assistant` supplies public quick guides and an authenticated Gemini/OpenAI directory, booking and bounded condition-education integration, with explicit consent and shared request limits. AI requires owner configuration; it does not diagnose or access private records.
 
 For Netlify, private reports use authenticated chunked uploads and a Netlify Blobs adapter. Local/standalone storage still requires a durable disk. File signature checks are not malware scanning; only fictional test documents are supported. Payments, prescriptions, video consultations, messaging, notifications and native mobile apps remain outside the implemented tester.
 
 ## Netlify source package
+
+Start with [the single deployment checklist](START-HERE.md).
 
 ```bash
 npm run package:netlify
 ```
 
 This produces a clean `artifacts/pulse-netlify-*` source folder with `netlify.toml`. A server-backed Next.js app needs a Netlify build, hosted PostgreSQL and private Google/AI configuration; it is not a static drag-and-drop export. Follow [Netlify setup and sharing](docs/netlify-deployment.md), [this delivery's file guide](docs/netlify-learning-guide.md) and [release evidence](docs/release-readiness.md). No live service has been deployed.
+
+Gemini key setup: [private configuration guide](docs/gemini-setup.md). Real users: [account creation and production onboarding plan](docs/real-user-onboarding.md).
 
 ## Validate and learn
 

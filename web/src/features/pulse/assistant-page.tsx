@@ -37,6 +37,8 @@ export function AssistantPage() {
   const { actor, connected } = useDemo();
   const [configured, setConfigured] = useState(false),
     [ready, setReady] = useState(false);
+  const [provider, setProvider] = useState<"openai" | "gemini" | null>(null);
+  const providerLabel = provider === "gemini" ? "Google Gemini" : provider === "openai" ? "OpenAI" : "the configured AI provider";
   const [question, setQuestion] = useState(""),
     [consent, setConsent] = useState(false),
     [busy, setBusy] = useState(false),
@@ -50,6 +52,7 @@ export function AssistantPage() {
       .then((r) => r.json())
       .then((data) => {
         setConfigured(data.configured === true);
+        setProvider(data.provider === "gemini" || data.provider === "openai" ? data.provider : null);
         setReady(true);
       })
       .catch(() => setReady(true));
@@ -61,14 +64,14 @@ export function AssistantPage() {
   useEffect(() => {
     end.current?.scrollIntoView({
       block: "nearest",
-      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      behavior: (window.matchMedia("(prefers-reduced-motion: reduce)").matches || document.documentElement.dataset.pulseMotion === "paused")
         ? "instant"
         : "smooth",
     });
   }, [turns, busy]);
   async function send(event: FormEvent) {
     event.preventDefault();
-    if (busy || !question.trim() || !actor || !consent) return;
+    if (busy || !question.trim() || !actor || !consent || !provider) return;
     const message = question.trim();
     setBusy(true);
     setError("");
@@ -78,7 +81,7 @@ export function AssistantPage() {
       const response = await fetch("/api/assistant", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message, consent }),
+        body: JSON.stringify({ message, consent, provider }),
         signal: AbortSignal.any([
           controller.signal,
           AbortSignal.timeout(25000),
@@ -273,10 +276,16 @@ export function AssistantPage() {
                 checked={consent}
                 onChange={(e) => setConsent(e.target.checked)}
               />{" "}
-              Send my question, including any condition name I enter, to OpenAI.
-              I won’t include identifying information, medical records or
-              reports.
+              Send this fictional or general question to {providerLabel}.
+              I won’t include personal information, real symptoms, medical
+              history or reports.
             </label>
+            {provider === "gemini" && (
+              <p className="p-form-note">
+                Google’s unpaid service may use questions and responses for product improvement and human review. Use fictional examples only.
+                {" "}<a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noreferrer">Google data terms</a>
+              </p>
+            )}
             {error && (
               <p role="alert" className="p-input-error">
                 {error}
@@ -292,6 +301,7 @@ export function AssistantPage() {
                   busy ||
                   !ready ||
                   !configured ||
+                  !provider ||
                   !actor ||
                   !consent ||
                   !connected

@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Logo } from "@/components/pulse/primitives";
 import { Icon, type IconName } from "@/components/ui/icon";
+import { HeartVisual } from "./heart-visual";
 import { useDemo } from "./provider";
 
 const services: {
@@ -129,7 +130,7 @@ export function Landing() {
             <div className="pn-orb">
               <div className="pn-orb-ring" />
               <div className="pn-orb-heart">
-                <Icon name="heart" size={100} />
+                <HeartVisual />
               </div>
               <span className="pn-orb-label">a little closer to care</span>
             </div>

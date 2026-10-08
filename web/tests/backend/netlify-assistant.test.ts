@@ -343,3 +343,76 @@ test("condition education is sourced, cannot infer a condition and cannot return
     { code: "DEPENDENCY_UNAVAILABLE" },
   );
 });
+
+const geminiEnv = {
+  AI_PROVIDER: "gemini",
+  GEMINI_API_KEY: "fictional-gemini-key-never-sent",
+  GEMINI_MODEL: "gemini-3.5-flash-lite",
+  AI_DAILY_REQUEST_LIMIT: "10000",
+};
+function geminiResponse(value: unknown, finishReason = "STOP") {
+  return Response.json({ candidates: [{ finishReason, content: { parts: [
+    { thought: true, text: "This internal text must not enter the response parser." },
+    { text: JSON.stringify(value) },
+  ] } }] });
+}
+test("Gemini uses server headers, structured output and only public fields; fabricated IDs stay excluded", async () => {
+  await seedFictional(pool);
+  const actor = await fixtureActor(pool, "patient");
+  const request: typeof fetch = async (url, init) => {
+    assert.equal(String(url), "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent");
+    assert.ok(!String(url).includes(geminiEnv.GEMINI_API_KEY));
+    assert.equal(new Headers(init?.headers).get("x-goog-api-key"), geminiEnv.GEMINI_API_KEY);
+    const body = JSON.parse(String(init?.body));
+    assert.equal(body.generationConfig.responseMimeType, "application/json");
+    assert.deepEqual(body.generationConfig.responseJsonSchema.required, ["intent", "doctorIds", "conditionId"]);
+    assert.ok(!String(init?.body).includes(actor.id));
+    assert.ok(!String(init?.body).includes("patient_id"));
+    return geminiResponse({ intent: "directory", doctorIds: ["doctor-maya", "invented"], conditionId: null });
+  };
+  const result = await askAssistant(pool, actor, {
+    message: "Find general medicine in Karachi", consent: true, provider: "gemini",
+  }, { env: geminiEnv, request });
+  assert.deepEqual(result.doctors.map(d => d.id), ["doctor-maya"]);
+  assert.ok(!result.message.includes("internal text"));
+});
+test("Gemini requires provider-specific consent and rejects malformed model configuration before transmitting", async () => {
+  const actor = await fixtureActor(pool, "patient");
+  let calls = 0;
+  const request: typeof fetch = async () => { calls++; return geminiResponse({}); };
+  for (const provider of [undefined, "openai"]) {
+    await assert.rejects(askAssistant(pool, actor, { message: "How do I book?", consent: true, provider },
+      { env: geminiEnv, request }), { code: "INVALID_INPUT" });
+  }
+  await assert.rejects(askAssistant(pool, actor, { message: "How do I book?", consent: true, provider: "gemini" },
+    { env: { ...geminiEnv, GEMINI_MODEL: "../other?key=bad" }, request }), { code: "DEPENDENCY_UNAVAILABLE" });
+  await assert.rejects(askAssistant(pool, actor, { message: "How do I book?", consent: false, provider: "gemini" },
+    { env: geminiEnv, request }), { code: "INVALID_INPUT" });
+  assert.equal(calls, 0);
+});
+test("Gemini blocked, truncated, invalid and quota responses fail safely without leaking provider diagnostics", async () => {
+  const actor = await fixtureActor(pool, "patient");
+  const replies = [
+    Response.json({ promptFeedback: { blockReason: "SAFETY" } }),
+    geminiResponse({ intent: "booking", doctorIds: [], conditionId: null }, "MAX_TOKENS"),
+    geminiResponse({ intent: "invented", doctorIds: [], conditionId: null }),
+    new Response("private provider diagnostics", { status: 429 }),
+  ];
+  for (const response of replies) {
+    await assert.rejects(askAssistant(pool, actor, { message: "How do I book?", consent: true, provider: "gemini" },
+      { env: geminiEnv, request: async () => response }), (error) => {
+        assert.ok(error instanceof Error);
+        assert.ok(!error.message.includes("diagnostics"));
+        assert.equal((error as { code?: string }).code, "DEPENDENCY_UNAVAILABLE");
+        return true;
+      });
+  }
+});
+test("Gemini named-condition education uses app sources and never a clinical recommendation", async () => {
+  const actor = await fixtureActor(pool, "patient");
+  const result = await askAssistant(pool, actor, { message: "Explain eczema", consent: true, provider: "gemini" },
+    { env: geminiEnv, request: async () => geminiResponse({ intent: "education", conditionId: "eczema", doctorIds: ["doctor-maya"] }) });
+  assert.deepEqual(result.doctors, []);
+  assert.match(result.message, /general education/i);
+  assert.equal(result.links[0].href, "https://www.nhs.uk/conditions/atopic-eczema/");
+});

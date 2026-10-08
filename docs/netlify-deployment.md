@@ -7,7 +7,7 @@ Updated 2026-10-03. This is a Next.js server application, not a static HTML expo
 1. A Netlify account/site and its HTTPS URL. No site has been published by this delivery.
 2. Hosted PostgreSQL with a trusted TLS certificate. Prefer the provider's pooled connection endpoint, compatible with PostgreSQL transactions and advisory locks. Keep application and test databases separate.
 3. A Google Cloud OAuth web client. Follow the consent-screen and tester setup in [the existing Google guide](deploy-tester.md). Use `https://YOUR-SITE.netlify.app/api/auth/callback/google` as the exact authorized redirect URI. Changing domains requires updating Google and `BETTER_AUTH_URL` together.
-4. An OpenAI project API key and a Responses API model supporting strict JSON structured outputs. AI is optional for browsing/booking, but required to enable AI questions. Set a provider-side spending limit as well as the app limit.
+4. A Gemini API key/model (see [Gemini setup](gemini-setup.md)), or the existing OpenAI alternative supporting strict JSON structured outputs. AI is optional for browsing/booking, but required to enable AI questions. Set a provider-side spending limit as well as the app limit.
 
 Create secrets in the services' dashboards. Do not paste them into chat, Git, frontend variables, documentation or the source package.
 
@@ -39,7 +39,9 @@ Set these in Netlify's environment dashboard for the application functions; conf
 | `BETTER_AUTH_SECRET` | Privately generated random secret of at least 32 characters |
 | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | The Google web client's credentials |
 | `REPORT_STORAGE` | `netlify`; local filesystem storage is rejected when `NETLIFY` is set |
-| `OPENAI_API_KEY`, `OPENAI_MODEL` | Server-only provider key and structured-output-compatible model ID |
+| `AI_PROVIDER` | `gemini` or `openai` |
+| `GEMINI_API_KEY`, `GEMINI_MODEL` | Required for Gemini; server-only |
+| `OPENAI_API_KEY`, `OPENAI_MODEL` | Required only when OpenAI is selected; server-only |
 | `AI_DAILY_REQUEST_LIMIT` | Defaults to `100` across the app per UTC day; permitted range 1–10000 |
 
 Netlify supplies Blobs runtime credentials. Do not invent or expose a Blobs token in client code. Hosted environments should not set `PRIVATE_STORAGE_DIR`.
@@ -70,7 +72,7 @@ Existing local-disk reports are **not automatically migrated** to Blobs. Start t
 - Sign in with separate patient and staff Google test accounts. Confirm sign-out, denied staff access and correct role assignment.
 - Patient completes a fictional profile → requests a slot → assigned doctor confirms → patient sees the update.
 - Lab uploads a trusted fictional 10 MiB PDF → recipient downloads it → another patient and lab are denied. Verify this on the hosted adapter, including streaming and persistence across a new deployment.
-- Ask a directory question after explicitly consenting to send it to OpenAI; verify real matches, no clinical advice, timeout feedback and rate limits. Questions and public directory fields are transmitted; no private records are read by the assistant. `store:false` is not a promise of zero provider retention—review the provider's current data terms.
+- Ask a directory question after explicitly consenting to send it to the selected provider; verify real matches, no clinical advice, timeout feedback and rate limits. Questions and public directory fields are transmitted; no private records are read by the assistant. OpenAI `store:false` is not a promise of zero provider retention. Gemini unpaid services must not receive sensitive/personal data—review the provider's current data terms.
 - Exercise phone layout and keyboard navigation. Check host logs without exposing personal records or secrets.
 - Back up database **and** Blobs; demonstrate restoration before accepting meaningful data. Configure service alerts and spending limits.
 

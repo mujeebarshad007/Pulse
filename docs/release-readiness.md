@@ -61,3 +61,21 @@ Latest validation: `npm run db:check` passed and migration `0006_lab_bookings.sq
 Dependency patch: `source-map-js` was updated from 1.2.1 to 1.2.2 for [GHSA-68fv-2mgg-jv7q](https://github.com/advisories/GHSA-68fv-2mgg-jv7q). No dependency was added. The fresh runtime audit reports zero findings; the full audit still reports the five development lint-chain entries described above. Do not interpret this as a security certification.
 
 Current release preflight stops for `GOOGLE_CLIENT_SECRET`, `OPENAI_API_KEY` and `OPENAI_MODEL`. Earlier records listing only two missing variables are historical. No external deployment, real Google token exchange or live AI call has been verified.
+
+
+## Deployment package validation — 2026-10-08
+
+`npm run check:all` passed lint, optimized production build and all 58 tests (19 frontend/domain, 39 backend). `auth:check` now passes configuration syntax; this supersedes the earlier Google placeholder finding but does not verify a live token exchange. `release:check` currently stops for `OPENAI_API_KEY` and `OPENAI_MODEL`, so later hosted checks have not run. No Google or AI credentials were exposed or created.
+
+`START-HERE.md` provides one deployment entry point and is included by the source packager. The package requires a Netlify build, hosted PostgreSQL and private settings, not static drag-and-drop hosting. No deployment was performed. The earlier browser evidence remains applicable to unchanged UI; hosted account/storage/AI acceptance remains outstanding.
+
+
+Security maintenance on 2026-10-08: Next.js and its matching lint configuration were patched to 16.3.8; the transitive `sharp` package was updated to 0.35.5. Runtime audit then reported zero known vulnerabilities. The five existing development lint-chain findings remain. These are compatible updates, not a stack change. See [Next.js advisory](https://github.com/advisories/GHSA-3w37-wq28-93x7) and [sharp advisory](https://github.com/advisories/GHSA-wq5f-xc86-pv6w).
+
+
+After these patches, `npm run check:all` again passed all 58 tests, lint and the production build. `npm run db:check` passed. The local production server returned 200 for home, doctors, labs, assistant, login, health and lab catalog; an unauthenticated lab write returned 401. This is local evidence, not a hosted deployment result.
+
+
+## Motion and sound delivery — 2026-10-08
+
+Homepage SVG heartbeat, shared interaction feedback and opt-in synthesized click sounds are implemented without new dependencies. `npm run check` passed lint, 19 frontend/domain tests and the production build. Keyboard, preference persistence, mobile overflow, search and native slot selection checks passed; physical audio output and other browsers remain unverified. See [motion and sound guide](motion-and-sound.md).

@@ -10,6 +10,7 @@ const files = [
   "scripts",
   ".gitignore",
   "README.md",
+  "START-HERE.md",
   "SECURITY.md",
   "docs",
   "web/src",

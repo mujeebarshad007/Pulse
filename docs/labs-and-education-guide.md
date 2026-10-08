@@ -1,5 +1,8 @@
 # Lab visits and condition education — 2026-10-06
 
+
+**2026-10-08 update:** Google configuration syntax now passes `npm run auth:check`. Earlier placeholder findings below are historical. Live OAuth is still unverified. Release preflight currently stops for `OPENAI_API_KEY` and `OPENAI_MODEL`.
+
 The owner approved [LABPOL-001–010](requirements/lab-booking-policy.md) and general condition education. These extend the connected fictional tester; real-patient production acceptance remains separate.
 
 ## Complete lab journey

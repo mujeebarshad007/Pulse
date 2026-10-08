@@ -1,4 +1,5 @@
-import { assistantConfigured, askAssistant } from "@/server/assistant";
+import { askAssistant } from "@/server/assistant";
+import { assistantConfiguration } from "@/server/configuration";
 import { requireActor } from "@/server/auth";
 import { getDatabase } from "@/server/database";
 import { boundedBody, failure, json, sameOrigin } from "@/server/http";
@@ -6,7 +7,8 @@ import { ServiceError } from "@/server/errors";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export function GET() {
-  return json({ configured: assistantConfigured() });
+  const config = assistantConfiguration();
+  return json({ configured: config.ready, provider: config.provider, providerLabel: config.label });
 }
 export async function POST(request: Request) {
   try {

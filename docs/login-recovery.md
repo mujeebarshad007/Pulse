@@ -1,5 +1,8 @@
 # Google login recovery
 
+
+**2026-10-08 update:** Google configuration syntax now passes `npm run auth:check`. Earlier placeholder findings below are historical. Live OAuth is still unverified. Release preflight currently stops for `OPENAI_API_KEY` and `OPENAI_MODEL`.
+
 ## Findings — 2026-10-03
 
 `GOOGLE_CLIENT_SECRET` contains placeholder text. The old readiness check accepted some placeholder formats and incorrectly enabled the Google button. The local authentication database had no completed users or sessions. This supports an incomplete setup diagnosis; it does not prove a cookie defect after a successful Google login.

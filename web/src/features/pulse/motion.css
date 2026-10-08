@@ -1,0 +1,118 @@
+/* Presentation only: transform/opacity motion, with shared user + OS controls. */
+.p-experience-controls {
+  position: fixed;
+  z-index: 35;
+  right: max(18px, env(safe-area-inset-right));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 5px;
+  background: #fffffff2;
+  color: #285c4c;
+  border: 1px solid #d5e4dc;
+  border-radius: 100px;
+  box-shadow: 0 6px 24px #234b3914, inset 0 1px #fff;
+  backdrop-filter: blur(16px);
+}
+.p-experience-controls button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 100px;
+  background: transparent;
+  color: inherit;
+  padding: 10px 12px;
+  min-height: 40px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 180ms, scale 180ms;
+}
+.p-experience-controls button[aria-pressed="true"] { background: #edf5ef; }
+.p-experience-controls button:disabled { cursor: default; color: #627468; }
+.p-experience-controls button:focus-visible { outline: 2px solid #167e71; outline-offset: 1px; }
+.p-experience-divider { width: 1px; height: 18px; background: #dce7df; }
+body:has(.pulse-app) { padding-bottom: 78px; }
+.pn-orb-heart { border: 0; background: transparent; box-shadow: none; backdrop-filter: none; width: 64%; height: 64%; }
+.pn-heart-scene { width: 100%; height: 100%; position: relative; display: grid; place-items: center; }
+.pn-heart-scene .pn-heart-sculpture { width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 16px 12px #1d644d35); }
+.pn-heart-halo { position: absolute; inset: -4%; border: 1px solid #f3fff5aa; border-radius: 50%; }
+.pn-heart-halo-two { inset: -17%; border-color: #ffffff60; }
+.pn-heart-star { position: absolute; color: #fff; text-shadow: 0 1px 5px #276b5040; font-size: 25px; font-weight: 300; }
+.pn-heart-star-one { right: -2%; top: 16%; }
+.pn-heart-star-two { left: -8%; bottom: 23%; font-size: 18px; }
+.pn-heart-trace { stroke-dasharray: 100; stroke-dashoffset: 0; }
+.pn-nav nav a { position: relative; }
+.pn-nav nav a::after { content: ""; position: absolute; height: 2px; background: #34876a; bottom: -7px; left: 0; width: 100%; transform: scaleX(0); transform-origin: left; transition: transform 220ms ease; }
+.pulse-app :is(.pn-specialties a, .pn-nav-action, .pn-role-grid > a, .p-guide-button, .p-nav-link, .ui-button, .p-slot) {
+  transition: translate 200ms ease, scale 180ms ease, background-color 200ms, border-color 200ms, box-shadow 200ms;
+}
+.pulse-app :is(button, a):not(:disabled):not([aria-disabled="true"]):active { scale: .975; }
+.pulse-app :is(input, select, textarea) { transition: border-color 180ms, box-shadow 180ms; }
+.pulse-app :is(input, select, textarea):focus-visible { box-shadow: 0 0 0 5px #28896e12; }
+.pulse-app :is(button[aria-pressed="true"], [role="tab"][aria-selected="true"], .p-nav-link.active) { box-shadow: inset 0 0 0 1px #3c8b7133, 0 3px 10px #22624c0a; }
+.pn-search label:focus-within { background: #eaf3ec; border-radius: 10px; }
+.pn-service-top > svg, .pn-quiet-link > svg, .pn-role-grid > a > span > svg { transition: translate 220ms ease; }
+@media (hover: hover) and (pointer: fine) {
+  .p-experience-controls button:not(:disabled):hover { background: #e5f0e9; }
+  .pn-nav nav a:is(:hover, :focus-visible)::after { transform: scaleX(1); }
+  .pulse-app :is(.pn-specialties a, .pn-nav-action, .p-guide-button, .p-slot):not(:disabled):hover { translate: 0 -3px; background: #e7f1e9; box-shadow: 0 6px 18px #29543c0d; }
+  .pn-role-grid > a:hover { translate: 0 -4px; }
+  .pn-service:hover .pn-service-top > svg, .pn-quiet-link:hover > svg, .pn-role-grid > a:hover > span > svg { translate: 4px 0; }
+}
+.pn-nav nav a:focus-visible::after { transform: scaleX(1); }
+@media (prefers-reduced-motion: no-preference) {
+  html:not([data-pulse-motion="paused"]) .pn-heart-sculpture { animation: pulse-heartbeat 2.8s ease-in-out infinite; }
+  html:not([data-pulse-motion="paused"]) .pn-heart-trace { animation: pulse-trace 2.8s ease-in-out infinite; }
+  html:not([data-pulse-motion="paused"]) .pn-heart-halo { animation: pulse-halo 5.6s ease-in-out infinite; }
+  html:not([data-pulse-motion="paused"]) .pn-heart-halo-two { animation-delay: -2.8s; }
+  html:not([data-pulse-motion="paused"]) .pn-heart-star { animation: pulse-drift 5.6s ease-in-out infinite; }
+  html:not([data-pulse-motion="paused"]) .pn-heart-star-two { animation-delay: -2s; }
+  html:not([data-pulse-motion="paused"]) .pn-float-card { animation: pulse-drift 7s ease-in-out infinite; }
+  html:not([data-pulse-motion="paused"]) .pn-float-visit { animation-delay: -2.3s; }
+  html:not([data-pulse-motion="paused"]) .pn-float-file { animation-delay: -4.6s; }
+}
+/* Native radio inputs retain keyboard behavior inside animated date/time labels. */
+.pulse-app :is(.p-date-picker, .p-slot-picker) label {
+  transition: background-color 180ms, border-color 180ms, box-shadow 180ms;
+}
+.pulse-app :is(.p-date-picker, .p-slot-picker) label.selected {
+  background: #126c61;
+  border-color: #126c61;
+  box-shadow: 0 4px 12px #126c6125;
+}
+.pulse-app :is(.p-date-picker, .p-slot-picker) label:focus-within { outline-color: #167e71; }
+@media (hover: hover) and (pointer: fine) {
+  .pulse-app :is(.p-date-picker, .p-slot-picker) label:not(.selected):not(:has(input:disabled)):hover {
+    background: #e7f1e9; border-color: #53977d;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  html:not([data-pulse-motion="paused"]) .pulse-app :is(.p-date-picker, .p-slot-picker) label.selected {
+    animation: pulse-choice 220ms ease-out;
+  }
+}
+@keyframes pulse-choice { from { scale: .96; } to { scale: 1; } }
+@keyframes pulse-heartbeat { 0%, 45%, 100% { scale: 1; } 12% { scale: 1.065; } 22% { scale: 1.015; } 31% { scale: 1.045; } }
+@keyframes pulse-trace { 0% { stroke-dashoffset: 100; opacity: .4; } 42%, 78% { stroke-dashoffset: 0; opacity: 1; } 100% { stroke-dashoffset: 0; opacity: .4; } }
+@keyframes pulse-halo { 0%, 100% { scale: .96; opacity: .4; } 50% { scale: 1.07; opacity: .85; } }
+@keyframes pulse-drift { 0%, 100% { translate: 0 0; } 50% { translate: 0 -9px; } }
+html[data-pulse-motion="paused"] .pulse-app *,
+html[data-pulse-motion="paused"] .pulse-app *::before,
+html[data-pulse-motion="paused"] .pulse-app *::after {
+  animation: none !important; transition: none !important; scroll-behavior: auto !important;
+}
+html[data-pulse-motion="paused"] .pulse-app :is(a, button, .p-doctor-card) { translate: none !important; scale: none !important; }
+html[data-pulse-motion="paused"] .pulse-app :is(a, button, .p-doctor-card):hover { transform: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  .pulse-app :is(a, button, .p-doctor-card), .p-experience-controls button { translate: none !important; scale: none !important; transition: none !important; }
+  .pn-service-top > svg, .pn-quiet-link > svg, .pn-role-grid > a > span > svg { translate: none !important; }
+}
+@media (max-width: 480px) {
+  .p-experience-controls { right: 12px; bottom: max(10px, env(safe-area-inset-bottom)); }
+  .p-experience-controls button { min-height: 44px; padding: 9px 11px; font-size: 10px; }
+}
+@media (prefers-reduced-transparency: reduce) { .p-experience-controls { background: #fff; backdrop-filter: none; } }
+@media (forced-colors: active) { .p-experience-controls, .pn-heart-halo { border-color: CanvasText; } }

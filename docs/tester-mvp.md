@@ -1,5 +1,8 @@
 # Pulse — connected tester delivery
 
+
+**2026-10-08 update:** Google configuration syntax now passes `npm run auth:check`. Earlier placeholder findings below are historical. Live OAuth is still unverified. Release preflight currently stops for `OPENAI_API_KEY` and `OPENAI_MODEL`.
+
 Updated: 2026-10-06. Scope: a deployable responsive web app with fictional Pakistani providers and documents. Real-patient production acceptance remains separate.
 
 ## Recorded direction
@@ -69,3 +72,8 @@ Current validation: `npm run check:all` passed 46 tests (15 frontend + 31 backen
 ## Lab and education expansion — 2026-10-06
 
 Lab catalog, slots, booking lifecycle, price snapshots and private report linkage are implemented under owner-approved rules. The assistant now supports bounded sourced condition education with explicit transmission consent. Earlier statements excluding all lab booking/condition education are historical. See [delivery, data flow and limitations](labs-and-education-guide.md). Google credentials, hosted services and real-patient readiness are not implied by this expansion.
+
+
+## Motion and sound — 2026-10-08
+
+The homepage now has a decorative animated heart and floating care cards. Shared hover/selection feedback and opt-in click sounds accompany accessible sound/motion controls. This adds no medical or booking capability. See [file responsibilities, learning exercise and validation](motion-and-sound.md).

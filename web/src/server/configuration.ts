@@ -35,3 +35,20 @@ export function googleConfiguration(
     return { ready: false, missing };
   }
 }
+
+/** Returns public readiness metadata only, never keys or model credentials. */
+export function assistantConfiguration(
+  env: Readonly<Record<string, string | undefined>> = process.env,
+) {
+  const provider = env.AI_PROVIDER ?? "openai";
+  if (provider !== "openai" && provider !== "gemini") {
+    return { provider: null, label: "AI provider", ready: false, missing: ["AI_PROVIDER"] } as const;
+  }
+  const keys = provider === "gemini"
+    ? ["GEMINI_API_KEY", "GEMINI_MODEL"]
+    : ["OPENAI_API_KEY", "OPENAI_MODEL"];
+  const missing = keys.filter((key) => !configuredValue(env[key]));
+  if (provider === "gemini" && configuredValue(env.GEMINI_MODEL) &&
+      !/^gemini-[a-z0-9.-]+$/.test(env.GEMINI_MODEL!)) missing.push("GEMINI_MODEL");
+  return { provider, label: provider === "gemini" ? "Google Gemini" : "OpenAI", ready: missing.length === 0, missing } as const;
+}

@@ -1,5 +1,5 @@
 import { loadEnvFile } from "node:process";
-import { configuredValue } from "../.backend-build/src/server/configuration.js";
+import { configuredValue, assistantConfiguration } from "../.backend-build/src/server/configuration.js";
 import {
   createDatabase,
   databaseConfig,
@@ -16,12 +16,11 @@ for (const name of [
   "BETTER_AUTH_SECRET",
   "GOOGLE_CLIENT_ID",
   "GOOGLE_CLIENT_SECRET",
-  "OPENAI_API_KEY",
-  "OPENAI_MODEL",
 ]) {
   const value = process.env[name];
   if (!configuredValue(value)) missing.push(name);
 }
+missing.push(...assistantConfiguration(process.env).missing);
 if (missing.length) {
   console.error(`Configure privately before release: ${missing.join(", ")}`);
   process.exit(1);
