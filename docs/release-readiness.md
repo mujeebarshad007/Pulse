@@ -79,3 +79,26 @@ After these patches, `npm run check:all` again passed all 58 tests, lint and the
 ## Motion and sound delivery — 2026-10-08
 
 Homepage SVG heartbeat, shared interaction feedback and opt-in synthesized click sounds are implemented without new dependencies. `npm run check` passed lint, 19 frontend/domain tests and the production build. Keyboard, preference persistence, mobile overflow, search and native slot selection checks passed; physical audio output and other browsers remain unverified. See [motion and sound guide](motion-and-sound.md).
+
+
+## Gemini and appointment hero — 2026-10-09
+
+`npm run check:all` passed lint, optimized build and 63 tests (19 frontend/domain + 44 backend). Added Gemini tests cover header-only keys, public-data payloads, provider-bound consent, invalid model configuration, blocked/truncated/malformed responses, quota errors and sourced education. These use mocked responses, not a live Google API call.
+
+Desktop browser inspection confirmed self-hosted Manrope loaded and the new appointment-first hero rendered. Enter submitted Dermatology + Karachi search and returned the expected single profile; the preview profile link opened the matching doctor page. At 390 and 320 px there was no horizontal document overflow and mobile input text was 16 px. Browser console had no warnings/errors in the tested journey. Device screenshots during viewport overrides were scaled inconsistently, so full phone visual acceptance remains a manual step.
+
+The assistant shows Google Gemini consent, unpaid-service data terms and a disabled send action while setup is missing. The local provider/model are configured, but the key has not been supplied privately; no live Gemini answer is claimed. Refer to [Gemini setup](gemini-setup.md), [homepage learning guide](homepage-design.md) and [real-user onboarding](real-user-onboarding.md). No real records were added and no deployment was performed.
+
+
+## Shared frontend redesign — 2026-10-09
+
+The current appearance is navy/cobalt/white with lime navigation accents, shared component styling and responsive workspace navigation. This supersedes earlier cream/sage/glass appearance descriptions. See [frontend redesign, file guide, validation and limitations](frontend-redesign.md). No product or production policy changed.
+
+
+## Original glass design restored — 2026-10-09
+
+At the owner’s request, the navy/cobalt redesign and appointment-first hero were reverted. The original cream/sage glass surfaces, large animated heart, floating care cards and original workspace navigation are restored. Manrope, optional sound/motion controls, lab booking, assistant and connected functionality remain. No new product feature is inferred by this visual restoration. Historical experiment CSS is no longer imported.
+
+Learning exercise: trace `HeartVisual` from `landing.tsx` into `heart-visual.tsx`, then find its motion rules in `motion.css`. Use the animation toggle to verify the interface remains usable. Validate with `npm run check`.
+
+Restoration validation: `npm run check` passed (lint, 19 frontend/domain tests, production build); `git diff --check` passed. Browser confirmed original glass hero/heart, keyboard anchor navigation to search, and no horizontal overflow at 390 px. Authenticated flows were not rerun for this presentation-only rollback.

@@ -77,3 +77,20 @@ Lab catalog, slots, booking lifecycle, price snapshots and private report linkag
 ## Motion and sound — 2026-10-08
 
 The homepage now has a decorative animated heart and floating care cards. Shared hover/selection feedback and opt-in click sounds accompany accessible sound/motion controls. This adds no medical or booking capability. See [file responsibilities, learning exercise and validation](motion-and-sound.md).
+
+
+## Gemini, typography and minimal hero — 2026-10-09
+
+Gemini/OpenAI are selectable server providers with provider-bound consent and safe structured replies. The local provider is Gemini; its key must be entered privately. Earlier OpenAI-only setup notes are historical. The homepage now puts doctor search first and previews an actual fictional directory profile, with a quieter heartbeat accent. See [Gemini setup](gemini-setup.md), [design/file guide](homepage-design.md), and [real-user onboarding plan](real-user-onboarding.md). No real providers or production policies were introduced.
+
+
+## Shared frontend redesign — 2026-10-09
+
+The current appearance is navy/cobalt/white with lime navigation accents, shared component styling and responsive workspace navigation. This supersedes earlier cream/sage/glass appearance descriptions. See [frontend redesign, file guide, validation and limitations](frontend-redesign.md). No product or production policy changed.
+
+
+## Original glass design restored — 2026-10-09
+
+At the owner’s request, the navy/cobalt redesign and appointment-first hero were reverted. The original cream/sage glass surfaces, large animated heart, floating care cards and original workspace navigation are restored. Manrope, optional sound/motion controls, lab booking, assistant and connected functionality remain. No new product feature is inferred by this visual restoration. Historical experiment CSS is no longer imported.
+
+Learning exercise: trace `HeartVisual` from `landing.tsx` into `heart-visual.tsx`, then find its motion rules in `motion.css`. Use the animation toggle to verify the interface remains usable. Validate with `npm run check`.

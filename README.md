@@ -29,7 +29,7 @@ Open [localhost:3000](http://localhost:3000). The fictional directory and librar
 
 See [lab and education delivery/learning guide](docs/labs-and-education-guide.md).
 
-- Pulse branding and responsive glass UI, animated homepage heart, optional click sounds and motion controls. See [motion and sound learning guide](docs/motion-and-sound.md).
+- Original glass homepage, self-hosted Manrope typography, animated heart, optional click sounds and motion controls. See [motion and sound learning guide](docs/motion-and-sound.md).
 - Google authentication integration, server sessions, sign-out and owner-assigned staff roles.
 - Saved patient/doctor profiles, fictional Pakistani directory and combined search filters.
 - Saved slots and bookings, overlap protection, doctor confirmation/decline/completion.
@@ -38,7 +38,7 @@ See [lab and education delivery/learning guide](docs/labs-and-education-guide.md
 - Saved sourced health-library drafts/publication.
 - Migrations, repeatable seeds, automated tests, CI and a Docker/standalone deployment recipe.
 
-The refreshed homepage and workspaces use glass surfaces, restrained animation and reduced-motion fallbacks. `/assistant` supplies public quick guides and an authenticated Gemini/OpenAI directory, booking and bounded condition-education integration, with explicit consent and shared request limits. AI requires owner configuration; it does not diagnose or access private records.
+The original cream/sage glass design is restored across the homepage and workspaces, with animated heart, floating care cards and reduced-motion support. `/assistant` supplies public quick guides and an authenticated Gemini/OpenAI directory, booking and bounded condition-education integration, with explicit consent and shared request limits. AI requires owner configuration; it does not diagnose or access private records.
 
 For Netlify, private reports use authenticated chunked uploads and a Netlify Blobs adapter. Local/standalone storage still requires a durable disk. File signature checks are not malware scanning; only fictional test documents are supported. Payments, prescriptions, video consultations, messaging, notifications and native mobile apps remain outside the implemented tester.
 

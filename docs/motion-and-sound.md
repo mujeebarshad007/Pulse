@@ -1,5 +1,7 @@
 # Homepage motion and interface sound
 
+Updated 2026-10-09: the [minimal appointment hero](homepage-design.md) now uses a small heartbeat accent; the former large orb/floating-card composition described below is historical. Shared sound and motion behavior remains.
+
 Delivered 2026-10-08. This changes presentation only; account, appointment and clinical rules are unchanged.
 
 ## What visitors see
@@ -41,3 +43,15 @@ npm run package:netlify
 `npm run check` passed lint, all 19 frontend/domain tests and the production build. Date/time selection was also checked: the selected slot uses `pulse-choice`, and ArrowRight changes the native radio selection.
 
 Browser checks: desktop heartbeat styling, sound initially off, Enter/Space toggles, paused animation resolving to `none`, preferences surviving reload, 390 px homepage/directory without horizontal overflow, and Karachi search returning two fictional profiles with sound enabled. No browser console warnings/errors were recorded during these checks. Sound was restored to off and motion to on after testing. Physical speaker output, Safari/Firefox and OS reduced-motion emulation were not verified by the browser tool; reduced-motion CSS is implemented but device acceptance remains manual.
+
+
+## Shared frontend redesign — 2026-10-09
+
+The current appearance is navy/cobalt/white with lime navigation accents, shared component styling and responsive workspace navigation. This supersedes earlier cream/sage/glass appearance descriptions. See [frontend redesign, file guide, validation and limitations](frontend-redesign.md). No product or production policy changed.
+
+
+## Original glass design restored — 2026-10-09
+
+At the owner’s request, the navy/cobalt redesign and appointment-first hero were reverted. The original cream/sage glass surfaces, large animated heart, floating care cards and original workspace navigation are restored. Manrope, optional sound/motion controls, lab booking, assistant and connected functionality remain. No new product feature is inferred by this visual restoration. Historical experiment CSS is no longer imported.
+
+Learning exercise: trace `HeartVisual` from `landing.tsx` into `heart-visual.tsx`, then find its motion rules in `motion.css`. Use the animation toggle to verify the interface remains usable. Validate with `npm run check`.
