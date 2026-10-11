@@ -1,5 +1,7 @@
 # Pulse — connected tester delivery
 
+**2026-10-10:** AI is optional via `AI_PROVIDER=none`; Netlify uses this default. Deployment preflight checks login origin/storage/schema before building. 66 tests and the build passed; Neon read-only checks passed. Hosted login/storage remain unverified until the real site origin is configured. See [current delivery](deployment-hardening.md).
+
 
 **2026-10-08 update:** Google configuration syntax now passes `npm run auth:check`. Earlier placeholder findings below are historical. Live OAuth is still unverified. Release preflight currently stops for `OPENAI_API_KEY` and `OPENAI_MODEL`.
 

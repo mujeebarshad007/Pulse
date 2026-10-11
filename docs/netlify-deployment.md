@@ -79,3 +79,6 @@ Existing local-disk reports are **not automatically migrated** to Blobs. Start t
 Share the HTTPS site URL, not `localhost`. Invite fictional-data testers first. This package does not establish real-provider verification, clinical governance, payments, video consultations, messaging policies, malware scanning, retention or a production recovery service.
 
 Official references: [Netlify Next.js support](https://docs.netlify.com/build/frameworks/framework-setup-guides/nextjs/overview/), [function limits](https://docs.netlify.com/build/functions/configuration/), [Blobs](https://docs.netlify.com/build/data-and-storage/netlify-blobs/), [OpenAI structured outputs](https://developers.openai.com/api/docs/guides/structured-outputs).
+# Current deployment update — 2026-10-10
+
+The supplied Netlify build command is now `npm run release:check && npm run build`. `AI_PROVIDER=none` is the default, so AI credentials below are optional unless you enable a provider. Do not run `db:seed` on the new real-provider database. See [current hardening and remaining hosting work](deployment-hardening.md).

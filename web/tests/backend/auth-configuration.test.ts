@@ -56,6 +56,25 @@ after(async () => {
   await pool.end();
 });
 
+test("hosted OAuth uses the configured HTTPS callback and secure state cookie", async () => {
+  const auth = createAuth(pool, {
+    NODE_ENV: "production", BETTER_AUTH_URL: "https://pulse.example.test",
+    BETTER_AUTH_SECRET: randomBytes(32).toString("hex"),
+    GOOGLE_CLIENT_ID: "fictional-client-id", GOOGLE_CLIENT_SECRET: "fictional-test-secret",
+  });
+  const response = await auth.handler(new Request("https://pulse.example.test/api/auth/sign-in/social", {
+    method: "POST",
+    headers: { Origin: "https://pulse.example.test", "Content-Type": "application/json" },
+    body: JSON.stringify({ provider: "google", callbackURL: "/account", errorCallbackURL: "/login" }),
+  }));
+  assert.equal(response.status, 200);
+  const cookie = response.headers.getSetCookie().join("; ");
+  assert.match(cookie, /; Secure/i);
+  assert.match(cookie, /HttpOnly/i);
+  assert.match(cookie, /SameSite=Lax/i);
+  assert.equal(new URL((await response.json()).url).searchParams.get("redirect_uri"), "https://pulse.example.test/api/auth/callback/google");
+});
+
 test("local production OAuth preserves state in a cookie and returns callback errors to the visible login screen", async () => {
   const auth = createAuth(pool, {
     NODE_ENV: "production",

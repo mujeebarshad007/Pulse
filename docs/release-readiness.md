@@ -102,3 +102,6 @@ At the owner’s request, the navy/cobalt redesign and appointment-first hero we
 Learning exercise: trace `HeartVisual` from `landing.tsx` into `heart-visual.tsx`, then find its motion rules in `motion.css`. Use the animation toggle to verify the interface remains usable. Validate with `npm run check`.
 
 Restoration validation: `npm run check` passed (lint, 19 frontend/domain tests, production build); `git diff --check` passed. Browser confirmed original glass hero/heart, keyboard anchor navigation to search, and no horizontal overflow at 390 px. Authenticated flows were not rerun for this presentation-only rollback.
+# Current evidence — 2026-10-10
+
+Deployment hardening passed 66 tests, lint and production build. Neon connectivity, six applied migrations and required login/booking/report tables passed read-only checks. Built home/login/assistant/workspace routes returned 200. AI can explicitly be disabled; Netlify defaults to `AI_PROVIDER=none`. Hosted preflight still correctly rejects the local authentication origin. Read [current evidence and exact limitations](deployment-hardening.md); older release findings below are historical.

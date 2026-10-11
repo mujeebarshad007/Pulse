@@ -9,7 +9,7 @@ This is the complete application **source**, ready for a Netlify build after con
 ## Deployment order
 
 1. Create your Netlify site and a hosted PostgreSQL database. Import this folder through a private Git repository, or use the Netlify CLI described in [the deployment guide](docs/netlify-deployment.md). Do not upload only `web/.next`.
-2. Keep the supplied `netlify.toml`: base `web`, build `npm run build`, publish `.next`, Node 22. Netlify supplies the Next.js adapter.
+2. Keep the supplied `netlify.toml`: base `web`, build `npm run release:check && npm run build`, publish `.next`, Node 22. Preflight checks settings and database tables before building. It does not migrate or seed automatically.
 3. Copy the site's stable HTTPS origin into `BETTER_AUTH_URL`. Configure the server environment variables listed below in Netlify, never in source code.
 4. Create a Google OAuth **Web application** client. Its exact redirect URI is `https://YOUR-SITE.netlify.app/api/auth/callback/google`. Add invited Google test accounts while the consent app is in testing. Follow [Google setup and login recovery](docs/login-recovery.md).
 5. From this package on a trusted machine, install dependencies and migrate the **hosted** database using the commands below. Set variables privately in your shell or an ignored `web/.env.local`; do not accidentally use the original app's local database. Back up any existing database before migrating.
@@ -27,8 +27,8 @@ This is the complete application **source**, ready for a Netlify build after con
 | `BETTER_AUTH_SECRET` | A privately generated random secret, at least 32 characters |
 | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | Matching real Google web-client credentials |
 | `REPORT_STORAGE=netlify` | Private Netlify Blobs storage |
-| `AI_PROVIDER=gemini` | Select Google Gemini (or `openai` for the existing alternative) |
-| `GEMINI_API_KEY`, `GEMINI_MODEL` | Gemini server key/model; use the matching OpenAI variables only if that provider is selected |
+| `AI_PROVIDER=none` | Default in `netlify.toml`: no AI key required; public quick guides still work |
+| `GEMINI_API_KEY`, `GEMINI_MODEL` | Optional, only when selecting `AI_PROVIDER=gemini` later |
 | `AI_DAILY_REQUEST_LIMIT=100` | App-wide daily AI request allowance; also set provider spending limits |
 
 Make settings available to application functions and, where needed, builds. Do not give production credentials to untrusted previews. Netlify supplies its own Blobs runtime credentials. No real credentials are included in this package.
@@ -38,14 +38,13 @@ Make settings available to application functions and, where needed, builds. Do n
 ```bash
 npm run setup
 npm run db:migrate
-npm run db:seed
 npm run db:check
 npm run auth:check
 npm run release:check
 npm run build
 ```
 
-`db:seed` adds fictional doctors, never real healthcare partners. The lab catalog starts empty: a lab tester signs in, the owner grants its role, and that lab creates clearly fictional offerings and slots. See [the complete lab journey](docs/labs-and-education-guide.md). Staff roles cannot be self-selected in the browser.
+The hosted database stays empty. Do not seed it for a real-provider rollout. `db:seed` is only for a separate fictional demonstration database. Provider onboarding still requires [the real-user rollout work](docs/real-user-onboarding.md). Staff roles cannot be self-selected in the browser.
 
 Developer validation, requiring local PostgreSQL server tools for isolated tests:
 

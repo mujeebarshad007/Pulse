@@ -44,13 +44,15 @@ For Netlify, private reports use authenticated chunked uploads and a Netlify Blo
 
 ## Netlify source package
 
+Netlify now defaults to AI off (`AI_PROVIDER=none`) and validates hosted configuration/database tables before building. No Gemini key is needed. Read [deployment hardening and validation](docs/deployment-hardening.md).
+
 Start with [the single deployment checklist](START-HERE.md).
 
 ```bash
 npm run package:netlify
 ```
 
-This produces a clean `artifacts/pulse-netlify-*` source folder with `netlify.toml`. A server-backed Next.js app needs a Netlify build, hosted PostgreSQL and private Google/AI configuration; it is not a static drag-and-drop export. Follow [Netlify setup and sharing](docs/netlify-deployment.md), [this delivery's file guide](docs/netlify-learning-guide.md) and [release evidence](docs/release-readiness.md). No live service has been deployed.
+This produces a clean `artifacts/pulse-netlify-*` source folder with `netlify.toml`. A server-backed Next.js app needs a Netlify build, hosted PostgreSQL and private Google configuration; AI is optional. It is not a static drag-and-drop export. Follow [Netlify setup and sharing](docs/netlify-deployment.md), [this delivery's file guide](docs/netlify-learning-guide.md) and [release evidence](docs/release-readiness.md). No live service has been deployed.
 
 Gemini key setup: [private configuration guide](docs/gemini-setup.md). Real users: [account creation and production onboarding plan](docs/real-user-onboarding.md).
 

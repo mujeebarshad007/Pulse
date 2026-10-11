@@ -1,5 +1,5 @@
 import { loadEnvFile } from "node:process";
-import { configuredValue, assistantConfiguration } from "../.backend-build/src/server/configuration.js";
+import { deploymentProblems } from "../.backend-build/src/server/configuration.js";
 import {
   createDatabase,
   databaseConfig,
@@ -9,48 +9,19 @@ try {
 } catch (error) {
   if (error.code !== "ENOENT") throw error;
 }
-const missing = [];
-for (const name of [
-  "DATABASE_URL",
-  "BETTER_AUTH_URL",
-  "BETTER_AUTH_SECRET",
-  "GOOGLE_CLIENT_ID",
-  "GOOGLE_CLIENT_SECRET",
-]) {
-  const value = process.env[name];
-  if (!configuredValue(value)) missing.push(name);
-}
-missing.push(...assistantConfiguration(process.env).missing);
-if (missing.length) {
-  console.error(`Configure privately before release: ${missing.join(", ")}`);
+const problems = deploymentProblems(process.env);
+if (problems.length) {
+  for (const problem of problems) console.error(problem);
   process.exit(1);
 }
-if (process.env.BETTER_AUTH_SECRET.length < 32) {
-  console.error("BETTER_AUTH_SECRET must have at least 32 random characters.");
-  process.exit(1);
-}
-let authURL;
+let pool;
 try {
-  authURL = new URL(process.env.BETTER_AUTH_URL);
-} catch {
-  console.error("BETTER_AUTH_URL must be a valid HTTPS origin.");
-  process.exit(1);
-}
-if (
-  authURL.protocol !== "https:" ||
-  authURL.username ||
-  authURL.password ||
-  authURL.pathname !== "/" ||
-  authURL.search ||
-  authURL.hash
-) {
-  console.error("The hosted authentication origin must use HTTPS.");
-  process.exit(1);
-}
-const pool = createDatabase(
-  databaseConfig({ ...process.env, NODE_ENV: "production" }),
-);
-try {
+  pool = createDatabase(databaseConfig({ ...process.env, NODE_ENV: "production" }));
+  await pool.query('SELECT id FROM pulse_auth_user LIMIT 0');
+  await pool.query('SELECT id FROM pulse_auth_session LIMIT 0');
+  await pool.query('SELECT id FROM pulse_auth_account LIMIT 0');
+  await pool.query('SELECT id FROM pulse_auth_verification LIMIT 0');
+  await pool.query('SELECT id FROM pulse_auth_rate_limit LIMIT 0');
   await pool.query("SELECT storage_driver FROM pulse.reports LIMIT 0");
   await pool.query("SELECT id FROM pulse.report_uploads LIMIT 0");
   await pool.query("SELECT key FROM pulse.request_limits LIMIT 0");
@@ -65,5 +36,5 @@ try {
   );
   process.exitCode = 1;
 } finally {
-  await pool.end();
+  await pool?.end();
 }

@@ -1,11 +1,15 @@
 [build]
   base = "web"
-  command = "npm run build"
+  command = "npm run release:check && npm run build"
   publish = ".next"
 
 [build.environment]
   NODE_VERSION = "22"
   NETLIFY_NEXT_SKEW_PROTECTION = "true"
+  APP_MODE = "connected"
+  AI_PROVIDER = "none"
+  REPORT_STORAGE = "netlify"
+  DATABASE_POOL_MAX = "3"
 
 # Secrets belong in Netlify environment settings (Functions scope), never here.
 # Netlify automatically supplies its maintained Next.js adapter.
