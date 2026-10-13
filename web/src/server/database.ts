@@ -5,11 +5,12 @@ import pg, { type PoolClient, type PoolConfig } from "pg";
 export function databaseConfig(
   env: Readonly<Record<string, string | undefined>> = process.env,
 ): PoolConfig {
-  if (!env.DATABASE_URL)
+  const databaseURL = env.DATABASE_URL ?? env.NETLIFY_DB_URL ?? env.NETLIFY_DATABASE_URL;
+  if (!databaseURL)
     throw new Error("DATABASE_URL is required for backend commands.");
   let url: URL;
   try {
-    url = new URL(env.DATABASE_URL);
+    url = new URL(databaseURL);
   } catch {
     throw new Error("DATABASE_URL must be a PostgreSQL URL.");
   }
@@ -29,7 +30,7 @@ export function databaseConfig(
     );
   }
   return {
-    connectionString: env.DATABASE_URL,
+    connectionString: databaseURL,
     max,
     connectionTimeoutMillis: 5_000,
     idleTimeoutMillis: 30_000,

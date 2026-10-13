@@ -12,7 +12,7 @@ The original glass interface is preserved. This delivery hardens the existing co
 
 ## What hosting still must supply
 
-The host needs DATABASE_URL, BETTER_AUTH_URL, BETTER_AUTH_SECRET, GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET privately in its environment. The repository does not contain these values. Make them available for builds and functions. The supplied non-secret defaults cover AI/storage/pool settings.
+The host needs a database URL (`DATABASE_URL`, `NETLIFY_DB_URL` or `NETLIFY_DATABASE_URL`), an HTTPS origin (`BETTER_AUTH_URL`, or Netlify's `URL`), `BETTER_AUTH_SECRET`, `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` privately in its environment. The repository does not contain these values. Make them available for builds and functions. The supplied non-secret defaults cover AI/storage/pool settings.
 
 Use the same primary HTTPS address for Netlify, BETTER_AUTH_URL and the Google callback origin. The exact callback suffix is `/api/auth/callback/google`. Review a preview before public promotion; real Google consent/callback, Netlify Blobs persistence and separate patient/staff journeys must be exercised on the actual host.
 

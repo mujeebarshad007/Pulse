@@ -12,7 +12,7 @@ export function createAuth(
   pool: Database,
   env: Readonly<Record<string, string | undefined>> = process.env,
 ) {
-  const baseURL = env.BETTER_AUTH_URL;
+  const baseURL = env.BETTER_AUTH_URL ?? env.URL;
   if (!baseURL || !env.BETTER_AUTH_SECRET || env.BETTER_AUTH_SECRET.length < 32)
     throw new Error(
       "Configure the authentication URL and a secret of at least 32 characters.",

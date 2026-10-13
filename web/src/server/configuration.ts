@@ -9,16 +9,17 @@ export function configuredValue(value: string | undefined): boolean {
 export function googleConfiguration(
   env: Readonly<Record<string, string | undefined>>,
 ) {
+  const baseURL = env.BETTER_AUTH_URL ?? env.URL;
   const keys = [
     "BETTER_AUTH_URL",
     "BETTER_AUTH_SECRET",
     "GOOGLE_CLIENT_ID",
     "GOOGLE_CLIENT_SECRET",
   ] as const;
-  const missing = keys.filter((key) => !configuredValue(env[key]));
+  const missing = keys.filter((key) => key === "BETTER_AUTH_URL" ? !configuredValue(baseURL) : !configuredValue(env[key]));
   if (missing.length) return { ready: false, missing };
   try {
-    const url = new URL(env.BETTER_AUTH_URL!);
+    const url = new URL(baseURL!);
     const local = ["localhost", "127.0.0.1"].includes(url.hostname);
     return {
       ready:
@@ -70,7 +71,7 @@ export function deploymentProblems(env: Readonly<Record<string, string | undefin
     if (env.NETLIFY === "true" && env.CONTEXT === "production" && env.URL && origin.origin !== new URL(env.URL).origin)
       problems.push("BETTER_AUTH_URL must match the primary Netlify site URL to prevent OAuth cookie/callback mismatches.");
   } catch { problems.push("BETTER_AUTH_URL must be a valid public HTTPS origin."); }
-  if (!configuredValue(env.DATABASE_URL)) problems.push("Configure DATABASE_URL.");
+  if (!configuredValue(env.DATABASE_URL ?? env.NETLIFY_DB_URL ?? env.NETLIFY_DATABASE_URL)) problems.push("Configure DATABASE_URL or NETLIFY_DB_URL.");
   if (env.APP_MODE === "demo") problems.push("APP_MODE must be connected for deployment.");
   if (env.NETLIFY === "true" && env.REPORT_STORAGE !== "netlify")
     problems.push("Set REPORT_STORAGE=netlify; function-local report files are not durable.");

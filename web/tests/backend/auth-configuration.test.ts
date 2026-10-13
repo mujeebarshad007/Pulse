@@ -48,6 +48,19 @@ test("Google readiness rejects placeholder secrets, invalid origins and short se
   assert.equal(configuredValue("   "), false);
 });
 
+test("host-provided URL and Netlify database variable are accepted as deployment fallbacks", () => {
+  const env = {
+    URL: "https://pulse.example.test",
+    BETTER_AUTH_SECRET: randomBytes(32).toString("hex"),
+    GOOGLE_CLIENT_ID: "fictional-client-id",
+    GOOGLE_CLIENT_SECRET: "fictional-test-secret",
+    NETLIFY_DB_URL: "postgresql://user:password@db.example.test/pulse?sslmode=verify-full",
+  };
+  assert.equal(googleConfiguration(env).ready, true);
+  const config = databaseConfig(env);
+  assert.equal(config.connectionString, env.NETLIFY_DB_URL);
+});
+
 const pool = createDatabase(databaseConfig());
 before(async () => {
   await migrate(pool, path.resolve("database/migrations"));
