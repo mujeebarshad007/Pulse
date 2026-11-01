@@ -1,5 +1,11 @@
 # Pulse — connected tester delivery
 
+## Nova mascot update — 2026-10-28
+
+Added Nova from `web/src/nova.avatar.json` to the shared root layout using `@bible-strong/avatar-react`. It starts `idle`, uses the still `neutral` expression when reduced motion is preferred, and is placed after page content on phone widths to avoid covering controls. The JSON contains 23 animations; see [mascot file responsibilities and learning exercise](mascot-guide.md).
+
+Validation: `npm run check` passed (lint, 19 tests and optimized production build); `git diff --check` passed. The homepage rendered Nova in the browser and exposed it as “Nova mascot” in the accessibility tree; keyboard Tab navigation still advanced to the page's reports link. A phone-sized viewport and reduced-motion emulation could not be applied in the available browser controls, so those two runtime behaviors were not visually verified. Their implementation is in the responsive CSS and `prefers-reduced-motion` subscription described in [the mascot guide](mascot-guide.md). Run `npm run dev` from the repository root after local setup to view it.
+
 **2026-10-10:** AI is optional via `AI_PROVIDER=none`; Netlify uses this default. Deployment preflight checks login origin/storage/schema before building. 66 tests and the build passed; Neon read-only checks passed. Hosted login/storage remain unverified until the real site origin is configured. See [current delivery](deployment-hardening.md).
 
 

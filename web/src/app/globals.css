@@ -22,6 +22,19 @@ select,
 textarea {
   font: inherit;
 }
+.nova-mascot {
+  position: fixed;
+  z-index: 20;
+  right: max(16px, env(safe-area-inset-right));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  width: 120px;
+  height: 120px;
+  pointer-events: none;
+}
+.nova-mascot .bs-avatar {
+  width: 120px;
+  height: 120px;
+}
 button,
 a,
 input,
@@ -238,6 +251,10 @@ textarea {
   font-size: 12px;
 }
 @media (max-width: 760px) {
+  .nova-mascot {
+    position: static;
+    margin: 0 16px 16px auto;
+  }
   .design-catalog {
     padding: 24px;
   }

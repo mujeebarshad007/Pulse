@@ -30,6 +30,7 @@ Open [localhost:3000](http://localhost:3000). The fictional directory and librar
 See [lab and education delivery/learning guide](docs/labs-and-education-guide.md).
 
 - Original glass homepage, self-hosted Manrope typography, animated heart, optional click sounds and motion controls. See [motion and sound learning guide](docs/motion-and-sound.md).
+- Nova mascot appears on every page, plays `idle`, and switches to a still neutral expression for reduced-motion visitors. On phones it sits after page content so it cannot cover controls. See [mascot file guide and exercise](docs/mascot-guide.md).
 - Google authentication integration, server sessions, sign-out and owner-assigned staff roles.
 - Saved patient/doctor profiles, fictional Pakistani directory and combined search filters.
 - Saved slots and bookings, overlap protection, doctor confirmation/decline/completion.
